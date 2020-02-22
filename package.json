@@ -1,21 +1,21 @@
 {
-  "name": "youtube-json-server",
+  "name": "latest-facebook-live",
   "version": "1.0.0",
-  "description": "Your personal Youtube API server to get Youtube API responses without needing credentials. ",
+  "description": "Gets the latest Live Stream from a Facebook Page. ",
   "main": "subreddit.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/ThatGuySam/youtube-json-server.git"
+    "url": "git+https://github.com/ThatGuySam/latest-facebook-live.git"
   },
   "author": "@ThatGuySam",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/ThatGuySam/youtube-json-server/issues"
+    "url": "https://github.com/ThatGuySam/latest-facebook-live/issues"
   },
-  "homepage": "https://github.com/ThatGuySam/youtube-json-server#readme",
+  "homepage": "https://github.com/ThatGuySam/latest-facebook-live#readme",
   "dependencies": {
     "googleapis": "^47.0.0"
   }

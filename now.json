@@ -1,17 +1,18 @@
 {
     "version": 2,
     "env": {
-        "GOOGLE_API_KEY": "@youtube-json-google-key"
+        "FACEBOOK_APP_ID": "@latest-facebook-live-app-id",
+        "FACEBOOK_APP_SECRET": "@latest-facebook-live-app-secret"
     },
     "builds": [
         { "src": "index.html", "use": "@now/static" },
-        { "src": "playlist-items.js", "use": "@now/node" }
+        { "src": "page.js", "use": "@now/node" }
     ],
     "routes": [
         {
-            "src": "/playlist-items/(?<playlistId>[^/]*)",
+            "src": "/page/(?<pageId>[^/]*)",
             "headers": {"cache-control": "s-maxage=300, stale-while-revalidate"},
-            "dest": "/playlist-items.js?id=$playlistId"
+            "dest": "/page.js?id=$pageId"
         }
     ]
 }

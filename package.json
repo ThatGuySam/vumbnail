@@ -17,6 +17,7 @@
   },
   "homepage": "https://github.com/ThatGuySam/latest-facebook-live#readme",
   "dependencies": {
+    "axios": "^0.19.2",
     "googleapis": "^47.0.0"
   }
 }

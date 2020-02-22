@@ -1,29 +1,55 @@
 // URL utility
 import url from 'url'
-// Google API (Which contains the Youtube API)
-import { google } from 'googleapis'
+// Axios
+import axios from 'axios'
+
+
+const graph = axios.create({
+    baseURL: 'https://graph.facebook.com/v6.0',
+    /* other custom settings */
+})
 
 module.exports = async function (req, res) {
     // Break out the id param from our request's query string
     const { query: { id } } = url.parse(req.url, true)
-    const perPage = 50
+    // const perPage = 50
 
-    // Setup Youtube API V3 Service instance
-    const service = google.youtube('v3')
-
-    // Fetch data from the Youtube API
-    const { errors = null, data = null } = await service.playlistItems.list({
-        key: process.env.GOOGLE_API_KEY,
-        part: 'snippet,contentDetails',
-        playlistId: id,
-        maxResults: perPage
-    }).catch(({ errors }) => {
-
-        console.log('Error fetching playlist', errors)
-
-        return {
-            errors
+    // https://developers.facebook.com/docs/graph-api/reference/live-video/
+    const { data = null, error = null } = await graph.get(`/${id}/live_videos`, {
+        params: {
+            fields: [
+                'embed_html',
+                'from',
+                'permalink_url',
+                'planned_start_time',
+                'stream_url',
+                'video',
+                'broadcast_start_time',
+                'status'
+            ].join(),
+            access_token: process.env.FACEBOOK_ACCESS_TOKEN
         }
+    }).catch(error => {
+        console.warn('Error fetching live videos')
+
+        if (error.response) {
+            // The request was made and the server responded with a status code
+            // that falls out of the range of 2xx
+            console.log('data', error.response.data)
+            console.log('status', error.response.status)
+            console.log('headers', error.response.headers)
+        } else if (error.request) {
+            // The request was made but no response was received
+            // `error.request` is an instance of XMLHttpRequest in the browser and an instance of
+            // http.ClientRequest in node.js
+            console.log('request', error.request)
+        } else {
+            // Something happened in setting up the request that triggered an Error
+            console.log('Error', error.message)
+        }
+        console.log(error.config)
+
+        return { error }
     })
 
     // Set Cors Headers to allow all origins so data can be requested by a browser
@@ -31,41 +57,20 @@ module.exports = async function (req, res) {
     res.setHeader("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept")
 
     // Send an error response if something went wrong
-    if (errors !== null) {
+    if (error !== null) {
         res.json({
-            errors: 'Error fetching playlist'
+            error: 'Error fetching'
         })
-
+        
+        // Fire 
         return
     }
 
-    const items = data.items
+    const items = data.data
 
-    // If there are more results then push them to our playlist
-    if (data.nextPageToken !== null) {
+    const latestFound = items.find(item => item.status === 'LIVE') || null
 
-        // Store the token for page #2 into our variable
-        let pageToken = data.nextPageToken
+    console.log(`Fetched ${items.length} videos from https://www.facebook.com/${id}`)
 
-        while (pageToken !== null) {
-            // Fetch data from the Youtube API
-            const youtubePageResponse = await service.playlistItems.list({
-                key: process.env.GOOGLE_API_KEY,
-                part: 'snippet,contentDetails',
-                playlistId: id,
-                maxResults: perPage,
-                pageToken: pageToken
-            })
-
-            // Add the videos from this page on to our total items list
-            youtubePageResponse.data.items.forEach(item => items.push(item))
-
-            // Now that we're done set up the next page token or empty out the pageToken variable so our loop will stop
-            pageToken = ('nextPageToken' in youtubePageResponse.data) ? youtubePageResponse.data.nextPageToken : null
-        }
-    }
-
-    console.log(`Fetched ${items.length} videos from https://www.youtube.com/playlist?list=${id}`)
-
-    res.json(items)
+    res.json(latestFound)
 }

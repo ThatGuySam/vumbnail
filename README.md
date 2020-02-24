@@ -7,6 +7,8 @@ Caches for 5 minutes(set as 300 seconds) which can be updated from /now.json in 
 
 
 
-## Installation
+## How to set it up
 
-TBD
+Click this button
+
+[![Deploy with ZEIT Now](https://zeit.co/button)](https://zeit.co/new/project?template=https://github.com/ThatGuySam/facebook-mp4-server)

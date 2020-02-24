@@ -1,8 +1,8 @@
 {
     "version": 2,
     "env": {
-        "FACEBOOK_APP_ID": "@latest-facebook-live-app-id",
-        "FACEBOOK_APP_SECRET": "@latest-facebook-live-app-secret"
+        "FACEBOOK_APP_ID": "@facebook-mp4-server-app-id",
+        "FACEBOOK_APP_SECRET": "@facebook-mp4-server-app-secret"
     },
     "builds": [
         { "src": "index.html", "use": "@now/static" },

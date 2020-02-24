@@ -1,21 +1,21 @@
 {
-  "name": "latest-facebook-live",
+  "name": "facebook-mp4-server",
   "version": "1.0.0",
-  "description": "Gets the latest Live Stream from a Facebook Page. ",
+  "description": "Get's the MP4 URL of a public Facebook video. ",
   "main": "subreddit.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/ThatGuySam/latest-facebook-live.git"
+    "url": "git+https://github.com/ThatGuySam/facebook-mp4-server.git"
   },
   "author": "@ThatGuySam",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/ThatGuySam/latest-facebook-live/issues"
+    "url": "https://github.com/ThatGuySam/facebook-mp4-server/issues"
   },
-  "homepage": "https://github.com/ThatGuySam/latest-facebook-live#readme",
+  "homepage": "https://github.com/ThatGuySam/facebook-mp4-server#readme",
   "dependencies": {
     "axios": "^0.19.2",
     "googleapis": "^47.0.0"

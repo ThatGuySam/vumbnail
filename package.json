@@ -18,6 +18,8 @@
   "homepage": "https://github.com/ThatGuySam/facebook-mp4-server#readme",
   "dependencies": {
     "axios": "^0.19.2",
-    "googleapis": "^47.0.0"
+    "fbvideos": "^1.0.2",
+    "googleapis": "^47.0.0",
+    "micro-redirect": "^1.0.2"
   }
 }

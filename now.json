@@ -3,7 +3,8 @@
     "builds": [
         { "src": "index.html", "use": "@now/static" },
         { "src": "video.js", "use": "@now/node" },
-        { "src": "video-details.js", "use": "@now/node" }
+        { "src": "video-details.js", "use": "@now/node" },
+        { "src": "video-embed.js", "use": "@now/node" }
     ],
     "routes": [
         {
@@ -21,6 +22,11 @@
             "src": "/video/(?<facebookId>[^/]*)/details",
             "headers": {"cache-control": "s-maxage=300, stale-while-revalidate"},
             "dest": "/video-details.js?id=$facebookId"
+        },
+        {
+            "src": "/video/(?<facebookId>[^/]*)/embed",
+            "headers": {"cache-control": "s-maxage=300, stale-while-revalidate"},
+            "dest": "/video-embed.js?id=$facebookId"
         }
     ]
 }

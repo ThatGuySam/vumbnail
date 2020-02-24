@@ -1,18 +1,19 @@
 {
     "version": 2,
-    "env": {
-        "FACEBOOK_APP_ID": "@facebook-mp4-server-app-id",
-        "FACEBOOK_APP_SECRET": "@facebook-mp4-server-app-secret"
-    },
     "builds": [
         { "src": "index.html", "use": "@now/static" },
-        { "src": "page.js", "use": "@now/node" }
+        { "src": "video.js", "use": "@now/node" }
     ],
     "routes": [
         {
-            "src": "/page/(?<pageId>[^/]*)",
+            "src": "/video/(?<facebookId>[^/]*)",
             "headers": {"cache-control": "s-maxage=300, stale-while-revalidate"},
-            "dest": "/page.js?id=$pageId"
+            "dest": "/video.js?id=$facebookId"
+        },
+        {
+            "src": "/video/redirect/(?<facebookId>[^/]*)",
+            "headers": {"cache-control": "s-maxage=300, stale-while-revalidate"},
+            "dest": "/video.js?id=$facebookId&redirect=1"
         }
     ]
 }

@@ -3,14 +3,54 @@
 <!doctype html>
 <html lang=en>
 <head>
-<meta charset=utf-8>
-<meta name="viewport" content="width=device-width,initial-scale=1">
-<title>Zeit Now Stale-While-Revalidate Caching Eaxmple</title>
+    <meta charset=utf-8>
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <title>Facebook MP4 Server</title>
+
+    <link rel="stylesheet" href="https://cdn.plyr.io/3.5.10/plyr.css" />
+
+    <style type="text/css">
+        .video-example {
+            max-width: 700px;
+            margin: 30px auto;
+        }
+    </style>
 </head>
 <body>
-    <a href="/playlist-items/PL5m2E4NlwhJa_SJ4dcAZNxtr50PSkIAMI">Playlist Items JSON for Monkey Island Ambience</a>
+
+    <h2>Autoplay Example</h2>
+    <div class="video-example">
+        <video class="js-player" playsinline controls autoplay muted>
+            <source src="/video/redirect/10155721204506840" type="video/mp4" />
+            <!-- <source src="/path/to/video.webm" type="video/webm" /> -->
+        
+            <!-- Captions are optional -->
+            <!-- <track kind="captions" label="English captions" src="/path/to/captions.vtt" srclang="en" default /> -->
+        </video>
+    </div>
+
     <br>
-    <a href="/playlist-items/PL_3yUKBsaMOxCDcm2yt0Q1nHTnAYgTAAq">Playlist Items JSON for r/videos (~2000 videos)</a>
-    <br>
+
+    <h2>Iframe Embed Example</h2>
+    <div class="video-example">
+
+        <iframe
+            width="100%"
+            height="315"
+            src="/video/528659987765367/embed"
+            frameborder="0"
+            allow="autoplay; encrypted-media; picture-in-picture"
+            allowfullscreen
+        ></iframe>
+    </div>
+
+    <!-- https://github.com/sampotts/plyr -->
+    <script src="https://cdn.plyr.io/3.5.10/plyr.js"></script>
+
+    <script>
+        const players = Array.from(document.querySelectorAll('.js-player')).map(p => new Plyr(p));
+
+        console.log('players', players);
+    </script>
 </body>
 </html>

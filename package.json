@@ -1,21 +1,21 @@
 {
-  "name": "facebook-mp4-server",
+  "name": "vimeo-thumbnail-server",
   "version": "1.0.0",
-  "description": "Get's the MP4 URL of a public Facebook video. ",
+  "description": "",
   "main": "subreddit.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/ThatGuySam/facebook-mp4-server.git"
+    "url": "git+https://github.com/ThatGuySam/vimeo-thumbnail-server.git"
   },
   "author": "@ThatGuySam",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/ThatGuySam/facebook-mp4-server/issues"
+    "url": "https://github.com/ThatGuySam/vimeo-thumbnail-server/issues"
   },
-  "homepage": "https://github.com/ThatGuySam/facebook-mp4-server#readme",
+  "homepage": "https://github.com/ThatGuySam/vimeo-thumbnail-server#readme",
   "dependencies": {
     "axios": "^0.19.2",
     "fbvideos": "^1.0.2",

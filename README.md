@@ -1,7 +1,7 @@
-# Facebook MP4 Server
+# Vimeo Thumbnail Server
 
 
-Get's the MP4 URL of a public Facebook video. 
+All things Vimeo and Thumbnails. 
 
 Caches for 5 minutes(set as 300 seconds) which can be updated from /now.json in the root directory. 
 
@@ -11,4 +11,4 @@ Caches for 5 minutes(set as 300 seconds) which can be updated from /now.json in 
 
 Click this button
 
-[![Deploy with ZEIT Now](https://zeit.co/button)](https://zeit.co/new/project?template=https://github.com/ThatGuySam/facebook-mp4-server)
+[![Deploy with ZEIT Now](https://zeit.co/button)](https://zeit.co/new/project?template=https://github.com/ThatGuySam/vimeo-thumbnail-server)

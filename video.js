@@ -1,21 +1,28 @@
 
 // URL utility
 import url from 'url'
+import axios from 'axios'
 
 const microRedirect = require("micro-redirect")
 
-const fbvid = require('fbvideos')
+// const fbvid = require('fbvideos')
+
+
 
 module.exports = async function (req, res) {
     // Break out the id param from our request's query string
     const { query: { id, redirect = false } } = url.parse(req.url, true)
     // const perPage = 50
 
-    const videoUrl = `https://www.facebook.com/${id}`
+    // const videoUrl = `https://www.facebook.com/${id}`
+    
+    const apiUrl = "https://vimeo.com/api/v2/video/" + id + ".json";
 
-    const { videoData = null, error = null } = await fbvid.high(videoUrl).then(videoData => {
+    const { videoData = null, error = null } = await axios.get(apiUrl).then(response => {
         // console.log(videoData)
-        return { videoData }
+        return {
+          videoData: response.data
+        }
         // => { url: 'https://video.fpat1-1.fna.fbcdn.net/...mp4?934&OE=2kf2lf4g' }
     }).catch(error => {
         console.warn(`Error fetching video ${id}`, error)

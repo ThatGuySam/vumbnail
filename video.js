@@ -1,7 +1,6 @@
 
 // URL utility
 import url from 'url'
-import fs from 'fs'
 import axios from 'axios'
 
 const microRedirect = require("micro-redirect")

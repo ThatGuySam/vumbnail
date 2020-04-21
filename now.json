@@ -52,6 +52,6 @@
             "src": "/video/(?<facebookId>[^/]*)/embed",
             "headers": {"cache-control": "s-maxage=300, stale-while-revalidate"},
             "dest": "/video-embed.js?id=$facebookId"
-        }
+          }
     ]
 }

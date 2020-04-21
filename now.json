@@ -10,7 +10,7 @@
         {
             "src": "/(?<vimeoId>[^/]*).jpg",
             "headers": {"cache-control": "s-maxage=300, stale-while-revalidate"},
-            "dest": "/video.js?id=$vimeoId"
+            "dest": "/video.js?id=$vimeoId&key=thumbnail_large"
         },
         {
             "src": "/(?<vimeoId>[^/]*)",

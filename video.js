@@ -11,7 +11,7 @@ const microRedirect = require("micro-redirect")
 
 module.exports = async function (req, res) {
     // Break out the id param from our request's query string
-    const { query: { id, redirect = false } } = url.parse(req.url, true)
+    const { query: { id, redirect = false, key = null } } = url.parse(req.url, true)
     // const perPage = 50
 
     // const videoUrl = `https://www.facebook.com/${id}`
@@ -21,7 +21,7 @@ module.exports = async function (req, res) {
     const { videoData = null, error = null } = await axios.get(apiUrl).then(response => {
         // console.log(videoData)
         return {
-          videoData: response.data
+          videoData: response.data[0]
         }
         // => { url: 'https://video.fpat1-1.fna.fbcdn.net/...mp4?934&OE=2kf2lf4g' }
     }).catch(error => {
@@ -29,6 +29,8 @@ module.exports = async function (req, res) {
 
         return { error }
     })
+    
+    
 
     if ( redirect ) {
         // 307 - Temporary Redirect

@@ -8,6 +8,9 @@ const microRedirect = require("micro-redirect")
 // const fbvid = require('fbvideos')
 
 
+// 307 - Temporary Redirect
+const tempRedirectCode = 307
+
 
 module.exports = async function (req, res) {
     // Break out the id param from our request's query string
@@ -30,13 +33,15 @@ module.exports = async function (req, res) {
         return { error }
     })
     
+    if (key) {
+        microRedirect(res, tempRedirectCode, videoData[key])
+        return
+    }
     
 
     if ( redirect ) {
-        // 307 - Temporary Redirect
-        const statusCode = 307
         
-        microRedirect(res, statusCode, videoData.url)
+        microRedirect(res, tempRedirectCode, videoData.url)
 
         return
     }
@@ -55,7 +60,7 @@ module.exports = async function (req, res) {
         return
     }
 
-    console.log(`Fetched mp4 video from https://www.facebook.com/${id}`)
+    console.log(`Fetched video data from https://vimeo.com/${id}`)
 
     res.json(videoData)
 }

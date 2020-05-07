@@ -12,7 +12,7 @@ const microRedirect = require("micro-redirect")
 const tempRedirectCode = 307
 
 
-module.exports = async function (req, res) {
+export default async function (req, res) {
     // Break out the id param from our request's query string
     const { query: { id, redirect = false, key = null } } = url.parse(req.url, true)
     // const perPage = 50

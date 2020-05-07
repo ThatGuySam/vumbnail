@@ -20,22 +20,8 @@ export default async function (req, res) {
     // const videoUrl = `https://www.facebook.com/${id}`
     
     const apiUrl = "https://vimeo.com/api/v2/video/" + id + ".json"
-    
-    const responseType = (key) ? 'stream' : 'json'
-    
-    const apiOptions = {
-        responseType
-    }
 
-    const { videoData = null, error = null } = await axios.get(apiUrl, apiOptions).then(response => {
-      
-        if (responseType === 'stream') {
-            // Set a header for jpg
-            res.setHeader('Content-Type', 'image/jpeg')
-            
-            response.data.pipe(res)
-            return {}
-        }
+    const { videoData = null, error = null } = await axios.get(apiUrl).then(response => {
         
         // console.log(videoData)
         return {
@@ -51,8 +37,19 @@ export default async function (req, res) {
     // if there's no video data the stop
     if (videoData === null) return
     
+    
+    
     if (key) {
-        microRedirect(res, tempRedirectCode, videoData[key])
+        const thumbResponse = await axios.get(videoData[key], {
+            responseType: 'stream'
+        })
+        
+        // Set a header for jpg
+        res.setHeader('Content-Type', 'image/jpeg')
+            
+        thumbResponse.data.pipe(res)
+        
+        // microRedirect(res, tempRedirectCode, videoData[key])
         return
     }
     

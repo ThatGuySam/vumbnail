@@ -31,7 +31,7 @@ export default async function (req, res) {
       
         if (responseType === 'stream') {
             response.data.pipe(res)
-            return
+            return {}
         }
         
         // console.log(videoData)

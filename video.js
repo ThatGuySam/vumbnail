@@ -45,6 +45,9 @@ export default async function (req, res) {
         return { error }
     })
     
+    // if there's no video data the stop
+    if (videoData === null) return
+    
     if (key) {
         microRedirect(res, tempRedirectCode, videoData[key])
         return

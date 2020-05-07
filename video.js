@@ -30,6 +30,9 @@ export default async function (req, res) {
     const { videoData = null, error = null } = await axios.get(apiUrl, apiOptions).then(response => {
       
         if (responseType === 'stream') {
+            // Set a header for jpg
+            res.setHeader('Content-Type', 'image/jpeg')
+            
             response.data.pipe(res)
             return {}
         }

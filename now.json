@@ -8,6 +8,11 @@
     ],
     "routes": [
         {
+            "src": "/",
+            "headers": {"cache-control": "s-maxage=300, stale-while-revalidate"},
+            "dest": "index.html"
+        },
+        {
             "src": "/(?<vimeoId>[^/]*)_small.jpg",
             "headers": {"cache-control": "s-maxage=300, stale-while-revalidate"},
             "dest": "/video.js?id=$vimeoId&key=thumbnail_small"

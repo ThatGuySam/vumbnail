@@ -19,7 +19,9 @@ export default async function (req, res) {
 
     // const videoUrl = `https://www.facebook.com/${id}`
     
-    const apiUrl = "https://vimeo.com/api/v2/video/" + id + ".json";
+    const apiUrl = "https://vimeo.com/api/v2/video/" + id + ".json"
+    
+    const responseType = (key) ? 'stream' : 'json'
 
     const { videoData = null, error = null } = await axios.get(apiUrl).then(response => {
         // console.log(videoData)

@@ -22,8 +22,18 @@ export default async function (req, res) {
     const apiUrl = "https://vimeo.com/api/v2/video/" + id + ".json"
     
     const responseType = (key) ? 'stream' : 'json'
+    
+    const apiOptions = {
+        responseType
+    }
 
-    const { videoData = null, error = null } = await axios.get(apiUrl).then(response => {
+    const { videoData = null, error = null } = await axios.get(apiUrl, apiOptions).then(response => {
+      
+        if (responseType === 'stream') {
+            response.data.pipe(res)
+            return
+        }
+        
         // console.log(videoData)
         return {
           videoData: response.data[0]

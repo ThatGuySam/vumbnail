@@ -1,7 +1,6 @@
 
 // URL utility
 import url from 'url'
-import fs from 'fs'
 import axios from 'axios'
 
 const microRedirect = require("micro-redirect")
@@ -13,25 +12,16 @@ const microRedirect = require("micro-redirect")
 const tempRedirectCode = 307
 
 
-export default async function (req, res) {
+module.exports = async function (req, res) {
     // Break out the id param from our request's query string
     const { query: { id, redirect = false, key = null } } = url.parse(req.url, true)
     // const perPage = 50
+
+    // const videoUrl = `https://www.facebook.com/${id}`
     
     const apiUrl = "https://vimeo.com/api/v2/video/" + id + ".json";
-    
-    const responseType: (key) ? 'stream' : 'json'
-    
-    const apiOptions = {
-        responseType
-    }
 
-    const { videoData = null, error = null } = await axios.get(apiUrl, apiOptions).then(response => {
-        
-        if (responseType === 'stream') {
-            response.data.pipe(res)
-        }
-      
+    const { videoData = null, error = null } = await axios.get(apiUrl).then(response => {
         // console.log(videoData)
         return {
           videoData: response.data[0]

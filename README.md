@@ -3,7 +3,7 @@
 
 All things Vimeo and Thumbnails. 
 
-Caches for 5 minutes(set as 300 seconds) which can be updated from /now.json in the root directory. 
+Caches for 24 hours(set as 86400 seconds) which can be updated from /now.json in the root directory. 
 
 
 

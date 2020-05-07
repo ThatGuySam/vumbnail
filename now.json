@@ -36,27 +36,6 @@
             "src": "/(?<vimeoId>[^/]*)",
             "headers": {"cache-control": "s-maxage=300, stale-while-revalidate"},
             "dest": "/video.js?id=$vimeoId"
-        },
-        {
-            "src": "/video/(?<facebookId>[^/]*)",
-            "headers": {"cache-control": "s-maxage=300, stale-while-revalidate"},
-            "dest": "/video.js?id=$facebookId"
-        },
-        {
-            "src": "/video/redirect/(?<facebookId>[^/]*)",
-            "headers": {"cache-control": "s-maxage=300, stale-while-revalidate"},
-            "dest": "/video.js?id=$facebookId&redirect=1"
-        },
-
-        {
-            "src": "/video/(?<facebookId>[^/]*)/details",
-            "headers": {"cache-control": "s-maxage=300, stale-while-revalidate"},
-            "dest": "/video-details.js?id=$facebookId"
-        },
-        {
-            "src": "/video/(?<facebookId>[^/]*)/embed",
-            "headers": {"cache-control": "s-maxage=300, stale-while-revalidate"},
-            "dest": "/video-embed.js?id=$facebookId"
-          }
+        }
     ]
 }

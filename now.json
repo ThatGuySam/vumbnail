@@ -1,5 +1,8 @@
 {
     "version": 2,
+    "env": {
+      "DENO_VERSION": "1.0.0"
+    },
     "functions": {
       "api/**/*.{j,t}s": {
         "runtime": "now-deno@0.4.0"

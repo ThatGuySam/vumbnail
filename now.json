@@ -1,11 +1,5 @@
 {
     "version": 2,
-    "builds": [
-        { "src": "index.html", "use": "@now/static" },
-        { "src": "video.js", "use": "@now/node" },
-        { "src": "video-details.js", "use": "@now/node" },
-        { "src": "video-embed.js", "use": "@now/node" }
-    ],
     "functions": {
       "api/**/*.{j,t}s": {
         "runtime": "now-deno@0.4.0"

@@ -1,9 +1,5 @@
-import { serve } from "https://deno.land/std@0.50.0/http/server.ts";
+import { ServerRequest } from "https://deno.land/std@0.52.0/http/server.ts";
 
-const s = serve({ port: 8000 });
-
-console.log("http://localhost:8000/");
-
-for await (const req of s) {
-  req.respond({ body: "Hello World\n" });
+export default async (req: ServerRequest) => {
+	req.respond({ body: `Hello, from Deno v${Deno.version.deno}!` });
 }

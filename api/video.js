@@ -24,8 +24,14 @@ export default async function (req, res) {
     const serverRequestParams = new URLSearchParams(serverRequestUrl.search)
     console.log('serverRequestParams', serverRequestParams)
     
+    const id = serverRequestUrl.searchParams.get('id')
+    
+    console.log('id', id)
+    
     // Break out the id param from our request's query string
-    const { id, redirect = false, key = null } = Object.fromEntries(serverRequestUrl.searchParams)
+    const { redirect = false, key = null } = Object.fromEntries(serverRequestUrl.searchParams.entries())
+    
+    
     // const perPage = 50
 
     // const videoUrl = `https://www.facebook.com/${id}`

@@ -13,6 +13,7 @@ const tempRedirectCode = 307
 
 
 export default async function (req, res) {
+    console.log('req.url', req.url)
     // Break out the id param from our request's query string
     const { query: { id, redirect = false, key = null } } = urlParse(req.url, true)
     // const perPage = 50

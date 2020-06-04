@@ -93,22 +93,25 @@ export default async function (req, res) {
         return
     }
 
-    // Set Cors Headers to allow all origins so data can be requested by a browser
-    res.setHeader("Access-Control-Allow-Origin", "*");
-    res.setHeader("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept")
-
     // Send an error response if something went wrong
-    if (error !== null) {
-        res.json({
-            error: 'Error fetching'
-        })
+//     if (error !== null) {
+//         res.json({
+//             error: 'Error fetching'
+//         })
         
-        // Fire 
-        return
-    }
+//         // Fire 
+//         return
+//     }
 
     console.log(`Fetched video data from https://vimeo.com/${id}`)
 
     // res.json(videoData)
-    req.respond({ body: videoData })
+    req.respond({
+        headers: new Headers({
+            // Set Cors Headers to allow all origins so data can be requested by a browser
+            'Access-Control-Allow-Origin': '*',
+            'Access-Control-Allow-Headers': 'Origin, X-Requested-With, Content-Type, Accept'
+        }),
+        body: videoData
+    })
 }

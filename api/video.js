@@ -3,7 +3,7 @@
 import { urlParse } from 'https://deno.land/x/url_parse/mod.ts'
 import axiod from 'https://deno.land/x/axiod/mod.ts'
 
-const microRedirect = require("micro-redirect")
+// const microRedirect = require("micro-redirect")
 
 // const fbvid = require('fbvideos')
 
@@ -56,7 +56,14 @@ export default async function (req, res) {
 
     if ( redirect ) {
         
-        microRedirect(res, tempRedirectCode, videoData.url)
+        req.respond({
+            status: tempRedirectCode,
+            headers: new Headers({
+              'Location': videoData.url
+            })
+        })
+        
+        // microRedirect(res, tempRedirectCode, videoData.url)
 
         return
     }
@@ -77,5 +84,6 @@ export default async function (req, res) {
 
     console.log(`Fetched video data from https://vimeo.com/${id}`)
 
-    res.json(videoData)
+    // res.json(videoData)
+    req.respond({ body: videoData })
 }

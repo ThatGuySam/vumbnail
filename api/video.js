@@ -13,10 +13,13 @@ const tempRedirectCode = 307
 
 
 export default async function (req, res) {
-    const serverRequestUrl = new URL(req.url)
+    const relativeUrl = req.url.replace(/^\/+/g, '')
+    console.log('relativeUrl', relativeUrl)
+    const serverRequestUrl = new URL(relativeUrl)
     console.log('serverRequestUrl', serverRequestUrl)
+    
     // Break out the id param from our request's query string
-    const { query: { id, redirect = false, key = null } } = urlParse(req.url, true)
+    const { query: { id, redirect = false, key = null } } = serverRequestUrl
     // const perPage = 50
 
     // const videoUrl = `https://www.facebook.com/${id}`

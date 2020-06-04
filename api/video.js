@@ -13,6 +13,8 @@ const tempRedirectCode = 307
 
 
 export default async function (req, res) {
+    console.log('headers', req.headers)
+    
     const relativeUrl = req.url.replace(/^\/+/g, '')
     console.log('relativeUrl', relativeUrl)
     const serverRequestUrl = new URL(relativeUrl)

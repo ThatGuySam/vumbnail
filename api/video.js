@@ -18,6 +18,9 @@ export default async function (req, res) {
     const serverRequestUrl = new URL(`https://${host}${req.url}`)
     console.log('serverRequestUrl', serverRequestUrl)
     
+    
+    console.log('searchParams', serverRequestUrl.searchParams)
+    
     const serverRequestParams = new URLSearchParams(serverRequestUrl.search)
     console.log('serverRequestParams', serverRequestParams)
     

@@ -13,11 +13,10 @@ const tempRedirectCode = 307
 
 
 export default async function (req, res) {
-    console.log('headers', req.headers)
+    const { host } = req.headers
+    console.log('host', host)
     
-    const relativeUrl = req.url.replace(/^\/+/g, '')
-    console.log('relativeUrl', relativeUrl)
-    const serverRequestUrl = new URL(relativeUrl)
+    const serverRequestUrl = new URL(`https://${host}${req.url}`)
     console.log('serverRequestUrl', serverRequestUrl)
     
     // Break out the id param from our request's query string

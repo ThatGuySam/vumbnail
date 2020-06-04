@@ -13,7 +13,7 @@ const tempRedirectCode = 307
 
 
 export default async function (req, res) {
-    const { host } = req.headers
+    const host = req.headers.get('host')
     console.log('host', host)
     
     const serverRequestUrl = new URL(`https://${host}${req.url}`)

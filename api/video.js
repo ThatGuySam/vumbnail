@@ -71,7 +71,7 @@ export default async function (req, res) {
                // Set a header for jpg
               'Content-Type': 'image/jpeg'
             }),
-            body: thumbResponse.data.pipe
+            body: thumbResponse.data
         })
         
         // microRedirect(res, tempRedirectCode, videoData[key])

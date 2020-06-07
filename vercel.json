@@ -17,27 +17,27 @@
         {
             "src": "/(?<vimeoId>[^/]*)_small.jpg",
             "headers": {"cache-control": "s-maxage=86400, stale-while-revalidate"},
-            "dest": "/api/video.js?id=$vimeoId&key=thumbnail_small"
+            "dest": "/api/video?id=$vimeoId&key=thumbnail_small"
         },
         {
             "src": "/(?<vimeoId>[^/]*)_medium.jpg",
             "headers": {"cache-control": "s-maxage=86400, stale-while-revalidate"},
-            "dest": "/api/video.js?id=$vimeoId&key=thumbnail_medium"
+            "dest": "/api/video?id=$vimeoId&key=thumbnail_medium"
         },
         {
             "src": "/(?<vimeoId>[^/]*)_large.jpg",
             "headers": {"cache-control": "s-maxage=86400, stale-while-revalidate"},
-            "dest": "/api/video.js?id=$vimeoId&key=thumbnail_large"
+            "dest": "/api/video?id=$vimeoId&key=thumbnail_large"
         },
         {
             "src": "/(?<vimeoId>[^/]*).jpg",
             "headers": {"cache-control": "s-maxage=86400, stale-while-revalidate"},
-            "dest": "/api/video.js?id=$vimeoId&key=thumbnail_large"
+            "dest": "/api/video?id=$vimeoId&key=thumbnail_large"
         },
         {
             "src": "/(?<vimeoId>[^/]*)",
             "headers": {"cache-control": "s-maxage=86400, stale-while-revalidate"},
-            "dest": "/api/video.js?id=$vimeoId"
+            "dest": "/api/video?id=$vimeoId"
         }
     ]
 }

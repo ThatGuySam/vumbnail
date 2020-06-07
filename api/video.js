@@ -66,6 +66,8 @@ export default async function (req, res) {
             
         //thumbResponse.data.pipe(req.body)
         
+        console.log('thumbResponse.data', thumbResponse.data)
+        
         req.respond({
             headers: new Headers({
                // Set a header for jpg

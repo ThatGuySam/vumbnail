@@ -57,8 +57,10 @@ export default async function (req, res) {
     
     
     if (key) {
-        const thumbResponse = await axiod.get(videoData[key], {
+        axiod.get(videoData[key], {
             responseType: 'stream'
+        }).then((response) => {
+          response.data.pipe(req.body)
         })
         
         // const thumbResponse = await fetch(videoData[key])
@@ -67,9 +69,9 @@ export default async function (req, res) {
         // Set a header for jpg
         //res.setHeader('Content-Type', 'image/jpeg')
             
-        thumbResponse.data.pipe(req.body)
+        // thumbResponse.data.pipe(req.body)
         
-        console.log('thumbResponse.body', thumbResponse.body)
+        // console.log('thumbResponse.body', thumbResponse.body)
         
         // req.respond({
         //     headers: new Headers({

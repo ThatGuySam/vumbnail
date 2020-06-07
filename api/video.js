@@ -57,27 +57,27 @@ export default async function (req, res) {
     
     
     if (key) {
-        // const thumbResponse = await axiod.get(videoData[key], {
-        //     responseType: 'stream'
-        // })
+        const thumbResponse = await axiod.get(videoData[key], {
+            responseType: 'stream'
+        })
         
-        const thumbResponse = await fetch(videoData[key])
+        // const thumbResponse = await fetch(videoData[key])
         
         
         // Set a header for jpg
         //res.setHeader('Content-Type', 'image/jpeg')
             
-        //thumbResponse.data.pipe(req.body)
+        thumbResponse.data.pipe(req.body)
         
         console.log('thumbResponse.body', thumbResponse.body)
         
-        req.respond({
-            headers: new Headers({
-               // Set a header for jpg
-              'Content-Type': 'image/jpeg'
-            }),
-            body: thumbResponse.body.getReader()
-        })
+        // req.respond({
+        //     headers: new Headers({
+        //        // Set a header for jpg
+        //       'Content-Type': 'image/jpeg'
+        //     }),
+        //     body: thumbResponse.body.getReader()
+        // })
         
         // microRedirect(res, tempRedirectCode, videoData[key])
         return

@@ -85,6 +85,7 @@ export default async function (req, res) {
     
 
     if ( redirect ) {
+        console.log(`Redirecting to ${videoData.url}`)
         
         req.respond({
             status: tempRedirectCode,
@@ -117,6 +118,6 @@ export default async function (req, res) {
             'Access-Control-Allow-Origin': '*',
             'Access-Control-Allow-Headers': 'Origin, X-Requested-With, Content-Type, Accept'
         }),
-        body: videoData
+        body: JSON.stringify(videoData)
     })
 }

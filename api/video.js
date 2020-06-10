@@ -57,7 +57,9 @@ export default async function (req, res) {
     
     
     if (key) {
-        axiod.get(videoData[key], {
+        axiod({
+            method: "get",
+            url: videoData[key],
             responseType: 'stream'
         }).then((response) => {
           response.data.pipe(req.body)

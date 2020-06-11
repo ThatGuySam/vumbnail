@@ -78,6 +78,7 @@ export default async function (req, res) {
         console.log('thumbResponse.body.getReader', thumbResponse.body.getReader)
         
         req.respond({
+          status: 200,
             headers: new Headers({
                // Set a header for jpg
               'Content-Type': 'image/jpeg'

@@ -73,7 +73,7 @@ export default async function (req, res) {
             
         // thumbResponse.data.pipe(req.body)
         
-        // console.log('thumbResponse.body', thumbResponse.body)
+        console.log('thumbResponse.body.getReader', thumbResponse.body.getReader)
         
         req.respond({
             headers: new Headers({

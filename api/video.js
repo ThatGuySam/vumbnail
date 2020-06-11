@@ -67,6 +67,8 @@ export default async function (req, res) {
         
         const thumbResponse = await fetch(videoData[key])
         
+        const image = await thumbResponse.blob()
+        
         
         // Set a header for jpg
         //res.setHeader('Content-Type', 'image/jpeg')
@@ -80,7 +82,7 @@ export default async function (req, res) {
                // Set a header for jpg
               'Content-Type': 'image/jpeg'
             }),
-            body: thumbResponse.blob()
+            body: image
         })
         
         // microRedirect(res, tempRedirectCode, videoData[key])

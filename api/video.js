@@ -80,7 +80,7 @@ export default async function (req, res) {
                // Set a header for jpg
               'Content-Type': 'image/jpeg'
             }),
-            body: thumbResponse.body.getReader
+            body: thumbResponse.blob()
         })
         
         // microRedirect(res, tempRedirectCode, videoData[key])

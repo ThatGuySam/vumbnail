@@ -82,7 +82,7 @@ export default async function (req, res) {
                // Set a header for jpg
               'Content-Type': 'image/jpeg'
             }),
-            body: image
+            body: new Uint8Array(await thumbResponse.arrayBuffer())
         })
         
         // microRedirect(res, tempRedirectCode, videoData[key])

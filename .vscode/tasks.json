@@ -1,0 +1,16 @@
+{
+	"version": "2.0.0",
+	"tasks": [
+		{
+			"type": "npm",
+			"script": "now-dev",
+			"problemMatcher": [],
+			"label": "npm: now-dev",
+			"detail": "now dev",
+			"group": {
+				"kind": "build",
+				"isDefault": true
+			}
+		}
+	]
+}

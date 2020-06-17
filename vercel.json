@@ -4,7 +4,12 @@
         {
             "src": "/",
             "headers": { "cache-control": "no-cache" },
-            "dest": "index.html"
+            "dest": "public/index.html"
+        },
+        {
+            "src": "/favicon.ico",
+            "headers": { "cache-control": "no-cache" },
+            "dest": "public/favicon.ico"
         },
         {
             "src": "/(?<vimeoId>[^/]*)_small.jpg",

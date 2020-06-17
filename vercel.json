@@ -2,6 +2,11 @@
     "version": 2,
     "routes": [
         {
+            "src": "/",
+            "headers": { "cache-control": "no-cache" },
+            "dest": "index.html"
+        },
+        {
             "src": "/(?<vimeoId>[^/]*)_small.jpg",
             "headers": {"cache-control": "public, s-maxage=2419200, stale-while-revalidate"},
             "dest": "/api/video?id=$vimeoId&key=thumbnail_small"

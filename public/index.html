@@ -7,36 +7,130 @@
     <meta name="viewport" content="width=device-width,initial-scale=1">
     <title>Vimeo Thumbnail Server</title>
     
+    <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
+
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/tailwindcss@1.4.6/dist/base.min.css" /> 
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/tailwindcss@1.4.6/dist/utilities.min.css" /> 
     
 </head>
 <body>
 
-    <h2>JSON Example</h2>
-    <a href="/358629078">Link</a>
+    <div id="app">
 
-    <br>
+        <main class="px-6 py-16">
 
-    <h2>JPG Example</h2>
-    <img src="/358629078.jpg" />
-    <a href="/358629078.jpg">Link</a>
+            <section class="pb-16">
+                A quick way to get Vimeo Thumbnails with just an ID. 
+            </section>
     
-    <br>
     
-    <h2>JPG Large Example</h2>
-    <img src="/358629078_large.jpg" />
-    <a href="/358629078_large.jpg">Link</a>
+            <section class="pb-16">
+                <div
+                    v-for="item in mappedItems"
+                    :key="item.heading"
+                    class="pb-16"
+                >
+                    <h2 class="text-4xl">{{ item.heading }}</h2>
+                    <img :src="item.imageSrc" />
+
+                    <br>
+
+                    <h3 class="text-xl pb-4">Image URL</h3>
+                    <code class="bg-gray-300 rounded p-3">
+                        {{ item.imageSrc }}
+                    </code>
+
+                    <div class="inline p-3 text-blue-600">
+                        <button
+                            class="copy"
+                            :data-clipboard-text="item.imageSrc"
+                        >Copy</button>
+                    </div>
+
+                    <div class="inline p-3 text-blue-600">
+                        <a
+                            :href="item.imageSrc"
+                            :alt="`View ${item.heading}`"
+                        >View</a>
+                    </div>
+        
+        
+                    <br>
+                    <br>
+                    <br>
+                </div>
+            </section>
+
+        </main>
+
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/vue"></script>
+    <script src="https://cdn.jsdelivr.net/npm/clipboard@2/dist/clipboard.min.js"></script>
+
+    <script type="text/javascript">
+
+        var app = new Vue({
+            el: '#app',
+            data: {
+                vimeoId: '358629078',
+                items: [
+                    {
+                        heading: 'JPG Example',
+                        imageSrcTemplate: `/{vimeoId}.jpg`
+                    },
+                    {
+                        heading: 'JPG Large Example',
+                        imageSrcTemplate: `/{vimeoId}_large.jpg`
+                    },
+                    {
+                        heading: 'JPG Medium Example',
+                        imageSrcTemplate: `/{vimeoId}_medium.jpg`
+                    },
+                    {
+                        heading: 'JPG Small Example',
+                        imageSrcTemplate: `/{vimeoId}_small.jpg`
+                    }
+                ]
+            },
+            computed: {
+                mappedItems () {
+                    return this.items.map(item => {
+                        // console.log('item', item)
+                        // console.log('item.imageSrcTemplate', item.imageSrcTemplate)
+
+                        item.imageSrc = `${window.location.protocol}//${window.location.host}` + item.imageSrcTemplate.replace('{vimeoId}', this.vimeoId)
+
+                        return item
+                    })
+                }
+            },
+            methods: {
+                // copyImageUrl ( event ) {
+                //     const { copyUrl } = event.target.dataset
+
+                //     console.log('Copying', copyUrl)
+                //     const clipboard = new ClipboardJS(event.target, {
+                //         // text: (trigger) => {
+                //         //     return copyUrl
+                //         // }
+                //     })
+
+                //     // clipboard.target(event.target)
+
+                //     clipboard.action('copy')
+
+                //     console.log('clipboard', clipboard)
+
+                // }
+            },
+            mounted () {
+                // This may break on the next render
+                new ClipboardJS('.copy')
+            }
+        });
     
-    <br>
-    
-    <h2>JPG Medium Example</h2>
-    <img src="/358629078_medium.jpg" />
-    <a href="/358629078_medium.jpg">Link</a>
-    
-    <br>
-    
-    <h2>JPG Small Example</h2>
-    <img src="/358629078_small.jpg" />
-    <a href="/358629078_small.jpg">Link</a>
+    </script>
     
 </body>
 </html>

@@ -21,6 +21,7 @@
     "fbvideos": "^1.0.2",
     "googleapis": "^47.0.0",
     "got": "^10.6.0",
-    "micro-redirect": "^1.0.2"
+    "micro-redirect": "^1.0.2",
+    "now": "^19.1.1"
   }
 }

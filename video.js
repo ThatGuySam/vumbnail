@@ -19,7 +19,7 @@ export default async function (req, res) {
 
     // const videoUrl = `https://www.facebook.com/${id}`
     
-    const apiUrl = "https://vimeo.com/api/v2/video/" + id + ".json"
+    const apiUrl = `https://vimeo.com/api/v2/video/${id}.json`
 
     const { videoData = null, error = null } = await axios.get(apiUrl).then(response => {
         
@@ -34,8 +34,23 @@ export default async function (req, res) {
         return { error }
     })
     
+
+    // Send an error response if something went wrong
+    if (error !== null) {
+        res.json({
+            error: 'Error fetching'
+        })
+        
+        // Stop function
+        return
+    }
+    
     // if there's no video data the stop
-    if (videoData === null) return
+    if (videoData === null) {
+
+
+        return // Stop function
+    }
     
     
     
@@ -51,6 +66,8 @@ export default async function (req, res) {
         thumbResponse.data.pipe(res)
         
         // microRedirect(res, tempRedirectCode, videoData[key])
+
+        // Stop function
         return
     }
     
@@ -61,6 +78,7 @@ export default async function (req, res) {
 
         microRedirect(res, tempRedirectCode, videoData.url)
 
+        // Stop function
         return
     }
 
@@ -68,17 +86,8 @@ export default async function (req, res) {
     res.setHeader("Access-Control-Allow-Origin", "*");
     res.setHeader("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept")
 
-    // Send an error response if something went wrong
-    if (error !== null) {
-        res.json({
-            error: 'Error fetching'
-        })
-        
-        // Fire 
-        return
-    }
-
     console.log(`Fetched video data from https://vimeo.com/${id}`)
 
+    // Repond with Video JSON Data
     res.json(videoData)
 }

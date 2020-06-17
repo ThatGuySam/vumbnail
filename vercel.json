@@ -1,41 +1,30 @@
 {
     "version": 2,
-    "builds": [
-        { "src": "index.html", "use": "@now/static" },
-        { "src": "video.js", "use": "@now/node" },
-        { "src": "video-details.js", "use": "@now/node" },
-        { "src": "video-embed.js", "use": "@now/node" }
-    ],
     "routes": [
-        {
-            "src": "/",
-            "headers": {"cache-control": "public, s-maxage=2419200, stale-while-revalidate"},
-            "dest": "index.html"
-        },
         {
             "src": "/(?<vimeoId>[^/]*)_small.jpg",
             "headers": {"cache-control": "public, s-maxage=2419200, stale-while-revalidate"},
-            "dest": "/video.js?id=$vimeoId&key=thumbnail_small"
+            "dest": "/api/video?id=$vimeoId&key=thumbnail_small"
         },
         {
             "src": "/(?<vimeoId>[^/]*)_medium.jpg",
             "headers": {"cache-control": "public, s-maxage=2419200, stale-while-revalidate"},
-            "dest": "/video.js?id=$vimeoId&key=thumbnail_medium"
+            "dest": "/api/video?id=$vimeoId&key=thumbnail_medium"
         },
         {
             "src": "/(?<vimeoId>[^/]*)_large.jpg",
             "headers": {"cache-control": "public, s-maxage=2419200, stale-while-revalidate"},
-            "dest": "/video.js?id=$vimeoId&key=thumbnail_large"
+            "dest": "/api/video?id=$vimeoId&key=thumbnail_large"
         },
         {
             "src": "/(?<vimeoId>[^/]*).jpg",
             "headers": {"cache-control": "public, s-maxage=2419200, stale-while-revalidate"},
-            "dest": "/video.js?id=$vimeoId&key=thumbnail_large"
+            "dest": "/api/video?id=$vimeoId&key=thumbnail_large"
         },
         {
             "src": "/(?<vimeoId>[^/]*)",
             "headers": {"cache-control": "public, s-maxage=2419200, stale-while-revalidate"},
-            "dest": "/video.js?id=$vimeoId"
+            "dest": "/api/video?id=$vimeoId"
         }
     ]
 }

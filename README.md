@@ -3,7 +3,7 @@
 
 All things Vimeo and Thumbnails. 
 
-Caches for 28 days(set as 2419200 seconds) which can be updated from /now.json in the root directory. 
+Caches for 28 days(set as 2419200 seconds) which can be updated from /vercel.json in the root directory. 
 
 
 

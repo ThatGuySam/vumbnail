@@ -46,7 +46,8 @@ export default async function (req, res) {
         
         // Set a header for jpg
         res.setHeader('Content-Type', 'image/jpeg')
-            
+
+        console.log('Streamed image', key)    
         thumbResponse.data.pipe(res)
         
         // microRedirect(res, tempRedirectCode, videoData[key])
@@ -56,6 +57,8 @@ export default async function (req, res) {
 
     if ( redirect ) {
         
+        console.log('Redirected image', key)
+
         microRedirect(res, tempRedirectCode, videoData.url)
 
         return

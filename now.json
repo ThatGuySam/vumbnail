@@ -9,32 +9,32 @@
     "routes": [
         {
             "src": "/",
-            "headers": {"cache-control": "s-maxage=2419200, stale-while-revalidate"},
+            "headers": {"cache-control": "public, s-maxage=2419200, stale-while-revalidate"},
             "dest": "index.html"
         },
         {
             "src": "/(?<vimeoId>[^/]*)_small.jpg",
-            "headers": {"cache-control": "s-maxage=2419200, stale-while-revalidate"},
+            "headers": {"cache-control": "public, s-maxage=2419200, stale-while-revalidate"},
             "dest": "/video.js?id=$vimeoId&key=thumbnail_small"
         },
         {
             "src": "/(?<vimeoId>[^/]*)_medium.jpg",
-            "headers": {"cache-control": "s-maxage=2419200, stale-while-revalidate"},
+            "headers": {"cache-control": "public, s-maxage=2419200, stale-while-revalidate"},
             "dest": "/video.js?id=$vimeoId&key=thumbnail_medium"
         },
         {
             "src": "/(?<vimeoId>[^/]*)_large.jpg",
-            "headers": {"cache-control": "s-maxage=2419200, stale-while-revalidate"},
+            "headers": {"cache-control": "public, s-maxage=2419200, stale-while-revalidate"},
             "dest": "/video.js?id=$vimeoId&key=thumbnail_large"
         },
         {
             "src": "/(?<vimeoId>[^/]*).jpg",
-            "headers": {"cache-control": "s-maxage=2419200, stale-while-revalidate"},
+            "headers": {"cache-control": "public, s-maxage=2419200, stale-while-revalidate"},
             "dest": "/video.js?id=$vimeoId&key=thumbnail_large"
         },
         {
             "src": "/(?<vimeoId>[^/]*)",
-            "headers": {"cache-control": "s-maxage=2419200, stale-while-revalidate"},
+            "headers": {"cache-control": "public, s-maxage=2419200, stale-while-revalidate"},
             "dest": "/video.js?id=$vimeoId"
         }
     ]

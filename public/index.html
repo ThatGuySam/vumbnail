@@ -15,24 +15,34 @@
 </head>
 <body>
 
-    <div id="app">
+    <div
+        id="app"
+        class="flex justify-center"
+    >
 
-        <main class="px-6 py-16">
+        <main
+            class="px-6 py-16"
+            style="max-width: 960px;"
+        >
 
-            <section class="pb-16">
+            <section class="text-center pb-16">
                 A quick way to get Vimeo Thumbnails with just an ID. 
             </section>
 
 
 
-            <section class="pb-16">
+            <section class="flex justify-center text-center pb-16">
                 <div>
-                    Enter your Vimeo Video ID
+
+                    <div>
+                        Enter your Vimeo Video ID
+                    </div>
+
+                    <input
+                        v-model="vimeoId"
+                        class="border rounded p-3"
+                    />
                 </div>
-                <input
-                    v-model="vimeoId"
-                    class="border rounded p-3"
-                />
             </section>
     
     

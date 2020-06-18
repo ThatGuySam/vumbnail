@@ -12,6 +12,11 @@
             "dest": "public/favicon.ico"
         },
         {
+            "src": "/robots.txt",
+            "headers": { "cache-control": "no-cache" },
+            "dest": "public/robots.txt"
+        },
+        {
             "src": "/(?<vimeoId>[^/]*)_small.jpg",
             "headers": {"cache-control": "public, s-maxage=2419200, stale-while-revalidate"},
             "dest": "/api/video?id=$vimeoId&key=thumbnail_small"

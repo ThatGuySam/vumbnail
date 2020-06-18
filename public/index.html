@@ -11,7 +11,9 @@
 
     
     <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
-
+    <link rel="preconnect" href="https://www.googletagmanager.com" crossorigin>
+    
+    <!--   Tailwind   -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/tailwindcss@1.4.6/dist/base.min.css" /> 
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/tailwindcss@1.4.6/dist/utilities.min.css" /> 
     
@@ -101,10 +103,25 @@
         </main>
 
     </div>
+    
+    <!-- Global site tag (gtag.js) - Google Analytics -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=UA-28434239-20"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
 
+        gtag('config', 'UA-28434239-20');
+    </script>
+
+    <!--   Vue   -->
     <script src="https://cdn.jsdelivr.net/npm/vue"></script>
+    
+    <!--   Clipboard   -->
     <script src="https://cdn.jsdelivr.net/npm/clipboard@2/dist/clipboard.min.js"></script>
-
+    
+    
+    <!--   Main   -->
     <script type="text/javascript">
 
         var app = new Vue({

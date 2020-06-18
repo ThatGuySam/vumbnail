@@ -20,11 +20,11 @@
 
     <div
         id="app"
-        class="flex justify-center"
+        class="flex justify-center px-6"
     >
 
         <main
-            class="px-6 py-16"
+            class="w-full py-16"
             style="max-width: 960px;"
         >
 
@@ -37,14 +37,16 @@
             <section class="flex justify-center text-center pb-16">
                 <div>
 
-                    <div>
-                        Enter your Vimeo Video ID
-                    </div>
+                    <label>
+                        <div>
+                            Enter your Vimeo Video ID
+                        </div>
+                        <input
+                            v-model="vimeoId"
+                            class="border rounded p-3"
+                        />
+                    </label>
 
-                    <input
-                        v-model="vimeoId"
-                        class="border rounded p-3"
-                    />
                 </div>
             </section>
     
@@ -56,27 +58,37 @@
                     class="pb-16"
                 >
                     <h2 class="text-4xl">{{ item.heading }}</h2>
-                    <img :src="item.imageSrc" />
+                    <img
+                        :src="item.imageSrc"
+                        :alt="item.imageAlt"
+                    />
 
                     <br>
 
                     <h3 class="text-xl pb-4">Image URL</h3>
-                    <code class="bg-gray-300 rounded p-3">
+                    <code
+                        class="block bg-gray-300 rounded p-3"
+                        style="word-break: break-all;"
+                    >
                         {{ item.imageSrc }}
                     </code>
 
-                    <div class="inline p-3 text-blue-600">
-                        <button
-                            class="copy"
-                            :data-clipboard-text="item.imageSrc"
-                        >Copy</button>
-                    </div>
+                    <div class="py-5 -mx-2">
 
-                    <div class="inline p-3 text-blue-600">
-                        <a
-                            :href="item.imageSrc"
-                            :alt="`View ${item.heading}`"
-                        >View</a>
+                        <div class="inline p-3 text-blue-800">
+                            <button
+                                class="copy"
+                                :data-clipboard-text="item.imageSrc"
+                            >Copy</button>
+                        </div>
+    
+                        <div class="inline p-3 text-blue-800">
+                            <a
+                                :href="item.imageSrc"
+                                :title="`View ${item.heading}`"
+                            >View</a>
+                        </div>
+
                     </div>
         
         
@@ -102,19 +114,23 @@
                 items: [
                     {
                         heading: 'JPG Example',
-                        imageSrcTemplate: `/{vimeoId}.jpg`
+                        imageSrcTemplate: `/{vimeoId}.jpg`,
+                        imageAlt: 'Regular Thumbnail Example'
                     },
                     {
                         heading: 'JPG Large Example',
-                        imageSrcTemplate: `/{vimeoId}_large.jpg`
+                        imageSrcTemplate: `/{vimeoId}_large.jpg`,
+                        imageAlt: 'Large Thumbnail Example'
                     },
                     {
                         heading: 'JPG Medium Example',
-                        imageSrcTemplate: `/{vimeoId}_medium.jpg`
+                        imageSrcTemplate: `/{vimeoId}_medium.jpg`,
+                        imageAlt: 'Medium Thumbnail Example'
                     },
                     {
                         heading: 'JPG Small Example',
-                        imageSrcTemplate: `/{vimeoId}_small.jpg`
+                        imageSrcTemplate: `/{vimeoId}_small.jpg`,
+                        imageAlt: 'Small Thumbnail Example'
                     }
                 ]
             },

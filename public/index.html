@@ -40,19 +40,27 @@
                 <div>
 
                     <label>
-                        <div>
+                        <h3 class="pb-3">
                             Enter your Vimeo Video ID
-                        </div>
+                        </h3>
                         <input
                             v-model="vimeoId"
                             class="border rounded p-3"
                         />
-                        <div>
-                            <button
-                                @click="vimeoId = '12714406'"
-                            >Dad Life</button>
-                        </div>
                     </label>
+
+                    <div class="example-videos py-5">
+                        <h3 class="pb-3">
+                            Example Videos
+                        </h3>
+                        <div class="button-group px-4">
+                            <button
+                                v-for="video in exampleVideos"
+                                class="bg-transparent hover:bg-gray-500 text-gray-700 font-semibold hover:text-white border border-gray-500 hover:border-transparent rounded py-2 px-4 mx-3"
+                                @click="vimeoId = video.id"
+                            >{{ video.label }}</button>
+                        </div>
+                    </div>
 
                 </div>
             </section>
@@ -133,6 +141,20 @@
             el: '#app',
             data: {
                 vimeoId: '358629078',
+                exampleVideos: [
+                    {
+                        label: 'Dad Life',
+                        id: '12714406'
+                    },
+                    {
+                        label: 'City Limits',
+                        id: '23237102'
+                    },
+                    {
+                        label: 'Girl Walk',
+                        id: '32845443'
+                    }
+                ],
                 items: [
                     {
                         heading: 'JPG Example',

@@ -68,6 +68,42 @@
     
             <section class="pb-16">
                 <div
+                    class="pb-16"
+                >
+                    <h2 class="text-4xl">Responsive Image (Recommended)</h2>
+                    <h4 class="text-xl pb-4">Let's the browser pick the exact right image for the screen size so it loads as fast as possible. </h4>
+                    <div
+                        v-html="imageHtml"
+                    ></div>
+
+                    <br>
+
+                    <h3 class="text-xl pb-4">Image HTML</h3>
+                    <code
+                        class="responsive-image-html block bg-gray-300 rounded p-3"
+                        style="word-break: break-all;"
+                    >
+                        {{ imageHtml }}
+                    </code>
+
+                    <div class="py-5 -mx-2">
+
+                        <div class="inline p-3 text-blue-800">
+                            <button
+                                class="copy"
+                                data-clipboard-target=".responsive-image-html"
+                            >Copy</button>
+                        </div>
+
+                    </div>
+        
+        
+                    <br>
+                    <br>
+                    <br>
+                </div>
+
+                <div
                     v-for="item in mappedItems"
                     :key="item.heading"
                     class="pb-16"
@@ -159,26 +195,33 @@
                     {
                         heading: 'JPG Example',
                         imageSrcTemplate: `/{vimeoId}.jpg`,
-                        imageAlt: 'Regular Thumbnail Example'
+                        imageAlt: 'Regular Thumbnail Example',
+                        width: 640
                     },
                     {
                         heading: 'JPG Large Example',
                         imageSrcTemplate: `/{vimeoId}_large.jpg`,
-                        imageAlt: 'Large Thumbnail Example'
+                        imageAlt: 'Large Thumbnail Example',
+                        width: 640
                     },
                     {
                         heading: 'JPG Medium Example',
                         imageSrcTemplate: `/{vimeoId}_medium.jpg`,
-                        imageAlt: 'Medium Thumbnail Example'
+                        imageAlt: 'Medium Thumbnail Example',
+                        width: 200
                     },
                     {
                         heading: 'JPG Small Example',
                         imageSrcTemplate: `/{vimeoId}_small.jpg`,
-                        imageAlt: 'Small Thumbnail Example'
+                        imageAlt: 'Small Thumbnail Example',
+                        width: 100
                     }
                 ]
             },
             computed: {
+                domain () {
+                    return `${window.location.protocol}//${window.location.host}`
+                },
                 mappedItems () {
                     return this.items.map(item => {
                         // console.log('item', item)
@@ -188,6 +231,21 @@
 
                         return item
                     })
+                },
+                imageHtml () {
+                    const src = this.mappedItems[0].imageSrc
+                    const srcset = this.mappedItems.map(({ imageSrc, width }) => `${imageSrc} ${width}w`).join(', ')
+
+                    // console.log('srcset', srcset)
+
+                    return `
+                        <img
+                            srcset="${srcset}"
+                            sizes="(max-width: 640px) 100vw, 640px"
+                            src="${src}"
+                            alt="Vimeo Thumbnail"
+                        />
+                    `
                 }
             },
             methods: {

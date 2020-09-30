@@ -20,6 +20,16 @@
             "dest": "public/robots.txt"
         },
         {
+            "src": "/media/:match*",
+            "headers": { "cache-control": "public, s-maxage=2419200, stale-while-revalidate" },
+            "dest": "public/media/:match*"
+        },
+        {
+            "src": "/341241947.mp4",
+            "headers": { "cache-control": "public, s-maxage=2419200, stale-while-revalidate" },
+            "dest": "public/media/breathtaking.mp4"
+        },
+        {
             "src": "/(?<vimeoId>[^/]*)_small.jpg",
             "headers": {"cache-control": "public, s-maxage=2419200, stale-while-revalidate"},
             "dest": "/api/video?id=$vimeoId&key=thumbnail_small"

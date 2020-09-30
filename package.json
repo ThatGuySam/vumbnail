@@ -5,7 +5,7 @@
   "main": "subreddit.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "now-dev": "now dev"
+    "vercel-dev": "vercel dev"
   },
   "repository": {
     "type": "git",
@@ -23,6 +23,6 @@
     "googleapis": "^47.0.0",
     "got": "^10.6.0",
     "micro-redirect": "^1.0.2",
-    "now": "^19.1.1"
+    "vercel": "^20.1.1"
   }
 }

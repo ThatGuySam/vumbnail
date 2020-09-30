@@ -11,4 +11,4 @@ Caches for 28 days(set as 2419200 seconds) which can be updated from /vercel.jso
 
 Click this button
 
-[![Deploy with ZEIT Now](https://zeit.co/button)](https://zeit.co/new/project?template=https://github.com/ThatGuySam/vimeo-thumbnail-server)
+[![Deploy with Vercel](https://vercel.com/button)](https://vercel.com/new/git/external?repository-url=https://github.com/ThatGuySam/vimeo-thumbnail-server)

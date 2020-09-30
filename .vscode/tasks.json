@@ -3,10 +3,10 @@
 	"tasks": [
 		{
 			"type": "npm",
-			"script": "now-dev",
+			"script": "vercel-dev",
 			"problemMatcher": [],
-			"label": "npm: now-dev",
-			"detail": "now dev",
+			"label": "npm: vercel-dev",
+			"detail": "vercel dev",
 			"group": {
 				"kind": "build",
 				"isDefault": true

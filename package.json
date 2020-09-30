@@ -22,7 +22,9 @@
     "fbvideos": "^1.0.2",
     "googleapis": "^47.0.0",
     "got": "^10.6.0",
-    "micro-redirect": "^1.0.2",
+    "micro-redirect": "^1.0.2"
+  },
+  "devDependencies": {
     "vercel": "^20.1.1"
   }
 }

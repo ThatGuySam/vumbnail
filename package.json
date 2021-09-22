@@ -18,7 +18,7 @@
   },
   "homepage": "https://github.com/ThatGuySam/vimeo-thumbnail-server#readme",
   "dependencies": {
-    "axios": "^0.21.1",
+    "axios": "^0.21.2",
     "fbvideos": "^1.0.2",
     "googleapis": "^47.0.0",
     "got": "^10.6.0",

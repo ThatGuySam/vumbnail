@@ -17,3 +17,13 @@ test(`Can get Youtube URL`, async t => {
 
     t.assert( isValidUrl( ffmpegUrl ) )
 })
+
+
+test(`Can get Vimeo URL`, async t => {
+
+    const ffmpegUrl = await getFfmpegUrl({
+        videoUrl: 'https://vimeo.com/358629078'
+    })
+
+    t.assert( isValidUrl( ffmpegUrl ) )
+})

@@ -1,11 +1,30 @@
 import youtubedl from 'youtube-dl-exec'
+import urlParser from 'js-video-url-parser'
+
+
+const providerDefaultOptions = {
+    'vimeo': {
+        extension: 'mp4',
+    },
+    'youtube': {
+        extension: 'webm'
+    }
+}
 
 
 export async function getFfmpegUrl ( options = {} ) {
+    // https://github.com/Zod-/jsVideoUrlParser#readme
+    const { provider } = urlParser.parse(options.videoUrl)
+
+    const defaultOptions = providerDefaultOptions[provider]
+
     const {
         videoUrl,
-        extension = 'webm',
-    } = options
+        extension
+    } = {
+        ...defaultOptions,
+        ...options
+    }
 
     const output = await youtubedl( videoUrl , {
         getUrl: true,

@@ -1,4 +1,4 @@
-import ytdl from 'ytdl-core'
+import youtubedl from 'youtube-dl-exec'
 
 
 export async function getFfmpegUrl ( options = {} ) {
@@ -7,18 +7,23 @@ export async function getFfmpegUrl ( options = {} ) {
         extension = 'webm',
     } = options
 
-    const videoId = ytdl.getURLVideoID(videoUrl)
-
-    const info = await ytdl.getInfo( videoId )
-    const format = ytdl.chooseFormat(info.formats, {
-        quality: 'lowestvideo',
-        filter: format => {
-            // console.log('format', format)
-            return format.container === extension
-        }
+    const output = await youtubedl( videoUrl , {
+        getUrl: true,
+        // https://askubuntu.com/questions/486297/how-to-select-video-quality-from-youtube-dl
+        format: `worstvideo[ext=${ extension }]`,
+        // dumpSingleJson: true,
+        // noWarnings: true,
+        // noCallHome: true,
+        // noCheckCertificate: true,
+        // preferFreeFormats: true,
+        youtubeSkipDashManifest: true,
+        // referer: 'https://example.com'
+    })
+    .catch(error => {
+        console.warn(`Error fetching video ${videoUrl}`, error)
     })
 
-    // console.log( 'format.url', format.url )
+    // console.log( 'output', output )
 
-    return format.url
+    return output
 }

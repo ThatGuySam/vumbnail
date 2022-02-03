@@ -17,7 +17,9 @@ export async function getClipFromVideoUrl ( videoUrl, options = {} ) {
         extension,
     })
 
-    // `ffmpeg -ss 00:00:15.00 -i "${ ffpemgHttpUrl }" -t 00:00:05.00 -c copy ./${ Date.now() }.mp4`
+    // Only download 5 seconds
+    // https://unix.stackexchange.com/a/282413/255649
+    // `ffmpeg -ss 00:00:15.00 -i "URL" -t 00:00:05.00 -c copy ./file.mp4`
     const ffmpegArgs = [ '-ss', '00:00:15.00', '-i', ffpemgUrl, '-t', '00:00:05.00' ]
 
     ffmpegArgs.push(

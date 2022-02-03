@@ -1,0 +1,5 @@
+fastapi==0.65.2
+pydantic==1.8.2
+starlette==0.14.2
+typing-extensions==3.10.0.0
+youtube-dl==2021.6.6

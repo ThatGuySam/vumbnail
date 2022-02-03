@@ -1,7 +1,7 @@
 import test from 'ava'
 
-import { getFfmpegUrl } from '../helpers/get-ffmpeg-url.mjs'
-import { isValidUrl } from '../helpers/url.mjs'
+import { getFfmpegUrl } from '../helpers/get-ffmpeg-url.js'
+import { isValidUrl } from '../helpers/url.js'
 
 
 test(`Can test`, t => {

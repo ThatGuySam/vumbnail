@@ -1,12 +1,10 @@
 import 'dotenv/config'
 // URL utility
 import axios from 'axios'
-import pathToFfmpeg from "ffmpeg-static"
-import { execa } from 'execa'
 
 
 import { parseOptionsFromPath } from '../../helpers/url.js'
-import { getFfmpegUrl } from '../../helpers/get-ffmpeg-url.js'
+import { getClipFromVideoUrl } from '../../helpers/get-clip-from-video-url.js'
 
 
 // const ffmpeg = createFFmpeg({ log: true });
@@ -59,55 +57,20 @@ export default async function (req, res) {
     if ( options.extension === 'mp4' ) {
         console.log('Is mp4')
 
-        const ffpemgUrl = await getFfmpegUrl({
-            // videoUrl: `https://vimeo.com/${ options.videoId }`,
-            videoUrl: `https://www.youtube.com/watch?v=${ options.videoId }`,
-            extension: 'mp4'
-        })
-
-        // Create unsecure http url
-        // const ffpemgHttpUrl = ffpemgUrl.replace('https://', 'http://')
+        // videoUrl: `https://vimeo.com/${ options.videoId }`,
+        const videoUrl = `https://www.youtube.com/watch?v=${ options.videoId }`
 
         res.contentType = `video/${ options.extension }`
 
-        // `ffmpeg -ss 00:00:15.00 -i "${ ffpemgHttpUrl }" -t 00:00:05.00 -c copy ./${ Date.now() }.mp4`
-        const ffmpegArgs = [ '-ss', '00:00:15.00', '-i', ffpemgUrl, '-t', '00:00:05.00' ]
-
-        ffmpegArgs.push(
-            "-c:v",
-            "libx264",
-            "-acodec",
-            "aac",
-            "-movflags",
-            "frag_keyframe+empty_moov",
-            "-f",
-            "mp4"
+        res.setHeader(
+            'Content-Disposition',
+            'inline'
+            // contentDisposition(`${info.title}.${audioOnly ? "mp3" : "mp4"}`)
         )
 
-        // console.log('stdout', stdout)
-
-
-        // res.setHeader(
-        //     "Content-Disposition",
-        //     contentDisposition(`${info.title}.${audioOnly ? "mp3" : "mp4"}`)
-        // )
-
-        ffmpegArgs.push('-')
-
-        // Run command
-        const ffSp = execa(pathToFfmpeg, ffmpegArgs)
-
-        // Pipe ffmpeg output to response
-        ffSp.stdout.pipe(res)
-
-        // Wait for ffmpeg to finish
-        await ffSp
-
-
-
-        // res.json({
-        //     ffpemgUrl
-        // })
+        await getClipFromVideoUrl( videoUrl, {
+            res
+        })
 
         return
     }

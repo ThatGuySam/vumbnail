@@ -13,6 +13,8 @@ const providerDefaultOptions = {
 }
 
 
+const deployUrl = process.env.VERCEL_BETA_URL || `https://${process.env.VERCEL_URL}`
+
 
 // https://github.com/saanuregh/youtube-dl-web/blob/master/components/entry.js#L25
 function reduceFormats ( youtubeDlInfo ) {
@@ -61,7 +63,11 @@ export async function getFfmpegUrl ( options = {} ) {
         ...options
     }
 
-    const ytdlUrl = new URL(`${process.env.VERCEL_URL}/api/info?q=${ videoUrl }&f=worstvideo[ext=${ extension }]`)
+    // console.log('deployUrl', deployUrl)
+
+    const ytdlUrl = new URL(`${ deployUrl }/api/info?q=${ videoUrl }&f=worstvideo[ext=${ extension }]`)
+
+    // console.log('ytdlUrl', ytdlUrl)
 
     // Get the video data
     const { data: youtubeDlInfo } = await axios.get( ytdlUrl.href )

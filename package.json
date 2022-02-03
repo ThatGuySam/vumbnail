@@ -23,7 +23,8 @@
     "fbvideos": "^1.0.2",
     "googleapis": "^47.0.0",
     "got": "^10.6.0",
-    "micro-redirect": "^1.0.2"
+    "micro-redirect": "^1.0.2",
+    "youtube-dl-exec": "^2.0.2"
   },
   "devDependencies": {
     "ava": "^4.0.1",

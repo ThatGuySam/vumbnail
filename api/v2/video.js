@@ -69,6 +69,7 @@ export default async function (req, res) {
 
         res.contentType = `video/${ options.extension }`
 
+        // https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Content-Disposition#syntax
         res.setHeader(
             'Content-Disposition',
             'inline'

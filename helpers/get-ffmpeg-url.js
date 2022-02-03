@@ -12,7 +12,7 @@ const providerDefaultOptions = {
     }
 }
 
-
+// https://stackoverflow.com/a/66011585/1397641
 const deployUrl = process.env.VERCEL_BETA_URL || `https://${process.env.VERCEL_URL}`
 
 

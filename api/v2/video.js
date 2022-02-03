@@ -3,6 +3,7 @@
 // http://localhost:3000/358629078.mp4
 // 50 second video: http://localhost:3000/672898525.mp4
 
+// 50 MB Vercel Limit: https://vercel.com/docs/concepts/limits/overview#serverless-function-size
 
 import 'dotenv/config'
 // URL utility

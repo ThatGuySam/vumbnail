@@ -1,4 +1,4 @@
-import youtubedl from 'youtube-dl-exec'
+import ytdl from 'ytdl-core'
 
 
 export async function getFfmpegUrl ( options = {} ) {
@@ -7,22 +7,18 @@ export async function getFfmpegUrl ( options = {} ) {
         extension = 'webm',
     } = options
 
-    const output = await youtubedl( videoUrl , {
-        getUrl: true,
-        format: `worstvideo[ext=${ extension }]`,
-        // dumpSingleJson: true,
-        // noWarnings: true,
-        // noCallHome: true,
-        // noCheckCertificate: true,
-        // preferFreeFormats: true,
-        youtubeSkipDashManifest: true,
-        // referer: 'https://example.com'
-    })
-    .catch(error => {
-        console.warn(`Error fetching video ${videoUrl}`, error)
+    const videoId = ytdl.getURLVideoID(videoUrl)
+
+    const info = await ytdl.getInfo( videoId )
+    const format = ytdl.chooseFormat(info.formats, {
+        quality: 'lowestvideo',
+        filter: format => {
+            // console.log('format', format)
+            return format.container === extension
+        }
     })
 
-    // console.log( 'output', output )
+    // console.log( 'format.url', format.url )
 
-    return output
+    return format.url
 }

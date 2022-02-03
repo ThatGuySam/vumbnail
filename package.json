@@ -18,6 +18,8 @@
   },
   "homepage": "https://github.com/ThatGuySam/vimeo-thumbnail-server#readme",
   "dependencies": {
+    "@ffmpeg/core": "^0.10.0",
+    "@ffmpeg/ffmpeg": "^0.10.1",
     "axios": "^0.21.1",
     "execa": "^6.0.0",
     "fbvideos": "^1.0.2",

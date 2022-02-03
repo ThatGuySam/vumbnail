@@ -1,3 +1,4 @@
+// https://github.com/eugeneware/ffmpeg-static
 import pathToFfmpeg from 'ffmpeg-static'
 import { execa } from 'execa'
 

@@ -27,7 +27,8 @@
     "googleapis": "^47.0.0",
     "got": "^10.6.0",
     "micro-redirect": "^1.0.2",
-    "youtube-dl-exec": "^2.0.2"
+    "youtube-dl-exec": "^2.0.2",
+    "ytdl-core": "^4.10.1"
   },
   "devDependencies": {
     "ava": "^4.0.1"

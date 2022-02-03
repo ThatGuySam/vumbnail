@@ -4,4 +4,4 @@
 
 .vercel
 /.vscode/snipsnap.code-snippets
-/public/.DS_Store
+*.DS_Store

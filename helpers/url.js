@@ -46,7 +46,7 @@ export function parseOptionsFromPath ( thumbnailPath ) {
         }
     }
 
-    console.log('optionsFromFilename', optionsFromFilename)
+    // console.log('optionsFromFilename', optionsFromFilename)
 
     return {
         videoId,

@@ -12,6 +12,7 @@ import axios from 'axios'
 
 import { parseOptionsFromPath } from '../../helpers/url.js'
 import { getClipFromVideoUrl } from '../../helpers/get-clip-from-video-url.js'
+import { sendErrorResponseMedia } from '../../helpers/send-response.js'
 
 
 // const ffmpeg = createFFmpeg({ log: true });
@@ -61,43 +62,42 @@ export default async function (req, res) {
 
     // console.log('parseOptionsFromPath', options)
 
-    if ( options.extension === 'mp4' ) {
-        console.log('Is mp4')
+    try {
 
-        // videoUrl: `https://vimeo.com/${ options.videoId }`,
-        const videoUrl = `https://www.youtube.com/watch?v=${ options.videoId }`
-
-        res.contentType = `video/${ options.extension }`
-
-        // https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Content-Disposition#syntax
-        res.setHeader(
-            'Content-Disposition',
-            'inline'
-            // contentDisposition(`${info.title}.${audioOnly ? "mp3" : "mp4"}`)
-        )
-
-        await getClipFromVideoUrl( videoUrl, {
-            res
-        })
-
-        return
-    }
-
-    res.json(options)
-
-    return
-
-    // Break out the id param from our request's query string
-    const { query: { id, redirect = false, key = null } } = url.parse(req.url, true)
+        if ( options.extension === 'mp4' ) {
+            console.log('Is mp4')
     
-    const apiUrl = `https://vimeo.com/api/v2/video/${id}.json`
+            // videoUrl: `https://vimeo.com/${ options.videoId }`,
+            const videoUrl = `https://www.youtube.com/watch?v=${ options.videoId }`
+    
+            res.contentType = `video/${ options.extension }`
+    
+            // https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Content-Disposition#syntax
+            res.setHeader(
+                'Content-Disposition',
+                'inline'
+                // contentDisposition(`${info.title}.${audioOnly ? "mp3" : "mp4"}`)
+            )
+    
+            await getClipFromVideoUrl( videoUrl, {
+                res
+            })
+    
+            return
+        }
+    
+        // res.json(options)
 
-    // Set Cors Headers to allow all origins so data can be requested by a browser
-    res.setHeader("Access-Control-Allow-Origin", "*");
-    res.setHeader("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept")
+        throw new Error('Not implemented')
+    
+        return
 
-    console.log(`Fetched video data from https://vimeo.com/${id}`)
-
-    // Repond with Video JSON Data
-    res.json(videoData)
+    } catch ( error ) {
+        await sendErrorResponseMedia({
+            req,
+            res,
+            error,
+            type: options.extension
+        })
+    }
 }

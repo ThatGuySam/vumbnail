@@ -20,7 +20,7 @@ const {
 
 
     // Write SVG Error image
-    console.log('Writing SVG Error image')
+    console.log('Writing SVG image')
     await fs.writeFile(
         svg.path,
         svgTemplate()
@@ -64,7 +64,7 @@ const {
     // Generate mp4 from png
     await execa( pathToFfmpeg, ffmpegArgs )
 
-    console.log('Error files generated successfully!')
+    console.log('Files generated successfully!')
 
     process.exit()
 })()

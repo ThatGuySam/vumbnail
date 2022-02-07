@@ -1,5 +1,9 @@
-import url from 'url'
+// import url from 'url'
 import path from 'path'
+
+
+// https://stackoverflow.com/a/66011585/1397641
+export const vercelUrl = process.env.VERCEL_BETA_URL || `https://${process.env.VERCEL_URL}`
 
 export function isValidUrl ( url ) {
     try {

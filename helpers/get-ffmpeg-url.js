@@ -2,6 +2,8 @@
 import urlParser from 'js-video-url-parser'
 import axios from 'axios'
 
+import { vercelUrl } from './url.js'
+
 
 const providerDefaultOptions = {
     'vimeo': {
@@ -12,8 +14,7 @@ const providerDefaultOptions = {
     }
 }
 
-// https://stackoverflow.com/a/66011585/1397641
-const deployUrl = process.env.VERCEL_BETA_URL || `https://${process.env.VERCEL_URL}`
+const deployUrl = vercelUrl
 
 
 // https://github.com/saanuregh/youtube-dl-web/blob/master/components/entry.js#L25

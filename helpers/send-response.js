@@ -18,9 +18,9 @@ export const svgTemplate = () => `
         xmlns="http://www.w3.org/2000/svg" 
         fill="none" 
         viewBox="0 0 80 45" 
-        stroke="rgba(0,0,0,0.1)"
+        stroke="rgba(255,255,255,0.1)"
     >
-        <rect width="100%" height="100%" fill="white" />
+        <rect width="100%" height="100%" fill="black" />
         <path 
             transform="translate(28, 10.5)"
             stroke-linecap="round" 

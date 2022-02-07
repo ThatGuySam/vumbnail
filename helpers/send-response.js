@@ -5,6 +5,8 @@ import { vercelUrl } from './url.js'
 
 const ONE_HOUR = 60 * 60
 
+// We want to keep error caching time low
+// so we get the newest data from the API
 // Cache Control Header Examples - https://developers.cloudflare.com/cache/about/cache-control#examples
 export const errorCacheHeaders = {
     'Cache-Control': `public, max-age=0, s-maxage=${ ONE_HOUR }`,

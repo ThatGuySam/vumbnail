@@ -30,6 +30,7 @@ const {
     console.log('Generating png from svg')
     await sharp( svg.path )
         .resize( png.width, png.height )
+        // https://github.com/lovell/sharp/blob/83bb6a45542cbced5d68a258070f256f6ca8cee3/docs/api-channel.md#examples
         .removeAlpha()
         .toFile( png.path )
 

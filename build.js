@@ -3,28 +3,30 @@ import sharp from 'sharp'
 import pathToFfmpeg from 'ffmpeg-static'
 import { execa } from 'execa'
 
-import { svgTemplate } from './helpers/send-response.js'
+import { 
+    svgTemplate, 
+    errorMedia
+} from './helpers/send-response.js'
 
 
-const errorSvgPath = './public/media/error.svg'
-const errorPngPath = './public/media/error.png'
-const errorMp4Path = './public/media/error.mp4'
-
-const defaultWidth = 640
-const defaultHeight = 360
+const {
+    svg,
+    png,
+    mp4
+} = errorMedia
 
 
 // Write SVG Error image
 await fs.writeFile(
-    errorSvgPath,
+    svg.path,
     svgTemplate()
 )
 
 // Generate png from svg
-await sharp( errorSvgPath )
-    .resize(defaultWidth, defaultHeight)
+await sharp( svg.path )
+    .resize( png.width, png.height )
     .removeAlpha()
-    .toFile( errorPngPath )
+    .toFile( png.path )
 
 // Build error video from error svg
 // ffmpeg -r 1 -f image2 -s 1920x1080 -i error.svg -vcodec libx264 -crf 25  -pix_fmt yuv420p error.mp4
@@ -35,16 +37,16 @@ const ffmpegArgs = [
     '-f', 
     'image2',
     '-s', 
-    `${ defaultWidth }x${ defaultHeight }`,
+    `${ mp4.width }x${ mp4.height }`,
     '-i',
-    errorPngPath, 
+    png.path, 
     '-vcodec', 
     'libx264', 
     '-crf', 
     '25', 
     '-pix_fmt', 
     'yuv420p',
-    errorMp4Path
+    mp4.path
 ]
 
 // Run command

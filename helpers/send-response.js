@@ -18,6 +18,27 @@ export const svgTemplate = () => `
     </svg>
 `
 
+const defaultWidth = 640
+const defaultHeight = 360
+
+export const errorMedia = {
+    svg: {
+        path: './public/media/error.svg',
+        width: defaultWidth,
+        height: defaultHeight
+    },
+    png: {
+        path: './public/media/error.png',
+        width: defaultWidth,
+        height: defaultHeight
+    },
+    mp4: {
+        path: './public/media/error.mp4',
+        width: defaultWidth,
+        height: defaultHeight
+    }
+}
+
 export function sendErrorResponseVideo(options = {}) {
     const {
         req,

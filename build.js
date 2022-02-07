@@ -15,39 +15,56 @@ const {
     mp4
 } = errorMedia
 
+'Magic happens here';
+(async () => {
 
-// Write SVG Error image
-await fs.writeFile(
-    svg.path,
-    svgTemplate()
-)
 
-// Generate png from svg
-await sharp( svg.path )
-    .resize( png.width, png.height )
-    .removeAlpha()
-    .toFile( png.path )
+    // Write SVG Error image
+    console.log('Writing SVG Error image')
+    await fs.writeFile(
+        svg.path,
+        svgTemplate()
+    )
 
-// Build error video from error svg
-// ffmpeg -r 1 -f image2 -s 1920x1080 -i error.svg -vcodec libx264 -crf 25  -pix_fmt yuv420p error.mp4
-// https://hamelot.io/visualization/using-ffmpeg-to-convert-a-set-of-images-into-a-video/
-const ffmpegArgs = [ 
-    '-r',
-    '1', 
-    '-f', 
-    'image2',
-    '-s', 
-    `${ mp4.width }x${ mp4.height }`,
-    '-i',
-    png.path, 
-    '-vcodec', 
-    'libx264', 
-    '-crf', 
-    '25', 
-    '-pix_fmt', 
-    'yuv420p',
-    mp4.path
-]
+    // Generate png from svg
+    console.log('Generating png from svg')
+    await sharp( svg.path )
+        .resize( png.width, png.height )
+        .removeAlpha()
+        .toFile( png.path )
 
-// Run command
-await execa( pathToFfmpeg, ffmpegArgs )
+    // Build error video from error svg
+    // ffmpeg -r 1 -f image2 -s 1920x1080 -i error.svg -vcodec libx264 -crf 25  -pix_fmt yuv420p error.mp4
+    // https://hamelot.io/visualization/using-ffmpeg-to-convert-a-set-of-images-into-a-video/
+    const ffmpegArgs = [ 
+        '-r',
+        '1', 
+        '-f', 
+        'image2',
+        '-s', 
+        `${ mp4.width }x${ mp4.height }`,
+        '-i',
+        png.path, 
+        '-vcodec', 
+        'libx264', 
+        '-crf', 
+        '25', 
+        '-pix_fmt', 
+        'yuv420p',
+        mp4.path
+    ]
+
+    
+    console.log('Generating mp4 from png')
+    // Delete mp4 file if it exists
+    if ( fs.existsSync( mp4.path ) ) {
+        fs.unlinkSync( mp4.path )
+    }
+
+    // Generate mp4 from png
+    await execa( pathToFfmpeg, ffmpegArgs )
+
+    console.log('Error files generated successfully!')
+
+    process.exit()
+})()

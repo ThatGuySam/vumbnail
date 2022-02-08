@@ -22,6 +22,55 @@ export const optionSets = {
 
 const optionKeys = Object.keys(optionSets)
 
+
+
+function getProviderAndIdFromFilename ( filename ) {
+    // Assumptions
+
+    // Youtube ID = 11 alphanumeric characters
+    // https://stackoverflow.com/a/6250619/1397641
+
+
+    // Vimeo ID = 8+ digits
+    
+    // Goal is to be 99.9% accurate
+
+    // Stripe out extension
+    const extension = path.extname(filename)
+    const filenameWithoutExtension = filename.replace(extension, '')
+
+    // Check if the first 8 characters of the filename
+    // are digits. If so, assume it's a Vimeo ID
+    // since it's not very likely a Youtube ID will start
+    // with 8 digits. 
+    if ( /^\d{8,}$/.test(filenameWithoutExtension.substring(0, 8)) ) {
+
+        const [ videoId ] = filenameWithoutExtension.split('_')
+        return {
+            provider: 'vimeo',
+            videoId
+        }
+    }
+
+    // Twitch might go here since it can bu up to 25 characters
+    // https://stackoverflow.com/a/60724686/1397641
+
+
+    // Check if the first 11 characters of the filename
+    // are alphanumeric. If so, assume it's a Youtube ID.
+    if ( /^[A-Za-z0-9_\-]{11}$/.test(filenameWithoutExtension.substring(0, 11)) ) {
+            
+        const videoId = filenameWithoutExtension.substring(0, 11)
+        return {
+            provider: 'youtube',
+            videoId
+        }
+    }
+
+    throw new Error(`Could not determine provider and video ID from filename: ${filename}`)
+}
+
+
 export function parseOptionsFromPath ( thumbnailPath ) {
     let optionsFromPath = {}
 
@@ -38,8 +87,11 @@ export function parseOptionsFromPath ( thumbnailPath ) {
     // Get options from filename
     const optionsFromFilename = filenameWithoutExtension.split('_')
 
-    // TODO: Handle video IDs with underscores in them
-    const videoId = optionsFromFilename[0]
+    // Handle video IDs
+    const {
+        provider,
+        videoId,
+    } = getProviderAndIdFromFilename(filename)
 
     for ( const option of optionsFromFilename ) {
         if ( optionKeys.includes(option) ) {
@@ -56,6 +108,7 @@ export function parseOptionsFromPath ( thumbnailPath ) {
         videoId,
         extension,
         filename,
+        provider,
         ...optionsFromPath,
     }
 }

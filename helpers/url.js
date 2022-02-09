@@ -85,6 +85,8 @@ export function parseOptionsFromPath ( thumbnailPath ) {
     const extension = ext.substring(1)
 
     // Get options from filename
+    // Allowed url path characters (https://stackoverflow.com/a/4669755/1397641)
+    // A–Z, a–z, 0–9, -, ., _, ~, !, $, &, ', ), (, *, +, ,, ;, =, :, @
     const optionsFromFilename = filenameWithoutExtension.split('_')
 
     // Handle video IDs

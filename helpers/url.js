@@ -24,7 +24,7 @@ const optionKeys = Object.keys(optionSets)
 
 
 
-function getProviderAndIdFromFilename ( filename ) {
+function getProviderAndIdFromFilename ( filenameWithoutExtension ) {
     // Assumptions
     // Youtube ID = 11 alphanumeric characters
     // https://stackoverflow.com/a/6250619/1397641
@@ -32,15 +32,12 @@ function getProviderAndIdFromFilename ( filename ) {
     
     // Goal is to be 99.9% accurate
 
-    // Stripe out extension
-    const extension = path.extname(filename)
-    const filenameWithoutExtension = filename.replace(extension, '')
 
     // Check if the first 8 characters of the filename
     // are digits. If so, assume it's a Vimeo ID
     // since it's not very likely a Youtube ID will start
-    if ( /^\d{8,}$/.test(filenameWithoutExtension.substring(0, 8)) ) {
     // with 8 digits(but not impossible). 
+    if ( /^\d{8,}$/.test( filenameWithoutExtension.substring(0, 8) ) ) {
 
         const [ videoId ] = filenameWithoutExtension.split('_')
         return {
@@ -90,7 +87,7 @@ export function parseOptionsFromPath ( thumbnailPath ) {
     const {
         provider,
         videoId,
-    } = getProviderAndIdFromFilename(filename)
+    } = getProviderAndIdFromFilename( filenameWithoutExtension )
 
     for ( const option of optionsFromFilename ) {
         if ( optionKeys.includes(option) ) {

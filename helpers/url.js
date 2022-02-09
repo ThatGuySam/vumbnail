@@ -26,11 +26,8 @@ const optionKeys = Object.keys(optionSets)
 
 function getProviderAndIdFromFilename ( filename ) {
     // Assumptions
-
     // Youtube ID = 11 alphanumeric characters
     // https://stackoverflow.com/a/6250619/1397641
-
-
     // Vimeo ID = 8+ digits
     
     // Goal is to be 99.9% accurate
@@ -42,8 +39,8 @@ function getProviderAndIdFromFilename ( filename ) {
     // Check if the first 8 characters of the filename
     // are digits. If so, assume it's a Vimeo ID
     // since it's not very likely a Youtube ID will start
-    // with 8 digits. 
     if ( /^\d{8,}$/.test(filenameWithoutExtension.substring(0, 8)) ) {
+    // with 8 digits(but not impossible). 
 
         const [ videoId ] = filenameWithoutExtension.split('_')
         return {
@@ -52,7 +49,7 @@ function getProviderAndIdFromFilename ( filename ) {
         }
     }
 
-    // Twitch might go here since it can bu up to 25 characters
+    // Twitch might go here since it can be up to 25 characters
     // https://stackoverflow.com/a/60724686/1397641
 
 

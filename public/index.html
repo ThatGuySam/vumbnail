@@ -10,7 +10,7 @@
     <meta name="Description" content="A quick way to get Vimeo thumbnails by the video's ID">
 
     
-    <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
+    <link rel="preconnect" href="https://unpkg.com" crossorigin>
     <link rel="preconnect" href="https://www.googletagmanager.com" crossorigin>
     
     <!--   Tailwind   -->
@@ -263,63 +263,65 @@
     </script>
 
     <!--   Vue   -->
-    <script src="https://cdn.jsdelivr.net/npm/vue"></script>
+    <script src="https://unpkg.com/vue@3"></script>
     
     <!--   Clipboard   -->
-    <script src="https://cdn.jsdelivr.net/npm/clipboard@2/dist/clipboard.min.js"></script>
+    <script src="https://unpkg.com/clipboard@2.0.10/dist/clipboard.min.js"></script>
     
     
     <!--   Main   -->
     <script type="text/javascript">
 
-        var app = new Vue({
-            el: '#app',
-            data: {
-                vimeoId: '358629078',
-                exampleVideos: [
-                    {
-                        label: 'Dad Life',
-                        id: '12714406'
-                    },
-                    {
-                        label: 'City Limits',
-                        id: '23237102'
-                    },
-                    {
-                        label: 'Girl Walk',
-                        id: '32845443'
-                    }
-                ],
-                items: [
-                    {
-                        heading: 'JPG Example',
-                        id: 'regular-image',
-                        imageSrcTemplate: `/{vimeoId}.jpg`,
-                        imageAlt: 'Regular Thumbnail Example',
-                        width: 640
-                    },
-                    {
-                        heading: 'JPG Large Example',
-                        id: 'large-image',
-                        imageSrcTemplate: `/{vimeoId}_large.jpg`,
-                        imageAlt: 'Large Thumbnail Example',
-                        width: 640
-                    },
-                    {
-                        heading: 'JPG Medium Example',
-                        id: 'medium-image',
-                        imageSrcTemplate: `/{vimeoId}_medium.jpg`,
-                        imageAlt: 'Medium Thumbnail Example',
-                        width: 200
-                    },
-                    {
-                        heading: 'JPG Small Example',
-                        id: 'small-image',
-                        imageSrcTemplate: `/{vimeoId}_small.jpg`,
-                        imageAlt: 'Small Thumbnail Example',
-                        width: 100
-                    }
-                ]
+        const appData = {
+            // el: '#app',
+            data () {
+                return {
+                    vimeoId: '358629078',
+                    exampleVideos: [
+                        {
+                            label: 'Dad Life',
+                            id: '12714406'
+                        },
+                        {
+                            label: 'City Limits',
+                            id: '23237102'
+                        },
+                        {
+                            label: 'Girl Walk',
+                            id: '32845443'
+                        }
+                    ],
+                    items: [
+                        {
+                            heading: 'JPG Example',
+                            id: 'regular-image',
+                            imageSrcTemplate: `/{vimeoId}.jpg`,
+                            imageAlt: 'Regular Thumbnail Example',
+                            width: 640
+                        },
+                        {
+                            heading: 'JPG Large Example',
+                            id: 'large-image',
+                            imageSrcTemplate: `/{vimeoId}_large.jpg`,
+                            imageAlt: 'Large Thumbnail Example',
+                            width: 640
+                        },
+                        {
+                            heading: 'JPG Medium Example',
+                            id: 'medium-image',
+                            imageSrcTemplate: `/{vimeoId}_medium.jpg`,
+                            imageAlt: 'Medium Thumbnail Example',
+                            width: 200
+                        },
+                        {
+                            heading: 'JPG Small Example',
+                            id: 'small-image',
+                            imageSrcTemplate: `/{vimeoId}_small.jpg`,
+                            imageAlt: 'Small Thumbnail Example',
+                            width: 100
+                        }
+                    ]
+                }
             },
             computed: {
                 domain () {
@@ -387,7 +389,11 @@
                 // This may break on the next render
                 new ClipboardJS('.copy')
             }
-        });
+        };
+
+        const app = Vue.createApp(appData).mount('#app')
+        
+        //new Vue(appData);
     
     </script>
     

@@ -49,6 +49,39 @@ function reduceFormats ( youtubeDlInfo ) {
 }
 
 
+function findFormat ( options = {} ) {
+    const {
+      extension,
+      protocol = 'https',
+      targetFormat = 'worstvideo',
+      formats
+    } = options
+
+    let foundFormat = null
+    let smallestSize = Infinity
+
+    for ( const format of formats ) {
+
+        // Skip different extensions
+        if ( format.ext !== extension ) {
+            continue
+        }
+
+        // Skip different protocols
+        if ( format.protocol !== protocol ) {
+            continue
+        }
+
+        if ( format.width < smallestSize ) {
+            smallestSize = format.width
+            foundFormat = format
+        }
+    }
+
+    return foundFormat
+}
+
+
 export async function getFfmpegUrl ( options = {} ) {
     // https://github.com/Zod-/jsVideoUrlParser#readme
     const { provider } = urlParser.parse(options.videoUrl)
@@ -76,8 +109,27 @@ export async function getFfmpegUrl ( options = {} ) {
             console.warn(`Error fetching video ${videoUrl}`, error)
         })
 
-    // console.log('youtubeDlInfo', youtubeDlInfo)
+    // const formats = youtubeDlInfo.formats.map( format => {
+    //   delete format.url
+    //   delete format.fragments
+    //   delete format.manifest_url
+    //   delete format.http_headers
+
+
+    //   return format
+    // })
+
+    // console.log('formats', formats)
+
+    const foundFormat = findFormat({
+        extension,
+        formats: youtubeDlInfo.formats,
+    })
+
+    // console.log('foundFormat', foundFormat)
     // console.log('url', youtubeDlInfo.url)
 
-    return youtubeDlInfo.url
+    // process.exit()
+
+    return foundFormat.url
 }

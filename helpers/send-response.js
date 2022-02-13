@@ -4,15 +4,26 @@ import { vercelUrl } from './url.js'
 
 
 const ONE_HOUR = 60 * 60
+const ONE_DAY = ONE_HOUR * 24
+const ONE_WEEK = ONE_DAY * 7
+const ONE_MONTH = ONE_DAY * 30
+const ONE_YEAR = ONE_DAY * 365
 
 // We want to keep error caching time low
 // so we get the newest data from the API
+// max-age === Browser Cache
+// s-maxage === Cloudflare Cache
 // Cache Control Header Examples - https://developers.cloudflare.com/cache/about/cache-control#examples
 export const errorCacheHeaders = {
     'Cache-Control': `public, max-age=0, s-maxage=${ ONE_HOUR }`,
-    'Pragma': 'no-cache',
-    'Expires': '0'
 }
+
+
+
+export const successCacheHeaders = {
+    'Cache-Control': `public, max-age=${ ONE_DAY }, s-maxage=${ ONE_YEAR }`,
+}
+
 
 
 export const svgTemplate = () => `
@@ -115,6 +126,34 @@ export async function sendErrorResponseMedia(options = {}) {
     })
     
     thumbResponse.data.pipe(res)
+
+    // Stop function
+    return
+}
+
+
+
+
+export async function sendSuccessResponseMedia(options = {}) {
+    const {
+        // req,
+        res,
+        extension,
+        videoFileStream
+    } = options
+
+    const headers = {
+        ...successCacheHeaders,
+        'Content-Disposition': `inline; filename="video.${ extension }"`,
+        'Content-Type': `video/${ extension }`
+    }
+
+    // Set Headers
+    for ( const [key, value] of Object.entries( headers ) ) {
+        res.setHeader(key, value)
+    }
+
+    videoFileStream.pipe(res)
 
     // Stop function
     return

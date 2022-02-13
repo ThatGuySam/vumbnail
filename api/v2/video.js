@@ -11,7 +11,7 @@ import axios from 'axios'
 
 
 import { parseOptionsFromPath } from '../../helpers/url.js'
-import { getClipFromVideoUrl } from '../../helpers/get-clip-from-video-url.js'
+import { getClipFromVideoId } from '../../helpers/get-clip-from-video-url.js'
 import { sendErrorResponseMedia } from '../../helpers/send-response.js'
 
 
@@ -68,7 +68,7 @@ export default async function (req, res) {
             console.log('Is mp4')
     
             // videoUrl: `https://vimeo.com/${ options.videoId }`,
-            const videoUrl = `https://www.youtube.com/watch?v=${ options.videoId }`
+            // const videoId = `https://www.youtube.com/watch?v=${ options.videoId }`
     
             res.contentType = `video/${ options.extension }`
     
@@ -79,8 +79,9 @@ export default async function (req, res) {
                 // contentDisposition(`${info.title}.${audioOnly ? "mp3" : "mp4"}`)
             )
     
-            await getClipFromVideoUrl( videoUrl, {
-                res
+            await getClipFromVideoId( options.videoId, {
+                provider: options.provider, 
+                res,
             })
     
             return

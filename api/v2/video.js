@@ -57,7 +57,7 @@ async function defaultHandler ({
 
 export default async function (req, res) {
 
-    // Check for error option here
+    // Check for display error option here
     const enableErrorMediaResponse = !req.url.includes('disable-error-media')
 
     const options = parseOptionsFromPath( req.url )

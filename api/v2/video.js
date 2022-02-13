@@ -70,15 +70,6 @@ export default async function (req, res) {
             // videoUrl: `https://vimeo.com/${ options.videoId }`,
             // const videoId = `https://www.youtube.com/watch?v=${ options.videoId }`
     
-            res.contentType = `video/${ options.extension }`
-    
-            // https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Content-Disposition#syntax
-            res.setHeader(
-                'Content-Disposition',
-                'inline'
-                // contentDisposition(`${info.title}.${audioOnly ? "mp3" : "mp4"}`)
-            )
-    
             await getClipFromVideoId( options.videoId, {
                 provider: options.provider, 
                 res,

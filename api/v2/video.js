@@ -55,13 +55,14 @@ async function defaultHandler ({
 export default async function (req, res) {
 
     // Check for error option here
-    
+
+    let options
 
     try {
 
         console.log('url', req.url)
 
-        const options = parseOptionsFromPath(req.url)
+        options = parseOptionsFromPath(req.url)
 
         if ( options.extension === 'mp4' ) {
             console.log('Is mp4')

@@ -94,19 +94,11 @@ async function imageHandler ( options = {} ) {
 
     const thumbnailUrl = await getThumbnailUrl( options )
 
-    console.log('thumbnailUrl', thumbnailUrl)
+    // console.log('thumbnailUrl', thumbnailUrl)
 
     const thumbResponse = await axios.get( thumbnailUrl, {
         responseType: 'stream'
     })
-    
-    // Set a header for jpg
-    // res.setHeader('Content-Type', 'image/jpeg')
-
-    // console.log('Streamed image', key)    
-    // thumbResponse.data.pipe(res)
-    
-    // microRedirect(res, tempRedirectCode, videoData[key])
 
     // Pipe ffmpeg output to response
     await sendSuccessResponseMedia({

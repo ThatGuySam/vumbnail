@@ -103,8 +103,17 @@ export async function getFfmpegUrl ( options = {} ) {
 
     // console.log('ytdlUrl', ytdlUrl)
 
+    const requestOptions = {
+        // query URL without using browser cache
+        headers: {
+            'Cache-Control': 'no-cache',
+            'Pragma': 'no-cache',
+            'Expires': '0',
+        },
+    }
+
     // Get the video data
-    const { data: youtubeDlInfo } = await axios.get( ytdlUrl.href )
+    const { data: youtubeDlInfo } = await axios.get( ytdlUrl.href, requestOptions )
         .catch(error => {
             console.warn(`Error fetching video ${videoUrl}`, error)
         })

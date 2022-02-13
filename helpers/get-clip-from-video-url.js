@@ -91,7 +91,7 @@ export async function getClipFromVideoUrl ( videoUrl, options = {} ) {
 
         // Set format
         '-f',
-            'mp4',
+            extension,
         '-'
     ]
 

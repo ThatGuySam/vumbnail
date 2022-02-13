@@ -60,40 +60,46 @@ export async function getClipFromVideoUrl ( videoUrl, options = {} ) {
     // Only download 5 seconds
     // https://unix.stackexchange.com/a/282413/255649
     // `ffmpeg -ss 00:00:15.00 -i "URL" -t 00:00:05.00 -c copy ./file.mp4`
-    const ffmpegArgs = [ '-ss', '00:00:15.00', '-i', ffpemgUrl, '-t', '00:00:05.00' ]
+    // https://ffmpeg.org/ffmpeg.html
+    const ffmpegArgs = [ 
 
-    ffmpegArgs.push(
-        "-c:v",
-        "libx264",
-        "-acodec",
-        "aac",
-        "-movflags",
-        "frag_keyframe+empty_moov",
-        "-f",
-        "mp4"
-    )
+        // Set read to start at 15 seconds
+        '-ss', 
+            '00:00:15.00', 
 
-    ffmpegArgs.push('-')
+        // Set input
+        '-i', 
+            ffpemgUrl, 
+
+        // Filter out audio
+        '-an',
+
+        // Set read duration to 5 seconds
+        '-t', 
+            '00:00:05.00',
+
+        // Video Codec
+        '-codec:v',
+            'libx264',
+
+        // Audio Codec
+        // '-acodec',
+            // 'aac',
+
+        '-movflags',
+        'frag_keyframe+empty_moov',
+
+        // Set format
+        '-f',
+            extension,
+        '-'
+    ]
 
     // Run command
     const ffmpegProcess = execa( pathToFfmpeg, ffmpegArgs )
 
-    if ( res ) {
-        // Pipe ffmpeg output to response
-        await sendSuccessResponseMedia({
-            res,
-            extension,
-            videoFileStream: ffmpegProcess.stdout
-        })
-
-        // ffmpegProcess.stdout.pipe(res)
-
-        // Wait for ffmpeg to finish
-        await ffmpegProcess
-    }
-
     return {
-        pipe: ffmpegProcess.stdout.pipe,
-        process: ffmpegProcess
+        fileStream: ffmpegProcess.stdout,
+        videoProcess: ffmpegProcess
     }
 }

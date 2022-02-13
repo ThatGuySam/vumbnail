@@ -9,8 +9,9 @@ const pathExamples = [
         expected: {
             videoId: '358629078',
             provider: 'vimeo',
-            filename: '358629078',
             extension: '',
+            filename: '358629078',
+            filenameWithoutExtension: '358629078',
         }
     },
     {
@@ -20,7 +21,8 @@ const pathExamples = [
             provider: 'vimeo',
             size: 'medium',
             extension: 'mp4',
-            filename: '358629078_medium.mp4'
+            filename: '358629078_medium.mp4',
+            filenameWithoutExtension: '358629078_medium',
         }
     },
     {
@@ -29,7 +31,8 @@ const pathExamples = [
             videoId: '5e7QWV9LB_c',
             provider: 'youtube',
             extension: 'mp4',
-            filename: '5e7QWV9LB_c.mp4'
+            filename: '5e7QWV9LB_c.mp4',
+            filenameWithoutExtension: '5e7QWV9LB_c',
         }
     },
     {
@@ -38,7 +41,8 @@ const pathExamples = [
             videoId: 'V-66rBGAGns',
             provider: 'youtube',
             extension: 'webm',
-            filename: 'V-66rBGAGns.webm'
+            filename: 'V-66rBGAGns.webm',
+            filenameWithoutExtension: 'V-66rBGAGns',
         }
     }
 ]

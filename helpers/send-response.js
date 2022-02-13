@@ -47,30 +47,39 @@ export const svgTemplate = () => `
 const defaultWidth = 640
 const defaultHeight = 360
 
+const mimeTypes = {
+    'mp4': 'video/mp4',
+    'webm': 'video/webm',
+    'jpg': 'image/jpeg',
+    'png': 'image/png',
+    'svg': 'image/svg+xml',
+    // 'gif': 'image/gif',
+}
+
 export const errorMedia = {
     svg: {
         path: './public/media/error.svg',
         width: defaultWidth,
         height: defaultHeight,
-        mimeType: 'image/svg+xml',
+        mimeType: mimeTypes.svg,
     },
     png: {
         path: './public/media/error.png',
         width: defaultWidth,
         height: defaultHeight,
-        mimeType: 'image/png',
+        mimeType: mimeTypes.png,
     },
     jpg: {
         path: './public/media/error.png',
         width: defaultWidth,
         height: defaultHeight,
-        mimeType: 'image/png',
+        mimeType: mimeTypes.jpg,
     },
     mp4: {
         path: './public/media/error.mp4',
         width: defaultWidth,
         height: defaultHeight,
-        mimeType: 'video/mp4',
+        mimeType: mimeTypes.mp4,
     }
     // TODO: Webm
 }
@@ -137,20 +146,20 @@ export async function sendErrorResponseMedia(options = {}) {
 }
 
 
-
-
 export async function sendSuccessResponseMedia(options = {}) {
     const {
         // req,
         res,
         extension,
-        videoFileStream
+        fileStream
     } = options
+
+    const mimeType = mimeTypes[extension]
 
     const headers = {
         ...successCacheHeaders,
-        'Content-Disposition': `inline; filename="video.${ extension }"`,
-        'Content-Type': `video/${ extension }`
+        'Content-Disposition': `inline; filename="media.${ extension }"`,
+        'Content-Type': mimeType
     }
 
     // Set Headers
@@ -158,7 +167,7 @@ export async function sendSuccessResponseMedia(options = {}) {
         res.setHeader(key, value)
     }
 
-    videoFileStream.pipe(res)
+    fileStream.pipe(res)
 
     // Stop function
     return

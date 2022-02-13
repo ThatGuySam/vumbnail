@@ -98,22 +98,8 @@ export async function getClipFromVideoUrl ( videoUrl, options = {} ) {
     // Run command
     const ffmpegProcess = execa( pathToFfmpeg, ffmpegArgs )
 
-    // if ( res ) {
-    //     // Pipe ffmpeg output to response
-    //     await sendSuccessResponseMedia({
-    //         res,
-    //         extension,
-    //         videoFileStream: ffmpegProcess.stdout
-    //     })
-
-    //     // ffmpegProcess.stdout.pipe(res)
-
-    //     // Wait for ffmpeg to finish
-    //     await ffmpegProcess
-    // }
-
     return {
-        videoFileStream: ffmpegProcess.stdout,
+        fileStream: ffmpegProcess.stdout,
         videoProcess: ffmpegProcess
     }
 }

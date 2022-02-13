@@ -8,7 +8,7 @@
 import 'dotenv/config'
 // URL utility
 import axios from 'axios'
-
+import has from 'just-has'
 
 import { parseOptionsFromPath } from '../../helpers/url.js'
 import { getClipFromVideoId } from '../../helpers/get-clip-from-video-url.js'
@@ -16,6 +16,7 @@ import {
     sendErrorResponseMedia,
     sendSuccessResponseMedia
 } from '../../helpers/send-response.js'
+import { getThumbnailUrl } from '../../helpers/get-thumbnail-url.js'
 
 
 // const ffmpeg = createFFmpeg({ log: true });
@@ -55,6 +56,69 @@ async function defaultHandler ({
 }
 
 
+async function videoHandler ( options = {} ) {
+
+    const {
+        req,
+        res,
+    } = options
+
+    const {
+        fileStream,
+        videoProcess
+    } = await getClipFromVideoId( options.videoId, {
+        provider: options.provider, 
+        res,
+    })
+
+    // Pipe ffmpeg output to response
+    await sendSuccessResponseMedia({
+        res,
+        extension: options.extension,
+        fileStream//: ffmpegProcess.stdout
+    })
+
+    // Wait for ffmpeg to finish
+    await videoProcess
+
+    return
+}
+
+async function imageHandler ( options = {} ) {
+
+    const {
+        req,
+        res,
+    } = options
+
+
+    const thumbnailUrl = await getThumbnailUrl( options )
+
+    console.log('thumbnailUrl', thumbnailUrl)
+
+    const thumbResponse = await axios.get( thumbnailUrl, {
+        responseType: 'stream'
+    })
+    
+    // Set a header for jpg
+    // res.setHeader('Content-Type', 'image/jpeg')
+
+    // console.log('Streamed image', key)    
+    // thumbResponse.data.pipe(res)
+    
+    // microRedirect(res, tempRedirectCode, videoData[key])
+
+    // Pipe ffmpeg output to response
+    await sendSuccessResponseMedia({
+        res,
+        extension: options.extension,
+        fileStream: thumbResponse.data
+    })
+
+    return
+}
+
+
 export default async function (req, res) {
 
     // Check for display error option here
@@ -64,39 +128,36 @@ export default async function (req, res) {
 
     try {
 
-        console.log('url', req.url)
+        // console.log('url', req.url)
 
         // Check that options is an object
         if ( Object( options ) !== options ) {
             throw new Error('Invalid options')
         }
 
-        if ( options.extension === 'mp4' ) {
-            console.log('Is mp4')
-    
-            // videoUrl: `https://vimeo.com/${ options.videoId }`,
-            // const videoId = `https://www.youtube.com/watch?v=${ options.videoId }`
+        const handlers = {
+            'mp4': videoHandler,
+            'jpg': imageHandler,
+            'jpeg': imageHandler,
+            'png': imageHandler,
+        }
 
-            const {
-                videoFileStream,
-                videoProcess
-            } = await getClipFromVideoId( options.videoId, {
-                provider: options.provider, 
+        if ( has( handlers, options.extension ) ) {
+            
+            const handler = handlers[ options.extension ]
+
+            await handler( {
+                ...options,
+                req,
                 res,
-            })
-
-            // Pipe ffmpeg output to response
-            await sendSuccessResponseMedia({
-                res,
-                extension: options.extension,
-                videoFileStream//: ffmpegProcess.stdout
-            })
-
-            // Wait for ffmpeg to finish
-            await videoProcess
+            } )
         
             return
         }
+
+
+        // Default handler
+        // await defaultHandler( options )
     
         // res.json(options)
 

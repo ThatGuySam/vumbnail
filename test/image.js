@@ -18,16 +18,16 @@ test(`Can get Youtube Thumbnail URL`, async t => {
 })
 
 
-// test(`Can get Vimeo Thumbnail URL`, async t => {
+test(`Can get Vimeo Thumbnail URL`, async t => {
 
-//     const imageUrl = await getThumbnailUrl({
-//         videoId: '376454747',
-//         provider: 'vimeo',
-//         extension: 'jpg'
-//     })
+    const imageUrl = await getThumbnailUrl({
+        videoId: '376454747',
+        provider: 'vimeo',
+        extension: 'jpg'
+    })
 
-//     t.assert( imageUrl.includes('https://i.vimeocdn.com/video/') )
-// })
+    t.assert( imageUrl.includes('https://i.vimeocdn.com/video/') )
+})
 
 // test(`Can get Twitch URL`, async t => {
 

@@ -6,6 +6,38 @@ import { execa } from 'execa'
 import { getFfmpegUrl } from './get-ffmpeg-url.js'
 
 
+
+
+
+
+function makeVideoUrlFromId ( videoId, provider ) {
+
+    if ( provider === 'youtube' ) {
+        return `https://${ provider }.com/watch?v=${ videoId }`
+    }
+
+    if ( provider === 'vimeo' ) {
+        return `https://${ provider }.com/${ videoId }`
+    }
+
+
+    throw new Error(`Unknown url provider ${ provider }`)
+}
+
+
+export async function getClipFromVideoId ( videoId, options = {} ) {
+    const {
+        provider
+    } = options
+
+    const videoUrl = makeVideoUrlFromId( videoId, provider )
+
+    console.log('videoUrl', videoUrl)
+
+    return await getClipFromVideoUrl( videoUrl, options )
+}
+
+
 export async function getClipFromVideoUrl ( videoUrl, options = {} ) {
 
     const {

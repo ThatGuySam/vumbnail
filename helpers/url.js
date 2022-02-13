@@ -65,46 +65,104 @@ function getProviderAndIdFromFilename ( filenameWithoutExtension ) {
 }
 
 
+const pathOptionParsers = {
+    'extension': thumbnailPath => {
+        const { ext } = path.parse( thumbnailPath )
+
+        // console.log('ext', ext)
+
+        // Trim dot from extension
+        const extension = ext.substring(1)
+
+        return extension
+    },
+
+    'filename': thumbnailPath => {
+        const { base } = path.parse( thumbnailPath )
+
+        return base
+    },
+
+    'filenameWithoutExtension': thumbnailPath => {
+        const { name } = path.parse( thumbnailPath )
+
+        return name
+    },
+
+    'provider': thumbnailPath => {
+        const { 
+            name: filenameWithoutExtension
+        } = path.parse( thumbnailPath )
+
+        // Handle provides
+        const {
+            provider,
+        } = getProviderAndIdFromFilename( filenameWithoutExtension )
+
+        return provider
+    },
+
+    'videoId': thumbnailPath => {
+        const { 
+            name: filenameWithoutExtension
+        } = path.parse( thumbnailPath )
+
+        // Handle video IDs
+        const {
+            videoId,
+        } = getProviderAndIdFromFilename( filenameWithoutExtension )
+
+        return videoId
+    }
+
+}
+
+
 export function parseOptionsFromPath ( thumbnailPath ) {
     let optionsFromPath = {}
 
-    // https://stackoverflow.com/a/31615711/1397641
-    const {
-        name: filenameWithoutExtension,
-        ext,
-        base: filename,
-    } = path.parse( thumbnailPath )
 
-    // Trim dot from extension
-    const extension = ext.substring(1)
+    // Run through parsers and pull out options
+    for ( const optionKey in pathOptionParsers ) {
+        const optionParser = pathOptionParsers[optionKey]
 
-    // Get options from filename
-    // Allowed url path characters (https://stackoverflow.com/a/4669755/1397641)
-    // A–Z, a–z, 0–9, -, ., _, ~, !, $, &, ', ), (, *, +, ,, ;, =, :, @
-    const optionsFromFilename = filenameWithoutExtension.split('_')
+        // console.log(`Parsing option ${optionKey} from path: ${thumbnailPath}`)
 
-    // Handle video IDs
-    const {
-        provider,
-        videoId,
-    } = getProviderAndIdFromFilename( filenameWithoutExtension )
+        try {
+            const optionValue = optionParser(thumbnailPath)
 
-    for ( const option of optionsFromFilename ) {
-        if ( optionKeys.includes(option) ) {
-            optionsFromPath = {
-                ...optionsFromPath,
-                ...optionSets[option]
+            optionsFromPath[optionKey] = optionValue
+        } catch ( error ) {
+            // console.log(`Could not parsse "${optionKey}" from path: ${thumbnailPath}`)
+            // console.log(error)
+        }
+    }
+    
+
+    try {
+
+        const { 
+            name: filenameWithoutExtension
+        } = path.parse( thumbnailPath )
+        
+        // Get options from filename
+        // Allowed url path characters (https://stackoverflow.com/a/4669755/1397641)
+        // A–Z, a–z, 0–9, -, ., _, ~, !, $, &, ', ), (, *, +, ,, ;, =, :, @
+        const optionsFromFilename = filenameWithoutExtension.split('_')
+
+        for ( const option of optionsFromFilename ) {
+            if ( optionKeys.includes(option) ) {
+                optionsFromPath = {
+                    ...optionsFromPath,
+                    ...optionSets[option]
+                }
             }
         }
+    } catch ( error ) {
+        console.log(`Could not parse options from filename: ${thumbnailPath}`)
     }
 
     // console.log('optionsFromFilename', optionsFromFilename)
 
-    return {
-        videoId,
-        extension,
-        filename,
-        provider,
-        ...optionsFromPath,
-    }
+    return optionsFromPath
 }

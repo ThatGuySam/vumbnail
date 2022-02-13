@@ -58,14 +58,18 @@ async function defaultHandler ({
 export default async function (req, res) {
 
     // Check for error option here
+    const enableErrorMediaResponse = !req.url.includes('disable-error-media')
 
-    let options
+    const options = parseOptionsFromPath( req.url )
 
     try {
 
         console.log('url', req.url)
 
-        const options = parseOptionsFromPath(req.url)
+        // Check that options is an object
+        if ( Object( options ) !== options ) {
+            throw new Error('Invalid options')
+        }
 
         if ( options.extension === 'mp4' ) {
             console.log('Is mp4')
@@ -99,11 +103,22 @@ export default async function (req, res) {
         throw new Error('Not implemented')
 
     } catch ( error ) {
+
+        if ( enableErrorMediaResponse === false ) {
+            // throw 
+
+            res.statusCode = 500
+            
+            res.send('Error')
+
+            return
+        }
+
         await sendErrorResponseMedia({
             req,
             res,
             error,
-            type: options.extension || 'unknown'
+            type: options?.extension || 'unknown'
         })
     }
 }

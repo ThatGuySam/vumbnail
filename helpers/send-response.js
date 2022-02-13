@@ -93,9 +93,12 @@ export async function sendErrorResponseMedia(options = {}) {
     const {
         // req,
         res,
+        responseType = 'stream',
         type,
         error,
     } = options
+
+    // console.log('type', type)
 
     const {
         url,
@@ -104,6 +107,8 @@ export async function sendErrorResponseMedia(options = {}) {
 
 
     console.log('Streaming media error: ', type, error)
+
+    // res.statusCode = 200
 
     // Set Content-Type header
     res.contentType = mimeType
@@ -122,7 +127,7 @@ export async function sendErrorResponseMedia(options = {}) {
     )
 
     const thumbResponse = await axios.get( url, {
-        responseType: 'stream'
+        responseType
     })
     
     thumbResponse.data.pipe(res)

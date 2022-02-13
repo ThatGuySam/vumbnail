@@ -6,7 +6,7 @@
   "main": "subreddit.js",
   "scripts": {
     "test": "ava",
-    "build": "node ./build.js",
+    "build": "npm run test && node ./build.js",
     "vercel-dev": "vercel dev"
   },
   "repository": {

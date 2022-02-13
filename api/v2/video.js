@@ -12,7 +12,10 @@ import axios from 'axios'
 
 import { parseOptionsFromPath } from '../../helpers/url.js'
 import { getClipFromVideoId } from '../../helpers/get-clip-from-video-url.js'
-import { sendErrorResponseMedia } from '../../helpers/send-response.js'
+import { 
+    sendErrorResponseMedia,
+    sendSuccessResponseMedia
+} from '../../helpers/send-response.js'
 
 
 // const ffmpeg = createFFmpeg({ log: true });
@@ -62,34 +65,45 @@ export default async function (req, res) {
 
         console.log('url', req.url)
 
-        options = parseOptionsFromPath(req.url)
+        const options = parseOptionsFromPath(req.url)
 
         if ( options.extension === 'mp4' ) {
             console.log('Is mp4')
     
             // videoUrl: `https://vimeo.com/${ options.videoId }`,
             // const videoId = `https://www.youtube.com/watch?v=${ options.videoId }`
-    
-            await getClipFromVideoId( options.videoId, {
+
+            const {
+                videoFileStream,
+                videoProcess
+            } = await getClipFromVideoId( options.videoId, {
                 provider: options.provider, 
                 res,
             })
-    
+
+            // Pipe ffmpeg output to response
+            await sendSuccessResponseMedia({
+                res,
+                extension: options.extension,
+                videoFileStream//: ffmpegProcess.stdout
+            })
+
+            // Wait for ffmpeg to finish
+            await videoProcess
+        
             return
         }
     
         // res.json(options)
 
         throw new Error('Not implemented')
-    
-        return
 
     } catch ( error ) {
         await sendErrorResponseMedia({
             req,
             res,
             error,
-            type: options.extension
+            type: options.extension || 'unknown'
         })
     }
 }

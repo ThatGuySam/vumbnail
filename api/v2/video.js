@@ -54,15 +54,14 @@ async function defaultHandler ({
 
 export default async function (req, res) {
 
-    // await ffmpeg.load()
-
-    console.log('url', req.url)
-
-    const options = parseOptionsFromPath(req.url)
-
-    // console.log('parseOptionsFromPath', options)
+    // Check for error option here
+    
 
     try {
+
+        console.log('url', req.url)
+
+        const options = parseOptionsFromPath(req.url)
 
         if ( options.extension === 'mp4' ) {
             console.log('Is mp4')

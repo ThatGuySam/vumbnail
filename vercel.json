@@ -32,10 +32,12 @@
 
         {
 			"src": "/api/info",
+            "headers": { "cache-control": "no-cache" },
 			"dest": "api/v2/ytdl.py"
 		},
 		{
 			"src": "/api/version",
+            "headers": { "cache-control": "no-cache" },
 			"dest": "api/v2/ytdl.py"
 		},
         

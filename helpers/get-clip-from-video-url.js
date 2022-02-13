@@ -4,7 +4,7 @@ import { execa } from 'execa'
 
 
 import { getFfmpegUrl } from './get-ffmpeg-url.js'
-
+import { sendSuccessResponseMedia } from './send-response.js'
 
 
 
@@ -32,7 +32,7 @@ export async function getClipFromVideoId ( videoId, options = {} ) {
 
     const videoUrl = makeVideoUrlFromId( videoId, provider )
 
-    console.log('videoUrl', videoUrl)
+    // console.log('videoUrl', videoUrl)
 
     return await getClipFromVideoUrl( videoUrl, options )
 }
@@ -80,7 +80,13 @@ export async function getClipFromVideoUrl ( videoUrl, options = {} ) {
 
     if ( res ) {
         // Pipe ffmpeg output to response
-        ffmpegProcess.stdout.pipe(res)
+        await sendSuccessResponseMedia({
+            res,
+            extension,
+            videoFileStream: ffmpegProcess.stdout
+        })
+
+        // ffmpegProcess.stdout.pipe(res)
 
         // Wait for ffmpeg to finish
         await ffmpegProcess

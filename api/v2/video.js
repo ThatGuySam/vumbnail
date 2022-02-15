@@ -16,7 +16,7 @@ import {
     sendErrorResponseMedia,
     sendSuccessResponseMedia
 } from '../../helpers/send-response.js'
-import { getThumbnailUrl } from '../../helpers/get-thumbnail-url.js'
+import { getOutputImage } from '../../helpers/get-thumbnail-url.js'
 
 
 // const ffmpeg = createFFmpeg({ log: true });
@@ -92,7 +92,12 @@ async function imageHandler ( options = {} ) {
     } = options
 
 
-    const thumbnailUrl = await getThumbnailUrl( options )
+    // console.log('Options at imageHandler', Object.keys(options))
+
+
+    const { 
+        url: thumbnailUrl
+    } = await getOutputImage( options )
 
     // console.log('thumbnailUrl', thumbnailUrl)
 

@@ -1,4 +1,5 @@
 import axios from 'axios'
+import has from 'just-has'
 
 
 const providerDefaultOptions = {
@@ -15,6 +16,14 @@ const providerDefaultOptions = {
 
 // https://stackoverflow.com/a/20542029/1397641
 const youtubeThumbnailSizes = {
+
+    // Default size
+    'mqdefault': {
+        width: 320,
+        height: 180,
+        pathOptionName: true,
+    },
+
     'default': {
         width: 120,
         height: 90,
@@ -24,12 +33,6 @@ const youtubeThumbnailSizes = {
     'hqdefault': {
         width: 480,
         height: 360,
-        pathOptionName: true,
-    },
-
-    'mqdefault': {
-        width: 320,
-        height: 180,
         pathOptionName: true,
     },
 
@@ -100,10 +103,12 @@ const youtubeThumbnailSizes = {
 }
 
 const vimeoThumbnailSizes = {
-    'thumbnail_small': {
-        width: 100,
-        height: 75,
-        pathOptionName: 'small',
+
+    // Default size
+    'thumbnail_large': {
+        width: 640,
+        height: 360,
+        pathOptionName: 'large',
     },
 
     'thumbnail_medium': {
@@ -112,14 +117,15 @@ const vimeoThumbnailSizes = {
         pathOptionName: 'medium',
     },
 
-    'thumbnail_large': {
-        width: 640,
-        height: 360,
-        pathOptionName: 'large',
+    'thumbnail_small': {
+        width: 100,
+        height: 75,
+        pathOptionName: 'small',
     },
+
 }
 
-const allSizes = {
+export const allSizes = {
     ...youtubeThumbnailSizes,
     ...vimeoThumbnailSizes
 }
@@ -127,27 +133,33 @@ const allSizes = {
 
 
 
-
-
-export async function getThumbnailUrl ( options = {} ) {
-
-    // Get options for provider
-    const defaultOptions = providerDefaultOptions[ options.provider ]
+export async function getInputImageDetails ( options = {} ) {
 
     const {
-        videoId,
-        extension = 'jpg',
-        provider,
-        quality = null
-    } = {
-        ...defaultOptions,
-        ...options
-    }
+        videoId, 
+        provider, 
+        targetSizeKey, 
+        targetExtension = 'jpg',
+    } = options
+    
+    
+    let inputUrl
+    let size
+    let extension
 
     // Get thumbnail url
     if ( provider === 'vimeo' ) {
+        // Get size details
+
         const videoJsonUrl = `https://vimeo.com/api/v2/video/${ videoId }.json`
-        const vimeoQuality = quality || 'thumbnail_large'
+        size = allSizes[ targetSizeKey ]
+
+        // console.log('options', options)
+
+        // Check that size is valid
+        if ( !size ) {
+            throw new Error(`Invalid size: ${ targetSizeKey }`)
+        }
 
         // Fetch thumbnail url from vimeo
         const {
@@ -161,25 +173,74 @@ export async function getThumbnailUrl ( options = {} ) {
 
         const smallThumbnail = videoInfo.thumbnail_small
 
-        const sizeDetails = allSizes[ vimeoQuality ]
+        // console.log( 'size', targetSizeKey, size, options )
 
-        const thumbnailUrl = smallThumbnail.replace('100x75', `${ sizeDetails.width }x${ sizeDetails.height }`)
-
-        return thumbnailUrl
+        // Vimeo can convert to any size
+        // by just updating the url
+        inputUrl = smallThumbnail.replace('100x75', `${ size.width }x${ size.height }`)
+        extension = 'jpg'
     }
 
+
     if ( provider === 'youtube' ) {
-        const youtubeQuality = quality || 'mqdefault'
+        const youtubeSizeKey = has( youtubeThumbnailSizes, [ targetSizeKey ]) ? targetSizeKey : 'mqdefault'
+        size = youtubeThumbnailSizes[ youtubeSizeKey ]
 
         // Webp url
         // `https://i.ytimg.com/vi_webp/${videoId}/mqdefault.${extension}`
+        // extension = 'webm'
 
-        return `https://i.ytimg.com/vi/${ videoId }/${ youtubeQuality }.${ extension }`
+        inputUrl = `https://i.ytimg.com/vi/${ videoId }/${ youtubeSizeKey }.jpg`
+        extension = 'jpg'
     }
 
-        
+    
 
-    throw new Error(`Provider not supported yet: ${provider}`)
+    return {
+        inputUrl, 
+        size, 
+        extension, 
+    }
+}
+
+
+
+export async function getOutputImage ( options = {} ) {
+
+    // Get options for provider
+    const defaultOptions = providerDefaultOptions[ options.provider ]
+
+    const {
+        videoId,
+        // extension = 'jpg',
+        provider,
+        targetSizeKey = 'mqdefault',
+    } = {
+        ...defaultOptions,
+        ...options
+    }
+
+    
+    const {
+        inputUrl,
+        size,
+        // extension,
+    } = await getInputImageDetails({
+        videoId,
+        provider,
+        targetSizeKey,
+        // targetExtension: extension,
+    })
+
+
+    // Resize and convert images here
+
+    
+    return {
+        url: inputUrl,
+        size,
+        // extension,
+    }
 }
 
 

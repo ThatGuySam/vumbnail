@@ -1,6 +1,9 @@
 // import url from 'url'
 import path from 'path'
 
+import { sizeOptions } from './get-thumbnail-url.js'
+import mapValues from 'just-map-values'
+
 
 // https://stackoverflow.com/a/66011585/1397641
 export const vercelUrl = process.env.VERCEL_BETA_URL || `https://${process.env.VERCEL_URL}`
@@ -15,9 +18,7 @@ export function isValidUrl ( url ) {
 }
 
 export const optionSets = {
-    'medium': {
-        size: 'medium',
-    }
+    ...mapValues( sizeOptions, ( value ) => ({ targetSizeKey: value.key }) ),
 }
 
 const optionKeys = Object.keys(optionSets)
@@ -113,7 +114,7 @@ const pathOptionParsers = {
         } = getProviderAndIdFromFilename( filenameWithoutExtension )
 
         return videoId
-    }
+    },
 
 }
 

@@ -19,10 +19,21 @@ const pathExamples = [
         expected: {
             videoId: '358629078',
             provider: 'vimeo',
-            size: 'medium',
+            targetSizeKey: 'thumbnail_medium',
             extension: 'mp4',
             filename: '358629078_medium.mp4',
             filenameWithoutExtension: '358629078_medium',
+        }
+    },
+    {
+        path: '/358629078_hqdefault.mp4',
+        expected: {
+            videoId: '358629078',
+            provider: 'vimeo',
+            targetSizeKey: 'hqdefault',
+            extension: 'mp4',
+            filename: '358629078_hqdefault.mp4',
+            filenameWithoutExtension: '358629078_hqdefault',
         }
     },
     {
@@ -43,6 +54,28 @@ const pathExamples = [
             extension: 'webm',
             filename: 'V-66rBGAGns.webm',
             filenameWithoutExtension: 'V-66rBGAGns',
+        }
+    },
+    {
+        path: '/V-66rBGAGns_mqdefault.webm',
+        expected: {
+            videoId: 'V-66rBGAGns',
+            provider: 'youtube',
+            targetSizeKey: 'mqdefault',
+            extension: 'webm',
+            filename: 'V-66rBGAGns_mqdefault.webm',
+            filenameWithoutExtension: 'V-66rBGAGns_mqdefault',
+        }
+    },
+    {
+        path: '/V-66rBGAGns_large.webm',
+        expected: {
+            videoId: 'V-66rBGAGns',
+            provider: 'youtube',
+            targetSizeKey: 'thumbnail_large',
+            extension: 'webm',
+            filename: 'V-66rBGAGns_large.webm',
+            filenameWithoutExtension: 'V-66rBGAGns_large',
         }
     }
 ]

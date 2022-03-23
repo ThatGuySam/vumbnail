@@ -8,6 +8,7 @@ const pathExamples = [
         path: '/358629078',
         expected: {
             videoId: '358629078',
+            videoPassword: null,
             provider: 'vimeo',
             extension: '',
             filename: '358629078',
@@ -18,6 +19,7 @@ const pathExamples = [
         path: '/358629078_medium.mp4',
         expected: {
             videoId: '358629078',
+            videoPassword: null,
             provider: 'vimeo',
             targetSizeKey: 'thumbnail_medium',
             extension: 'mp4',
@@ -29,6 +31,7 @@ const pathExamples = [
         path: '/358629078_hqdefault.mp4',
         expected: {
             videoId: '358629078',
+            videoPassword: null,
             provider: 'vimeo',
             targetSizeKey: 'hqdefault',
             extension: 'mp4',
@@ -40,6 +43,7 @@ const pathExamples = [
         path: '/5e7QWV9LB_c.mp4',
         expected: {
             videoId: '5e7QWV9LB_c',
+            videoPassword: null,
             provider: 'youtube',
             extension: 'mp4',
             filename: '5e7QWV9LB_c.mp4',
@@ -50,6 +54,7 @@ const pathExamples = [
         path: '/V-66rBGAGns.webm',
         expected: {
             videoId: 'V-66rBGAGns',
+            videoPassword: null,
             provider: 'youtube',
             extension: 'webm',
             filename: 'V-66rBGAGns.webm',
@@ -60,6 +65,7 @@ const pathExamples = [
         path: '/V-66rBGAGns_mqdefault.webm',
         expected: {
             videoId: 'V-66rBGAGns',
+            videoPassword: null,
             provider: 'youtube',
             targetSizeKey: 'mqdefault',
             extension: 'webm',
@@ -71,6 +77,7 @@ const pathExamples = [
         path: '/V-66rBGAGns_large.webm',
         expected: {
             videoId: 'V-66rBGAGns',
+            videoPassword: null,
             provider: 'youtube',
             targetSizeKey: 'thumbnail_large',
             extension: 'webm',

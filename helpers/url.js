@@ -34,16 +34,33 @@ function getProviderAndIdFromFilename ( filenameWithoutExtension ) {
     // Goal is to be 99.9% accurate
 
 
+    const defaultDetails = {
+        videoPassword: null,
+    }
+
+
     // Check if the first 8 characters of the filename
     // are digits. If so, assume it's a Vimeo ID
     // since it's not very likely a Youtube ID will start
     // with 8 digits(but not impossible). 
-    if ( /^\d{8,}$/.test( filenameWithoutExtension.substring(0, 8) ) ) {
+    const numericFirst8Chars = /^\d{8,}$/.test( filenameWithoutExtension.substring(0, 8) )
+    if ( numericFirst8Chars ) {
 
-        const [ videoId ] = filenameWithoutExtension.split('_')
+        // May contain a password seperated by a colon
+        const [ vumbnailIdentifier ] = filenameWithoutExtension.split('_')
+
+        const [ 
+            videoId, 
+            videoPassword = null,
+        ] = vumbnailIdentifier.split(':')
+
+        // console.log( 'vimeo', videoId, videoPassword )
+
         return {
+            ...defaultDetails, 
             provider: 'vimeo',
-            videoId
+            videoId,
+            videoPassword
         }
     }
 
@@ -57,8 +74,9 @@ function getProviderAndIdFromFilename ( filenameWithoutExtension ) {
             
         const videoId = filenameWithoutExtension.substring(0, 11)
         return {
+            ...defaultDetails, 
             provider: 'youtube',
-            videoId
+            videoId,
         }
     }
 
@@ -116,6 +134,18 @@ const pathOptionParsers = {
         return videoId
     },
 
+    'videoPassword': thumbnailPath => {
+        const { 
+            name: filenameWithoutExtension
+        } = path.parse( thumbnailPath )
+
+        // Handle video IDs
+        const {
+            videoPassword,
+        } = getProviderAndIdFromFilename( filenameWithoutExtension )
+
+        return videoPassword
+    }
 }
 
 

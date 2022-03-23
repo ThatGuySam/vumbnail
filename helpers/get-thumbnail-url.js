@@ -131,7 +131,23 @@ export const allSizes = {
 }
 
 
+async function getPublicVimeoThumbnail ( videoId, targetSizeKey ) {
+    const videoJsonUrl = `https://vimeo.com/api/v2/video/${ videoId }.json`
 
+    // Fetch thumbnail url from vimeo
+    const {
+        data: [ videoInfo ]
+    } = await axios.get( videoJsonUrl )
+        .catch( error => {
+            console.error(`Error fetching thumbnail url from vimeo: ${ error }`)
+        })
+
+    // console.log('thumbnail_large', thumbnail_large)
+
+    const smallThumbnail = videoInfo.thumbnail_small
+
+    return smallThumbnail
+}
 
 export async function getInputImageDetails ( options = {} ) {
 
@@ -151,7 +167,6 @@ export async function getInputImageDetails ( options = {} ) {
     if ( provider === 'vimeo' ) {
         // Get size details
 
-        const videoJsonUrl = `https://vimeo.com/api/v2/video/${ videoId }.json`
         size = allSizes[ targetSizeKey ]
 
         // console.log('options', options)
@@ -161,23 +176,13 @@ export async function getInputImageDetails ( options = {} ) {
             throw new Error(`Invalid size: ${ targetSizeKey }`)
         }
 
-        // Fetch thumbnail url from vimeo
-        const {
-            data: [ videoInfo ]
-        } = await axios.get( videoJsonUrl )
-          .catch( error => {
-              console.error(`Error fetching thumbnail url from vimeo: ${ error }`)
-          })
+        inputUrl = await getPublicVimeoThumbnail( videoId, targetSizeKey )
 
-        // console.log('thumbnail_large', thumbnail_large)
-
-        const smallThumbnail = videoInfo.thumbnail_small
-
-        // console.log( 'size', targetSizeKey, size, options )
+        // console.log( 'inputUrl', inputUrl, targetSizeKey, size, options )
 
         // Vimeo can convert to any size
         // by just updating the url
-        inputUrl = smallThumbnail.replace('100x75', `${ size.width }x${ size.height }`)
+        inputUrl = inputUrl.replace('100x75', `${ size.width }x${ size.height }`)
         extension = 'jpg'
     }
 

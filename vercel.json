@@ -43,7 +43,7 @@
 
         {
             "src": "/(?<vimeoId>[^/]*)",
-            "dest": "/api/v2/video"
+            "dest": "/api/v2/media"
         }
     ]
 }

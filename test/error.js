@@ -5,7 +5,7 @@ import test from 'ava'
 // import { getFfmpegUrl } from '../helpers/get-ffmpeg-url.js'
 // import { getClipFromVideoUrl } from '../../helpers/get-clip-from-video-url.js'
 
-import videoFunction from '../api/v2/video.js'
+import videoFunction from '../api/v2/media.js'
 
 
 

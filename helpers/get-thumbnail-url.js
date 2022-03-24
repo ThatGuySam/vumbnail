@@ -2,6 +2,11 @@ import axios from 'axios'
 import has from 'just-has'
 
 
+const youtubeDefaultSize = 'hqdefault'
+
+const vimeoDefaultSize = 'thumbnail_large'
+
+
 const providerDefaultOptions = {
     'vimeo': {
         extension: 'jpg',
@@ -12,6 +17,7 @@ const providerDefaultOptions = {
 }
 
 // const deployUrl = vercelUrl
+
 
 
 // https://stackoverflow.com/a/20542029/1397641
@@ -169,7 +175,7 @@ export async function getInputImageDetails ( options = {} ) {
         videoId, 
         videoPassword,
         provider, 
-        targetSizeKey, 
+        targetSizeKey = vimeoDefaultSize, 
         targetExtension = 'jpg',
     } = options
     
@@ -206,15 +212,13 @@ export async function getInputImageDetails ( options = {} ) {
             inputUrlPrefix, 
             `${ size.width }x${ size.height }`
         ]).join('-d_')
-
-        console.log('inputUrl', inputUrl)
         
         extension = 'jpg'
     }
 
 
     if ( provider === 'youtube' ) {
-        const youtubeSizeKey = has( youtubeThumbnailSizes, [ targetSizeKey ]) ? targetSizeKey : 'mqdefault'
+        const youtubeSizeKey = has( youtubeThumbnailSizes, [ targetSizeKey ]) ? targetSizeKey : youtubeDefaultSize
         size = youtubeThumbnailSizes[ youtubeSizeKey ]
 
         // Webp url
@@ -225,7 +229,6 @@ export async function getInputImageDetails ( options = {} ) {
         extension = 'jpg'
     }
 
-    
 
     return {
         inputUrl, 
@@ -245,7 +248,7 @@ export async function getOutputImage ( options = {} ) {
         videoId,
         // extension = 'jpg',
         provider,
-        targetSizeKey = 'mqdefault',
+        targetSizeKey,
     } = {
         ...defaultOptions,
         ...options

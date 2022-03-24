@@ -84,10 +84,10 @@ const youtubeImageDetailExamples = [
         },
         expected: {
             extension: 'jpg',
-            inputUrl: 'https://i.ytimg.com/vi/5e7QWV9LB_c/mqdefault.jpg',
+            inputUrl: 'https://i.ytimg.com/vi/5e7QWV9LB_c/hqdefault.jpg',
             size: {
-                width: 320,
-                height: 180,
+                width: 480,
+                height: 360,
                 pathOptionName: true,
             }
         }

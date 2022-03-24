@@ -82,7 +82,7 @@ const youtubeThumbnailSizes = {
         width: 320,
         height: 180,
         pathOptionName: true,
-    }
+    }, 
 
     // May or may not be available
 
@@ -131,7 +131,7 @@ export const allSizes = {
 }
 
 
-async function getPublicVimeoThumbnail ( videoId, targetSizeKey ) {
+async function getPublicVimeoThumbnail ( videoId ) {
     const videoJsonUrl = `https://vimeo.com/api/v2/video/${ videoId }.json`
 
     // Fetch thumbnail url from vimeo
@@ -149,10 +149,25 @@ async function getPublicVimeoThumbnail ( videoId, targetSizeKey ) {
     return smallThumbnail
 }
 
+async function getPrivateVimeoThumbnail ( videoId, videoPassword ) {
+    const videoJsonUrl = `https://vimeo.com/api/oembed.json?url=https://vimeo.com/${ videoId }/${ videoPassword }`
+
+    // Fetch thumbnail url from vimeo
+    const {
+        data: { thumbnail_url }
+    } = await axios.get( videoJsonUrl )
+        .catch( error => {
+            console.error(`Error fetching thumbnail url from vimeo: ${ error }`)
+        })
+
+    return thumbnail_url
+}
+
 export async function getInputImageDetails ( options = {} ) {
 
     const {
         videoId, 
+        videoPassword,
         provider, 
         targetSizeKey, 
         targetExtension = 'jpg',
@@ -176,13 +191,24 @@ export async function getInputImageDetails ( options = {} ) {
             throw new Error(`Invalid size: ${ targetSizeKey }`)
         }
 
-        inputUrl = await getPublicVimeoThumbnail( videoId, targetSizeKey )
+        if ( !!videoPassword ) {
+            inputUrl = await getPrivateVimeoThumbnail( videoId, videoPassword )
+        } else {
+            inputUrl = await getPublicVimeoThumbnail( videoId )
+        }
 
         // console.log( 'inputUrl', inputUrl, targetSizeKey, size, options )
 
         // Vimeo can convert to any size
         // by just updating the url
-        inputUrl = inputUrl.replace('100x75', `${ size.width }x${ size.height }`)
+        const inputUrlPrefix = inputUrl.split('-d_')[0]
+        inputUrl = ([
+            inputUrlPrefix, 
+            `${ size.width }x${ size.height }`
+        ]).join('-d_')
+
+        console.log('inputUrl', inputUrl)
+        
         extension = 'jpg'
     }
 
@@ -224,13 +250,14 @@ export async function getOutputImage ( options = {} ) {
         ...defaultOptions,
         ...options
     }
-
     
     const {
         inputUrl,
         size,
         // extension,
     } = await getInputImageDetails({
+        ...options,
+
         videoId,
         provider,
         targetSizeKey,

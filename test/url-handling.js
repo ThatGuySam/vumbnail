@@ -84,7 +84,18 @@ const pathExamples = [
             filename: 'V-66rBGAGns_large.webm',
             filenameWithoutExtension: 'V-66rBGAGns_large',
         }
-    }
+    }, 
+    {
+        path: '/579958628:c8b4fb043c.jpg',
+        expected: {
+            videoId: '579958628',
+            videoPassword: 'c8b4fb043c',
+            provider: 'vimeo',
+            extension: 'jpg',
+            filename: '579958628:c8b4fb043c.jpg',
+            filenameWithoutExtension: '579958628:c8b4fb043c',
+        }
+    },
 ]
 
 for ( const pathExample of pathExamples ) {

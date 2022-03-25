@@ -162,6 +162,8 @@ export default async function (req, res) {
 
     } catch ( error ) {
 
+        // console.log('options', options)
+
         if ( enableErrorMediaResponse === false ) {
             // throw 
 

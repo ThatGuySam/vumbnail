@@ -1,4 +1,5 @@
 import axios from 'axios'
+import has from 'just-has'
 
 import { vercelUrl } from './url.js'
 
@@ -97,6 +98,15 @@ export const errorUrls = Object.fromEntries(Object.entries( errorMedia ).map( ([
     ]
 }))
 
+function getErrorUrl( type ) {
+    // If we don't have a valid error type, return jpg
+    if ( !has( errorUrls, type ) ) {
+        return errorUrls.jpg
+    }
+
+    return errorUrls[ type ]
+}
+
 
 export async function sendErrorResponseMedia(options = {}) {
     const {
@@ -112,7 +122,7 @@ export async function sendErrorResponseMedia(options = {}) {
     const {
         url,
         mimeType
-    } = errorUrls[type]
+    } = getErrorUrl( type )
 
 
     console.log('Streaming media error: ', type, error)

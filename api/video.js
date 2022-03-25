@@ -2,8 +2,9 @@
 // URL utility
 import url from 'url'
 import axios from 'axios'
+import { default as microRedirect } from 'micro-redirect'
 
-const microRedirect = require("micro-redirect")
+// const microRedirect = require("micro-redirect")
 
 // const fbvid = require('fbvideos')
 

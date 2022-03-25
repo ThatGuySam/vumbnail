@@ -138,6 +138,24 @@ const vimeoImageDetailExamples = [
                 pathOptionName: 'medium',
             }
         }
+    },
+
+    //  non '-d_' url
+    {
+        options: {
+            videoId: '643816644',
+            targetSizeKey: 'thumbnail_large', 
+            provider: 'vimeo'
+        },
+        expected: {
+            extension: 'jpg',
+            // inputUrl: 'https://i.vimeocdn.com/video/...',
+            size: {
+                width: 640,
+                height: 360,
+                pathOptionName: 'large',
+            }
+        }
     }
 ]
 
@@ -149,6 +167,9 @@ for ( const imageDetails of vimeoImageDetailExamples ) {
 
         // We check the url starts with the vimeo cdn 
         t.assert( details.inputUrl.includes('https://i.vimeocdn.com/video/') )
+
+        // We check the url end with the correct size
+        t.is( details.inputUrl.split('_')[1], `${ imageDetails.expected.size.width }x${ imageDetails.expected.size.height }` )
 
         // Then delete the url since it's not an exact match we can put in the test
         delete details.inputUrl
@@ -164,3 +185,4 @@ for ( const imageDetails of vimeoImageDetailExamples ) {
     // })
 
 }
+

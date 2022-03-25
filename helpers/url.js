@@ -83,10 +83,15 @@ function getProviderAndIdFromFilename ( filenameWithoutExtension ) {
     throw new Error(`Could not determine provider and video ID from filename: ${filename}`)
 }
 
+function parsePathPartsFromUrl ( thumbnailPath ) {
+    const urlPath = (new URL( thumbnailPath, 'https://example.com' )).pathname
+
+    return path.parse( urlPath )
+}
 
 const pathOptionParsers = {
     'extension': thumbnailPath => {
-        const { ext } = path.parse( thumbnailPath )
+        const { ext } = parsePathPartsFromUrl( thumbnailPath )
 
         // console.log('ext', ext)
 
@@ -97,13 +102,13 @@ const pathOptionParsers = {
     },
 
     'filename': thumbnailPath => {
-        const { base } = path.parse( thumbnailPath )
+        const { base } = parsePathPartsFromUrl( thumbnailPath )
 
         return base
     },
 
     'filenameWithoutExtension': thumbnailPath => {
-        const { name } = path.parse( thumbnailPath )
+        const { name } = parsePathPartsFromUrl( thumbnailPath )
 
         return name
     },
@@ -111,7 +116,7 @@ const pathOptionParsers = {
     'provider': thumbnailPath => {
         const { 
             name: filenameWithoutExtension
-        } = path.parse( thumbnailPath )
+        } = parsePathPartsFromUrl( thumbnailPath )
 
         // Handle provides
         const {
@@ -149,8 +154,12 @@ const pathOptionParsers = {
 }
 
 
-export function parseOptionsFromPath ( thumbnailPath ) {
+export function parseOptionsFromPath ( thumbnailPath, options = {} ) {
     let optionsFromPath = {}
+
+    const {
+        supressErrors = false
+    } = options
 
 
     // Run through parsers and pull out options
@@ -164,8 +173,10 @@ export function parseOptionsFromPath ( thumbnailPath ) {
 
             optionsFromPath[optionKey] = optionValue
         } catch ( error ) {
-            // console.log(`Could not parsse "${optionKey}" from path: ${thumbnailPath}`)
-            // console.log(error)
+            if ( !!supressErrors ) return
+
+            console.log(`Could not parse "${optionKey}" from path: ${thumbnailPath}`)
+            console.log(error)
         }
     }
     

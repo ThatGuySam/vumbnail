@@ -18,7 +18,8 @@ test(`Can get non-media error response URL`, async t => {
         await videoFunction(
             // Request
             {
-                url: '/!!!!!!!!!_disable-error-media.mp4'
+                url: '/!!!!!!!!!_disable-error-media.mp4',
+                supressErrors: true,
             },
             // Response
             {

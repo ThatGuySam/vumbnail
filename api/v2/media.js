@@ -121,7 +121,7 @@ export default async function (req, res) {
     // Check for display error option here
     const enableErrorMediaResponse = !req.url.includes('disable-error-media')
 
-    const options = parseOptionsFromPath( req.url )
+    const options = parseOptionsFromPath( req.url, { supressErrors: !!req?.supressErrors })
 
     try {
 

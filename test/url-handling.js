@@ -96,12 +96,27 @@ const pathExamples = [
             filenameWithoutExtension: '579958628:c8b4fb043c',
         }
     },
+
+    // With Query String
+    {
+        path: '/643816644.jpg?width=900&crop=1%3A1%2Csmart',
+        expected: {
+            videoId: '643816644',
+            videoPassword: null,
+            provider: 'vimeo',
+            extension: 'jpg',
+            filename: '643816644.jpg',
+            filenameWithoutExtension: '643816644',
+        }
+    },
 ]
 
 for ( const pathExample of pathExamples ) {
 
     test(`Can parse options from path: ${pathExample.path}`, t => {
         const options = parseOptionsFromPath(pathExample.path)
+
+        // t.log('options', options)
         
         t.deepEqual(options, pathExample.expected)
     })

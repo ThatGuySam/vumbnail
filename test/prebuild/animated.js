@@ -1,8 +1,8 @@
 import test from 'ava'
 
 
-import { isValidUrl } from '../helpers/url.js'
-import { getFfmpegUrl } from '../helpers/get-ffmpeg-url.js'
+import { isValidUrl } from '../../helpers/url.js'
+import { getFfmpegUrl } from '../../helpers/get-ffmpeg-url.js'
 // import { getClipFromVideoUrl } from '../../helpers/get-clip-from-video-url.js'
 
 

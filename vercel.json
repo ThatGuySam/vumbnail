@@ -29,30 +29,21 @@
             "headers": { "cache-control": "public, s-maxage=2419200, stale-while-revalidate" },
             "dest": "public/media/breathtaking.mp4"
         },
+
         {
-            "src": "/(?<vimeoId>[^/]*)_small.jpg",
-            "headers": {"cache-control": "public, s-maxage=2419200, stale-while-revalidate"},
-            "dest": "/api/video?id=$vimeoId&key=thumbnail_small"
-        },
-        {
-            "src": "/(?<vimeoId>[^/]*)_medium.jpg",
-            "headers": {"cache-control": "public, s-maxage=2419200, stale-while-revalidate"},
-            "dest": "/api/video?id=$vimeoId&key=thumbnail_medium"
-        },
-        {
-            "src": "/(?<vimeoId>[^/]*)_large.jpg",
-            "headers": {"cache-control": "public, s-maxage=2419200, stale-while-revalidate"},
-            "dest": "/api/video?id=$vimeoId&key=thumbnail_large"
-        },
-        {
-            "src": "/(?<vimeoId>[^/]*).jpg",
-            "headers": {"cache-control": "public, s-maxage=2419200, stale-while-revalidate"},
-            "dest": "/api/video?id=$vimeoId&key=thumbnail_large"
-        },
+			"src": "/api/info",
+            "headers": { "cache-control": "no-cache" },
+			"dest": "api/v2/ytdl.py"
+		},
+		{
+			"src": "/api/version",
+            "headers": { "cache-control": "no-cache" },
+			"dest": "api/v2/ytdl.py"
+		},
+
         {
             "src": "/(?<vimeoId>[^/]*)",
-            "headers": {"cache-control": "public, s-maxage=2419200, stale-while-revalidate"},
-            "dest": "/api/video?id=$vimeoId"
+            "dest": "/api/v2/media"
         }
     ]
 }

@@ -1,7 +1,9 @@
 .now
-/node_modules
+node_modules
 /.env
 
 .vercel
 /.vscode/snipsnap.code-snippets
 *.DS_Store
+wrangler.toml
+dist

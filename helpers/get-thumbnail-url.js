@@ -207,11 +207,16 @@ export async function getInputImageDetails ( options = {} ) {
 
         // Vimeo can convert to any size
         // by just updating the url
-        const inputUrlPrefix = inputUrl.split('-d_')[0]
+        const separator = '_'
+        const newSize = `${ size.width }x${ size.height }`
+
+        const lastIndexOfUnderscore = inputUrl.lastIndexOf( separator )
+        const inputUrlPrefix = inputUrl.substr(0, lastIndexOfUnderscore)
+
         inputUrl = ([
             inputUrlPrefix, 
-            `${ size.width }x${ size.height }`
-        ]).join('-d_')
+            newSize
+        ]).join( separator )
         
         extension = 'jpg'
     }

@@ -5,7 +5,7 @@
   "description": "",
   "main": "subreddit.js",
   "scripts": {
-    "test": "npm run test-prebuild && npm run test-postbuild",
+    "test": "ava",
     "test-prebuild": "ava ./test/prebuild/*",
     "test-postbuild": "ava ./test/postbuild/*",
     "build": "node ./build.js",

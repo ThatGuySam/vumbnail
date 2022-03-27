@@ -1,7 +1,7 @@
 <!-- Syntax Languages - https://github.com/github/linguist/blob/master/vendor/README.md -->
 # How to show Unlisted Vimeo Thumbnails with Vumbnail
 
-This example shows how to get thumbnails for Unlisted Vimeo Thumbnails that require an extra secret url part.
+This example shows how to get thumbnails for Unlisted Vimeo videos that require an extra secret url part.
 
 Keep in mind that your video secret will be visible to anyone who can view you app code or see requests made.
 

@@ -1,7 +1,7 @@
 <!-- Syntax Languages - https://github.com/github/linguist/blob/master/vendor/README.md -->
 # How to show Youtube Thumbnails with Vumbnail
 
-This example shows how to get thumbnails for Youtube Thumbnails.
+This example shows how to get thumbnails for Youtube videos.
 
 Keep in mind you can also get Youtube Thumbnails directly from [Youtube](https://stackoverflow.com/a/20542029/1397641), this just provides an alternative method with a simpler structure and may deliver better performance in certain contexts.
 

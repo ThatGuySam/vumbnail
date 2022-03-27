@@ -1,3 +1,4 @@
+<!-- Syntax Lannguages - https://github.com/github/linguist/blob/master/vendor/README.md -->
 # How to show Unlisted Vimeo Thumbnails with Vumbnail
 
 This example shows how to get thumbnails for Unlisted Vimeo Thumbnails that require an extra secret url part.

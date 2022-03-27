@@ -88,7 +88,7 @@ DispatchQueue.global().async {
 ```dart
 // Unlisted Thumbnails Reference - https://vumbnail.com/examples/unlisted-vimeo-thumbnails
 Image.network(
-    'https://vumbnail.com/${ options.videoId }.jpg',
+    'https://vumbnail.com/692839122:3144c3edfc.jpg',
 )
 ```
 

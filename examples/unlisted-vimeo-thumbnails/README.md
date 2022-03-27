@@ -34,7 +34,7 @@ https://vumbnail.com/692839122:3144c3edfc.jpg
     <summary>React</summary>
 
 ```jsx
-<!-- Unlisted Thumbnails Reference - https://vumbnail.com/examples/unlisted-vimeo-thumbnails -->
+{/* Unlisted Thumbnails Reference - https://vumbnail.com/examples/unlisted-vimeo-thumbnails --> */}
 <img 
     srcSet={`
         https://vumbnail.com/692839122:3144c3edfc_large.jpg 640w, 

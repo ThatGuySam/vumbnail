@@ -1,5 +1,5 @@
 <!-- Syntax Languages - https://github.com/github/linguist/blob/master/vendor/README.md -->
-# How to show Youtube Thumbnails with Vumbnail
+# How to show Vimeo Thumbnails with Vumbnail
 
 This example shows how to get thumbnails for Vimeo videos with the video id of your video.
 

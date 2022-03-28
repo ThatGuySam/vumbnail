@@ -1,9 +1,11 @@
 # Vimeo Thumbnail Server
 
 
-All things Vimeo and Thumbnails. 
+All things Video and Thumbnails. 
 
-Caches for 28 days(set as 2419200 seconds) which can be updated from /vercel.json in the root directory. 
+Allows you to get the thumbnails for your videos on Vimeo and Youtube. 
+
+Caches for 1 year at CDN and 24 hours at the browser. 
 
 
 

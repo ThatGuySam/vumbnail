@@ -1,4 +1,4 @@
-# Vimeo Thumbnail Server
+# Video Thumbnail Server
 
 
 All things Video and Thumbnails. 

@@ -1,6 +1,6 @@
 import test from 'ava'
 
-import { parseOptionsFromPath } from '../helpers/url.js'
+import { parseOptionsFromPath } from '../../helpers/url.js'
 
 
 const pathExamples = [

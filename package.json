@@ -6,8 +6,11 @@
   "main": "subreddit.js",
   "scripts": {
     "test": "ava",
+    "test-prebuild": "ava ./test/prebuild/*",
+    "test-postbuild": "ava ./test/postbuild/*",
     "build": "node ./build.js",
-    "vercel-dev": "vercel dev"
+    "vercel-dev": "vercel dev",
+    "vercel-build": "npm run test-prebuild && npm run build && npm run test-postbuild"
   },
   "repository": {
     "type": "git",

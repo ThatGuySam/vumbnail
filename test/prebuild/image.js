@@ -1,9 +1,9 @@
 import test from 'ava'
 
-import { getOutputImage } from '../helpers/get-thumbnail-url.js'
+import { getOutputImage } from '../../helpers/get-thumbnail-url.js'
 import { 
     getInputImageDetails
-} from '../helpers/get-thumbnail-url.js'
+} from '../../helpers/get-thumbnail-url.js'
 
 
 

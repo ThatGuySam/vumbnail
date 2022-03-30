@@ -155,8 +155,34 @@ async function getPublicVimeoThumbnail ( videoId ) {
     return smallThumbnail
 }
 
-async function getPrivateVimeoThumbnail ( videoId, videoPassword ) {
-    const videoJsonUrl = `https://vimeo.com/api/oembed.json?url=https://vimeo.com/${ videoId }/${ videoPassword }`
+// Example: https://player.vimeo.com/video/358629078/config
+async function getVimeoThumbnailFromEmbedConfig ( videoId ) {
+    const videoJsonUrl = `https://player.vimeo.com/video/${ videoId }/config`
+
+    // Fetch thumbnail url from vimeo
+    const {
+        video: {
+            thumbs: {
+                base
+            }
+        }
+    } = await axios.get( videoJsonUrl )
+        .then( response => response.data )
+        .catch( error => {
+            console.error(`Error fetching thumbnail url from vimeo: ${ error }`)
+        })
+
+    // console.log('base', base)
+
+    return base + '_640'
+}
+
+async function getVimeoThumbnailFromOembed ( videoId, videoPassword = null ) {
+    let videoJsonUrl = `https://vimeo.com/api/oembed.json?url=https://vimeo.com/${ videoId }`
+
+    if ( videoPassword !== null ) {
+        videoJsonUrl += `/${ videoPassword }`
+    }
 
     // Fetch thumbnail url from vimeo
     const {
@@ -167,6 +193,38 @@ async function getPrivateVimeoThumbnail ( videoId, videoPassword ) {
         })
 
     return thumbnail_url
+}
+
+async function tryThumbnailUrlMethods ( options = {} ) {
+    const {
+        methods,
+        videoId,
+    } = options
+
+    for ( const method of methods ) {
+        let thumbnailUrl
+
+        try {
+            thumbnailUrl = await method( videoId )
+        } catch ( error ) {
+            console.log(`Error fetching thumbnail url from ${ method.name }: ${ error }`)
+            continue
+        }
+
+        // Skip if type is not string
+        if ( typeof thumbnailUrl !== 'string' ) {
+            continue
+        }
+
+        // Skip if url is empty
+        if ( thumbnailUrl.length === 0 ) {
+            continue
+        }
+
+        return thumbnailUrl
+    }
+
+    return null
 }
 
 export async function getInputImageDetails ( options = {} ) {
@@ -198,9 +256,17 @@ export async function getInputImageDetails ( options = {} ) {
         }
 
         if ( !!videoPassword ) {
-            inputUrl = await getPrivateVimeoThumbnail( videoId, videoPassword )
+            inputUrl = await getVimeoThumbnailFromOembed( videoId, videoPassword )
         } else {
-            inputUrl = await getPublicVimeoThumbnail( videoId )
+            inputUrl = await tryThumbnailUrlMethods({
+                methods: [
+                    getPublicVimeoThumbnail,
+                    getVimeoThumbnailFromOembed,
+                    getVimeoThumbnailFromEmbedConfig, 
+                    // Maybe a YoutubeDL method?
+                ],
+                videoId
+            })
         }
 
         // console.log( 'inputUrl', inputUrl, targetSizeKey, size, options )

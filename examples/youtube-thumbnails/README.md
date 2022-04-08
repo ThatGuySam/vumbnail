@@ -34,7 +34,7 @@ For the Youtube URL https://www.youtube.com/watch?v=W2EMHNhyEnQ
     <summary>React</summary>
 
 ```jsx
-{/* Youtube Thumbnails Reference - https://vumbnail.com/examples/unlisted-vimeo-thumbnails --> */}
+{/* Youtube Thumbnails Reference - https://vumbnail.com/examples/youtube-thumbnails --> */}
 <img 
     srcSet={`
         https://vumbnail.com/W2EMHNhyEnQ_large.jpg 640w, 
@@ -51,7 +51,7 @@ For the Youtube URL https://www.youtube.com/watch?v=W2EMHNhyEnQ
     <summary>React Native</summary>
 
 ```javascript
-// Youtube Thumbnails Reference - https://vumbnail.com/examples/unlisted-vimeo-thumbnails
+// Youtube Thumbnails Reference - https://vumbnail.com/examples/youtube-thumbnails
 import * as React from 'react'
 import { Image } from 'react-native'
 
@@ -70,7 +70,7 @@ export default () => (
     <summary>Swift</summary>
 
 ```swift
-// Youtube Thumbnails Reference - https://vumbnail.com/examples/unlisted-vimeo-thumbnails
+// Youtube Thumbnails Reference - https://vumbnail.com/examples/youtube-thumbnails
 let url = URL(string: 'https://vumbnail.com/W2EMHNhyEnQ.jpg')
 
 DispatchQueue.global().async {
@@ -86,7 +86,7 @@ DispatchQueue.global().async {
     <summary>Flutter</summary>
 
 ```dart
-// Youtube Thumbnails Reference - https://vumbnail.com/examples/unlisted-vimeo-thumbnails
+// Youtube Thumbnails Reference - https://vumbnail.com/examples/youtube-thumbnails
 Image.network(
     'https://vumbnail.com/W2EMHNhyEnQ.jpg',
 )

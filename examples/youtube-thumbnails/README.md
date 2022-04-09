@@ -6,7 +6,7 @@ This example shows how to get thumbnails for Youtube videos.
 Keep in mind you can also get Youtube Thumbnails directly from [Youtube](https://stackoverflow.com/a/20542029/1397641), this just provides an alternative method with a simpler structure and may deliver better performance in certain contexts.
 
 ## URL Example
-```AppleScript
+```Easybuild
 https://vumbnail.com/W2EMHNhyEnQ.jpg
 ```
 For the Youtube URL https://www.youtube.com/watch?v=W2EMHNhyEnQ

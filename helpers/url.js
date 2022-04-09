@@ -84,7 +84,10 @@ function getProviderAndIdFromFilename ( filenameWithoutExtension ) {
 }
 
 function parsePathPartsFromUrl ( thumbnailPath ) {
-    const urlPath = (new URL( thumbnailPath, 'https://example.com' )).pathname
+    const urlPathname = (new URL( thumbnailPath, 'https://example.com' )).pathname
+
+    // Remove any query strings
+    const urlPath = urlPathname.split('?')[0]
 
     return path.parse( urlPath )
 }
@@ -129,7 +132,7 @@ const pathOptionParsers = {
     'videoId': thumbnailPath => {
         const { 
             name: filenameWithoutExtension
-        } = path.parse( thumbnailPath )
+        } = parsePathPartsFromUrl( thumbnailPath )
 
         // Handle video IDs
         const {

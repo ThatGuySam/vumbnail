@@ -109,6 +109,19 @@ const pathExamples = [
             filenameWithoutExtension: '643816644',
         }
     },
+
+    // With Period in Query String
+    {
+        path: '/643816644.jpg?path=358629078.jpg',
+        expected: {
+            videoId: '643816644',
+            videoPassword: null,
+            provider: 'vimeo',
+            extension: 'jpg',
+            filename: '643816644.jpg',
+            filenameWithoutExtension: '643816644',
+        }
+    },
 ]
 
 for ( const pathExample of pathExamples ) {

@@ -11,13 +11,11 @@
     "build": "node ./build.js && astro build",
     "dev": "astro dev",
     "start": "astro dev",
-    "preview": "astro preview", 
+    "preview": "astro preview",
     "build-stats": "cross-env ANALYZE=true npm run build",
-    "export": "next export",
-    "build-prod": "run-s clean build export",
-    "clean": "rimraf .next out",
+    "build-prod": "run-s build",
     "vercel-dev": "vercel dev",
-    "vercel-build": "npm run test-prebuild && npm run build-prod && npm run test-postbuild"
+    "vercel-build": "run-s test-prebuild build test-postbuild"
   },
   "repository": {
     "type": "git",

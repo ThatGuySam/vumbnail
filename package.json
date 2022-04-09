@@ -8,9 +8,10 @@
     "test": "ava",
     "test-prebuild": "ava ./test/prebuild/*",
     "test-postbuild": "ava ./test/postbuild/*",
-    "build": "node ./build.js && next build",
-    "dev": "next dev",
-    "start": "next start",
+    "build": "node ./build.js && astro build",
+    "dev": "astro dev",
+    "start": "astro dev",
+    "preview": "astro preview", 
     "build-stats": "cross-env ANALYZE=true npm run build",
     "export": "next export",
     "build-prod": "run-s clean build export",
@@ -58,6 +59,7 @@
     "ytdl-core": "^4.10.1"
   },
   "devDependencies": {
+    "astro": "^1.0.0-beta.5", 
     "autoprefixer": "^10.4.4",
     "ava": "^4.0.1",
     "postcss": "^8.4.12",

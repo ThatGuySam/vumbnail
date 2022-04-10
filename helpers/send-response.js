@@ -22,7 +22,7 @@ export const errorCacheHeaders = {
 
 
 export const successCacheHeaders = {
-    'Cache-Control': `public, max-age=${ ONE_DAY }, s-maxage=${ ONE_YEAR }`,
+    'Cache-Control': `public, max-age=${ ONE_MONTH }, s-maxage=${ ONE_YEAR }`,
 }
 
 

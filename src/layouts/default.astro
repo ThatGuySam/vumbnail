@@ -1,0 +1,40 @@
+---
+import Navbar from '../components/navbar.vue'
+
+const {
+    headTitle, 
+    headDescription,
+} = Astro.props
+
+---
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width">
+	<title>{ headTitle }</title>
+
+	<meta name="Description" content="{ headDescription }">
+
+	<link rel="icon" type="image/x-icon" href="/favicon.ico" />
+
+	<link rel="preconnect" href="https://www.googletagmanager.com" crossorigin>
+
+</head>
+<body>
+    <Navbar />
+	<main>
+		<slot />
+	</main>
+</body>
+
+<!-- Global site tag (gtag.js) - Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-28434239-20"></script>
+<script>
+	window.dataLayer = window.dataLayer || [];
+	function gtag(){dataLayer.push(arguments);}
+	gtag('js', new Date());
+
+	gtag('config', 'UA-28434239-20');
+</script>
+
+</html>

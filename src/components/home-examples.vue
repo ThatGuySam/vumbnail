@@ -249,7 +249,11 @@ function getDomain () {
         return `${window.location.protocol}//${window.location.host}`
     }
 
-    return `https://${ import.meta.env.VITE_VERCEL_URL }`
+    if ( typeof import.meta.env.VITE_VERCEL_URL === 'string' ) {
+        return `https://${ import.meta.env.VITE_VERCEL_URL }`
+    }
+
+    return `https://vumbnail.com`
 }
 
 const imageTemplate = ( srcset, src ) => (

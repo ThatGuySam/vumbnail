@@ -1,24 +1,4 @@
-<!-- http://www.brucelawson.co.uk/2010/a-minimal-html5-document/ -->
-
-<!doctype html>
-<html lang=en>
-<head>
-    <meta charset=utf-8>
-    <meta name="viewport" content="width=device-width,initial-scale=1">
-    <title>Get Vimeo thumbnail by ID | Vimeo Thumbnail Server</title>
-
-    <meta name="Description" content="A quick way to get Vimeo thumbnails by the video's ID">
-
-    
-    <link rel="preconnect" href="https://unpkg.com" crossorigin>
-    <link rel="preconnect" href="https://www.googletagmanager.com" crossorigin>
-    
-    <!--   Tailwind   -->
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/tailwindcss@1.4.6/dist/base.min.css" /> 
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/tailwindcss@1.4.6/dist/utilities.min.css" /> 
-    
-</head>
-<body>
+<template>
 
     <div
         id="app"
@@ -63,8 +43,6 @@
                 A quick way to get Vimeo Thumbnails with just an ID. 
             </section>
 
-
-
             <section class="flex justify-center text-center pb-16">
                 <div>
 
@@ -74,7 +52,8 @@
                         </h3>
                         <input
                             v-model="vimeoId"
-                            class="border rounded p-3"
+                            class="border rounded bg-transparent p-3"
+                            focus
                         />
                     </label>
 
@@ -85,7 +64,8 @@
                         <div class="button-group px-4">
                             <button
                                 v-for="video in exampleVideos"
-                                class="bg-transparent hover:bg-gray-500 text-gray-700 font-semibold hover:text-white border border-gray-500 hover:border-transparent rounded py-2 px-4 mx-3"
+                                :key="video.id"
+                                class="bg-transparent hover:bg-gray-500 text-gray-300 font-semibold hover:text-white border border-gray-500 hover:border-transparent rounded py-2 px-4 mx-3"
                                 @click="vimeoId = video.id"
                             >{{ video.label }}</button>
                         </div>
@@ -112,17 +92,17 @@
 
                     <h3 class="text-xl pb-4">Image HTML</h3>
                     <code
-                        class="responsive-image-html block bg-gray-300 rounded p-3"
+                        class="responsive-image-html block border rounded p-3"
                         style="word-break: break-all;"
                     >
                         {{ responsiveImageHtml }}
                     </code>
 
-                    <div class="py-5 -mx-2">
+                    <div class="py-5">
 
-                        <div class="inline p-3 text-blue-800">
+                        <div class="inline">
                             <button
-                                class="copy"
+                                class="copy p-3 border rounded"
                                 data-clipboard-target=".responsive-image-html"
                             >Copy</button>
                         </div>
@@ -155,26 +135,30 @@
                         class="text-xl pb-4"
                     >Image URL</h3>
                     <code
-                        class="block bg-gray-300 rounded p-3"
+                        class="block border rounded p-3"
                         style="word-break: break-all;"
                     >
                         {{ item.imageSrc }}
                     </code>
 
-                    <div class="py-5 -mx-2">
+                    <div class="flex gap-5 py-5">
 
-                        <div class="inline p-3 text-blue-800">
+                        <div class="inline">
                             <button
-                                class="copy"
+                                class="copy p-3 border rounded"
                                 :data-clipboard-text="item.imageSrc"
                             >Copy</button>
                         </div>
     
-                        <div class="inline p-3 text-blue-800">
+                        <div class="inline">
                             <a
                                 :href="item.imageSrc"
                                 :title="`View ${item.heading}`"
-                            >View</a>
+                            >
+                                <div class="border rounded p-3">
+                                    View Image
+                                </div>
+                            </a>
                         </div>
 
                     </div>
@@ -198,7 +182,7 @@
                         >Coming Soon - Animated Thumbnail Example</h2>
                         <h4 class="text-xl">An animated preview thumbnail of the Vimeo video. </h4>
                         <a
-                            class="inline-block bg-transparent hover:bg-gray-500 text-gray-700 font-semibold hover:text-white border border-gray-500 hover:border-transparent rounded py-2 px-4 my-3"
+                            class="inline-block bg-transparent hover:bg-gray-500 font-semibold hover:text-white border border-gray-500 hover:border-transparent rounded py-2 px-4 my-3"
                             href="https://docs.google.com/forms/d/e/1FAIpQLSeFU6f19pAEJMI8yJYOzGIV8y8Sg5NvSnaM6tXz83VtvZeU7Q/viewform?usp=pp_url&entry.5778473=Animated+Thumbnails"
                         >Get Notified</a>
                     </div>
@@ -251,151 +235,139 @@
         </footer>
 
     </div>
-    
-    <!-- Global site tag (gtag.js) - Google Analytics -->
-    <script async src="https://www.googletagmanager.com/gtag/js?id=UA-28434239-20"></script>
-    <script>
-        window.dataLayer = window.dataLayer || [];
-        function gtag(){dataLayer.push(arguments);}
-        gtag('js', new Date());
 
-        gtag('config', 'UA-28434239-20');
-    </script>
+</template>
 
-    <!--   Vue   -->
-    <script src="https://unpkg.com/vue@3"></script>
-    
-    <!--   Clipboard   -->
-    <script src="https://unpkg.com/clipboard@2.0.10/dist/clipboard.min.js"></script>
-    
-    
-    <!--   Main   -->
-    <script type="text/javascript">
 
-        const appData = {
-            // el: '#app',
-            data () {
-                return {
-                    vimeoId: '358629078',
-                    exampleVideos: [
-                        {
-                            label: 'Dad Life',
-                            id: '12714406'
-                        },
-                        {
-                            label: 'City Limits',
-                            id: '23237102'
-                        },
-                        {
-                            label: 'Girl Walk',
-                            id: '32845443'
-                        }
-                    ],
-                    items: [
-                        {
-                            heading: 'JPG Example',
-                            id: 'regular-image',
-                            imageSrcTemplate: `/{vimeoId}.jpg`,
-                            imageAlt: 'Regular Thumbnail Example',
-                            width: 640
-                        },
-                        {
-                            heading: 'JPG Large Example',
-                            id: 'large-image',
-                            imageSrcTemplate: `/{vimeoId}_large.jpg`,
-                            imageAlt: 'Large Thumbnail Example',
-                            width: 640
-                        },
-                        {
-                            heading: 'JPG Medium Example',
-                            id: 'medium-image',
-                            imageSrcTemplate: `/{vimeoId}_medium.jpg`,
-                            imageAlt: 'Medium Thumbnail Example',
-                            width: 200
-                        },
-                        {
-                            heading: 'JPG Small Example',
-                            id: 'small-image',
-                            imageSrcTemplate: `/{vimeoId}_small.jpg`,
-                            imageAlt: 'Small Thumbnail Example',
-                            width: 100
-                        }
-                    ]
+<script>
+
+import ClipboardJS from 'clipboard'
+
+
+function getDomain () {
+
+    if ( typeof window !== 'undefined' ) {
+        return `${window.location.protocol}//${window.location.host}`
+    }
+
+    return `https://${ import.meta.env.VITE_VERCEL_URL }`
+}
+
+export default {
+    data () {
+        return {
+            vimeoId: '358629078',
+            exampleVideos: [
+                {
+                    label: 'Dad Life',
+                    id: '12714406'
+                },
+                {
+                    label: 'City Limits',
+                    id: '23237102'
+                },
+                {
+                    label: 'Girl Walk',
+                    id: '32845443'
                 }
-            },
-            computed: {
-                domain () {
-                    return `${window.location.protocol}//${window.location.host}`
+            ],
+            items: [
+                {
+                    heading: 'JPG Example',
+                    id: 'regular-image',
+                    imageSrcTemplate: `/{vimeoId}.jpg`,
+                    imageAlt: 'Regular Thumbnail Example',
+                    width: 640
                 },
-                mappedItems () {
-                    return this.items.map(item => {
-                        // console.log('item', item)
-                        // console.log('item.imageSrcTemplate', item.imageSrcTemplate)
-
-                        item.imageSrc = `${window.location.protocol}//${window.location.host}` + item.imageSrcTemplate.replace('{vimeoId}', this.vimeoId)
-
-                        return item
-                    })
+                {
+                    heading: 'JPG Large Example',
+                    id: 'large-image',
+                    imageSrcTemplate: `/{vimeoId}_large.jpg`,
+                    imageAlt: 'Large Thumbnail Example',
+                    width: 640
                 },
-                responsiveImageHtml () {
-                    const src = this.mappedItems[0].imageSrc
-                    const srcset = this.mappedItems.map(({ imageSrc, width }) => `${imageSrc} ${width}w`).join(', ')
-
-                    // console.log('srcset', srcset)
-
-                    return `
-                        <img
-                            srcset="${srcset}"
-                            sizes="(max-width: 640px) 100vw, 640px"
-                            src="${src}"
-                            alt="Vimeo Thumbnail"
-                        />
-                    `
+                {
+                    heading: 'JPG Medium Example',
+                    id: 'medium-image',
+                    imageSrcTemplate: `/{vimeoId}_medium.jpg`,
+                    imageAlt: 'Medium Thumbnail Example',
+                    width: 200
                 },
-                animatedThumbnailHtml () {
-                    // const src = this.mappedItems[0].imageSrc
-                    // const srcset = this.mappedItems.map(({ imageSrc, width }) => `${imageSrc} ${width}w`).join(', ')
-
-                    // console.log('srcset', srcset)
-
-                    return `
-                        <!-- You're clever. This is just filler code for now, but since you found this here's something special for you: https://forms.gle/uPY9odQvVJwmNsYj6 -->
-                        <video autoplay muted loop playsinline preload="none">
-                            <source src="${this.domain}/media/breathtaking.mp4" type="video/mp4">
-                        </video>
-                    `
+                {
+                    heading: 'JPG Small Example',
+                    id: 'small-image',
+                    imageSrcTemplate: `/{vimeoId}_small.jpg`,
+                    imageAlt: 'Small Thumbnail Example',
+                    width: 100
                 }
-            },
-            methods: {
-                // copyImageUrl ( event ) {
-                //     const { copyUrl } = event.target.dataset
+            ]
+        }
+    },
+    computed: {
+        domain () {
+            return getDomain()
+        },
+        mappedItems () {
+            return this.items.map(item => {
+                // console.log('item', item)
+                // console.log('item.imageSrcTemplate', item.imageSrcTemplate)
 
-                //     console.log('Copying', copyUrl)
-                //     const clipboard = new ClipboardJS(event.target, {
-                //         // text: (trigger) => {
-                //         //     return copyUrl
-                //         // }
-                //     })
+                item.imageSrc = getDomain() + item.imageSrcTemplate.replace('{vimeoId}', this.vimeoId)
 
-                //     // clipboard.target(event.target)
+                return item
+            })
+        },
+        responsiveImageHtml () {
+            const src = this.mappedItems[0].imageSrc
+            const srcset = this.mappedItems.map(({ imageSrc, width }) => `${imageSrc} ${width}w`).join(', ')
 
-                //     clipboard.action('copy')
+            // console.log('srcset', srcset)
 
-                //     console.log('clipboard', clipboard)
+            return `
+                <img
+                    srcset="${srcset}"
+                    sizes="(max-width: 640px) 100vw, 640px"
+                    src="${src}"
+                    alt="Vimeo Thumbnail"
+                />
+            `
+        },
+        animatedThumbnailHtml () {
+            // const src = this.mappedItems[0].imageSrc
+            // const srcset = this.mappedItems.map(({ imageSrc, width }) => `${imageSrc} ${width}w`).join(', ')
 
-                // }
-            },
-            mounted () {
-                // This may break on the next render
-                new ClipboardJS('.copy')
-            }
-        };
+            // console.log('srcset', srcset)
 
-        const app = Vue.createApp(appData).mount('#app')
-        
-        //new Vue(appData);
-    
-    </script>
-    
-</body>
-</html>
+            return `
+                <!-- You're clever. This is just filler code for now, but since you found this here's something special for you: https://forms.gle/uPY9odQvVJwmNsYj6 -->
+                <video autoplay muted loop playsinline preload="none">
+                    <source src="${this.domain}/media/breathtaking.mp4" type="video/mp4">
+                </video>
+            `
+        }
+    },
+    methods: {
+        // copyImageUrl ( event ) {
+        //     const { copyUrl } = event.target.dataset
+
+        //     console.log('Copying', copyUrl)
+        //     const clipboard = new ClipboardJS(event.target, {
+        //         // text: (trigger) => {
+        //         //     return copyUrl
+        //         // }
+        //     })
+
+        //     // clipboard.target(event.target)
+
+        //     clipboard.action('copy')
+
+        //     console.log('clipboard', clipboard)
+
+        // }
+    },
+    mounted () {
+        // This may break on the next render
+        new ClipboardJS('.copy')
+    }
+}
+</script>

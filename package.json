@@ -14,7 +14,7 @@
     "preview": "astro preview",
     "build-stats": "cross-env ANALYZE=true npm run build",
     "build-prod": "run-s build",
-    "vercel-dev": "vercel dev",
+    "vercel-dev": "astro dev",
     "vercel-build": "run-s test-prebuild build test-postbuild"
   },
   "repository": {

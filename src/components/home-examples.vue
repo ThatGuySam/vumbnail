@@ -92,8 +92,7 @@
 
                     <h3 class="text-xl pb-4">Image HTML</h3>
                     <code
-                        class="responsive-image-html block border rounded p-3"
-                        style="word-break: break-all;"
+                        class="responsive-image-html whitespace-pre block border rounded p-3"
                     >
                         {{ responsiveImageHtml }}
                     </code>
@@ -253,6 +252,18 @@ function getDomain () {
     return `https://${ import.meta.env.VITE_VERCEL_URL }`
 }
 
+const imageTemplate = ( srcset, src ) => (
+`<!-- Reference Docs: https://vumbnail.com -->
+<img
+    srcset="
+        ${srcset}
+    "
+    sizes="(max-width: 640px) 100vw, 640px"
+    src="${src}"
+    alt="Vimeo Thumbnail"
+/>`
+)
+
 export default {
     data () {
         return {
@@ -319,18 +330,11 @@ export default {
         },
         responsiveImageHtml () {
             const src = this.mappedItems[0].imageSrc
-            const srcset = this.mappedItems.map(({ imageSrc, width }) => `${imageSrc} ${width}w`).join(', ')
+            const srcset = this.mappedItems.map(({ imageSrc, width }) => `${imageSrc} ${width}w`).join(', \r\n        ')
 
             // console.log('srcset', srcset)
 
-            return `
-                <img
-                    srcset="${srcset}"
-                    sizes="(max-width: 640px) 100vw, 640px"
-                    src="${src}"
-                    alt="Vimeo Thumbnail"
-                />
-            `
+            return imageTemplate( srcset, src )
         },
         animatedThumbnailHtml () {
             // const src = this.mappedItems[0].imageSrc

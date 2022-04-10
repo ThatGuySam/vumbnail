@@ -14,7 +14,9 @@ import HomeExamples from '../components/home-examples.vue'
 // You can write any JavaScript/TypeScript that you'd like here.
 // It will run during the build, but never in the browser.
 // All variables are available to use in the HTML template below.
-let title = 'Get Video thumbnail by ID | Video Thumbnails'
+const title = 'Get Video thumbnail by ID | Video Thumbnails'
+
+const description = 'A quick way to get Vimeo thumbnails by the video\'s ID'
 
 // Full Astro Component Syntax:
 // https://docs.astro.build/core-concepts/astro-components/
@@ -23,7 +25,9 @@ let title = 'Get Video thumbnail by ID | Video Thumbnails'
 <head>
 	<meta charset="UTF-8">
 	<meta name="viewport" content="width=device-width">
-	<title>{title}</title>
+	<title>{ title }</title>
+
+	<meta name="Description" content="{ description }">
 
 	<link rel="icon" type="image/x-icon" href="/favicon.ico" />
 

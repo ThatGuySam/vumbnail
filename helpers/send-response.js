@@ -168,7 +168,7 @@ export async function sendSuccessResponseMedia(options = {}) {
 
     const headers = {
         ...successCacheHeaders,
-        'Content-Disposition': `inline; filename="media.${ extension }"`,
+        'Content-Disposition': `inline; filename="vumbnail.${ extension }"`,
         'Content-Type': mimeType
     }
 

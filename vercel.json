@@ -1,110 +1,25 @@
 {
-    "version": 2,
     "github": {
         "silent": true
     },
 
-    "headers": [
+    "builds": [
         {
-            "source": "/",
-            "headers": [
-                {
-                    "key": "cache-control",
-                    "value": "no-cache"
-                }
-            ]
+            "src": "package.json",
+            "use": "@vercel/static-build",
+            "config": { 
+                "distDir": "dist" 
+            }
         },
-        {
-            "source": "/favicon.ico",
-            "headers": [
-                {
-                    "key": "cache-control",
-                    "value": "no-cache"
-                }
-            ]
-        },
-        {
-            "source": "/robots.txt",
-            "headers": [
-                {
-                    "key": "cache-control",
-                    "value": "no-cache"
-                }
-            ]
-        },
-        {
-            "source": "/media/:match*",
-            "headers": [
-                {
-                    "key": "cache-control",
-                    "value": "public, s-maxage=2419200, stale-while-revalidate"
-                }
-            ]
-        },
-        {
-            "source": "/341241947.mp4",
-            "headers": [
-                {
-                    "key": "cache-control",
-                    "value": "public, s-maxage=2419200, stale-while-revalidate"
-                }
-            ]
-        },
-
-        {
-			"source": "/api/performance/v1",
-            "headers": [
-                {
-                    "key": "cache-control",
-                    "value": "no-cache"
-                }
-            ]
-		},
-
-        {
-			"source": "/api/info",
-            "headers": [
-                {
-                    "key": "cache-control",
-                    "value": "no-cache"
-                }
-            ]
-		},
-		{
-			"source": "/api/version",
-            "headers": [
-                {
-                    "key": "cache-control",
-                    "value": "no-cache"
-                }
-            ]
-		}
+        { "src": "api/**/*.py", "use": "@vercel/python" },
+        { "src": "api/**/*.js", "use": "@vercel/node" }
     ],
+
     "rewrites": [
-        {
-            "source": "/",
-            "destination": "/public/index.html"
-        },
-        {
-            "source": "/favicon.ico",
-            "destination": "/public/favicon.ico"
-        },
-        {
-            "source": "/robots.txt",
-            "destination": "/public/robots.txt"
-        },
-        {
-            "source": "/media/:match*",
-            "destination": "/public/media/:match*"
-        },
-        {
-            "source": "/341241947.mp4",
-            "destination": "/public/media/breathtaking.mp4"
-        },
-        
+
         {
             "source": "/performance/v1",
-            "destination": "/api/performance/v1/index"
+            "destination": "/api/performance/v1/index.js"
         },
         
         {
@@ -116,9 +31,9 @@
             "destination": "/api/v2/ytdl.py"
         },
 
-        {
-            "source": "/:path*",
-            "destination": "/api/v2/media"
+        { 
+            "source": "/(.*)", 
+            "destination": "/api/v2/media.js" 
         }
     ]
 }

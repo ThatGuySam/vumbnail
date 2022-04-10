@@ -7,5 +7,5 @@
         "@/public/*": ["./public/*"]
       }
     },
-    "exclude": ["node_modules", ".next"]
+    "exclude": ["node_modules"]
 }

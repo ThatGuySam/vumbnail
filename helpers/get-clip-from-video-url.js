@@ -87,6 +87,10 @@ export async function getClipFromVideoUrl ( videoUrl, options = {} ) {
         '-codec:v',
             'libx264',
 
+        // https://trac.ffmpeg.org/wiki/Encode/H.264
+        // '-preset', 
+        //     'ultrafast', 
+
         // Audio Codec
         // '-acodec',
             // 'aac',

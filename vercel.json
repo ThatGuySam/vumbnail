@@ -15,6 +15,37 @@
         { "src": "api/**/*.js", "use": "@vercel/node" }
     ],
 
+    "headers": [
+        {
+            "source": "/api/performance/v1",
+            "headers": [
+                {
+                    "key": "cache-control",
+                    "value": "no-cache"
+                }
+            ]
+        },
+    
+        {
+            "source": "/api/info",
+            "headers": [
+                {
+                    "key": "cache-control",
+                    "value": "no-cache"
+                }
+            ]
+        },
+        {
+            "source": "/api/version",
+            "headers": [
+                {
+                    "key": "cache-control",
+                    "value": "no-cache"
+                }
+            ]
+        }
+    ],
+
     "rewrites": [
 
         {

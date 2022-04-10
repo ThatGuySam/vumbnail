@@ -3,7 +3,7 @@ import Navbar from '../components/navbar.vue'
 
 const {
     headTitle, 
-    headDescription,
+    headDescription
 } = Astro.props
 
 ---
@@ -13,15 +13,15 @@ const {
 	<meta name="viewport" content="width=device-width">
 	<title>{ headTitle }</title>
 
-	<meta name="Description" content="{ headDescription }">
+	<meta name="Description" content={ headDescription }>
 
 	<link rel="icon" type="image/x-icon" href="/favicon.ico" />
 
 	<link rel="preconnect" href="https://www.googletagmanager.com" crossorigin>
-
 </head>
 <body>
     <Navbar />
+
 	<main>
 		<slot />
 	</main>

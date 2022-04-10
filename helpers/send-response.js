@@ -13,10 +13,10 @@ const ONE_YEAR = ONE_DAY * 365
 // We want to keep error caching time low
 // so we get the newest data from the API
 // max-age === Browser Cache
-// s-maxage === Cloudflare Cache
+// s-maxage === Vercel / Cloudflare Cache
 // Cache Control Header Examples - https://developers.cloudflare.com/cache/about/cache-control#examples
 export const errorCacheHeaders = {
-    'Cache-Control': `public, max-age=0, s-maxage=${ ONE_HOUR }`,
+    'Cache-Control': `no-cache, public, must-revalidate`,
 }
 
 

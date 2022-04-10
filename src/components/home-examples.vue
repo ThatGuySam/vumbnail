@@ -79,23 +79,25 @@
                 <div
                     class="pb-16"
                 >
-                    <h2
-                        id="responsive-image"
-                        class="text-4xl"
-                    >Responsive Image (Recommended)</h2>
-                    <h4 class="text-xl pb-4">Let's the browser pick the exact right image for the screen size so it loads as fast as possible. </h4>
-                    <div
-                        v-html="responsiveImageHtml"
-                    ></div>
+                    <section>
+                        <h2
+                            id="responsive-image"
+                            class="text-4xl"
+                        >Responsive Image (Recommended)</h2>
+                        <h4 class="text-xl pb-4">Let's the browser pick the exact right image for the screen size so it loads as fast as possible. </h4>
+                        <div
+                            v-html="responsiveImageHtml"
+                        ></div>
 
-                    <br>
+                        <br>
 
-                    <h3 class="text-xl pb-4">Image HTML</h3>
-                    <code
-                        class="responsive-image-html whitespace-pre block border rounded p-3"
-                    >
-                        {{ responsiveImageHtml }}
-                    </code>
+                        <h3 class="text-xl pb-4">Image HTML</h3>
+                        <code
+                            class="responsive-image-html block whitespace-pre-wrap border rounded p-3"
+                        >
+                            {{ responsiveImageHtml }}
+                        </code>
+                    </section>
 
                     <div class="py-5">
 

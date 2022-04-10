@@ -7,7 +7,7 @@ from starlette.exceptions import HTTPException as StarletteHTTPException
 from youtube_dl.version import __version__ as youtube_dl_version
 
 # DEFAULT_FORMAT = "bestvideo+bestaudio/best"
-DEFAULT_FORMAT = "worstvideo[ext=mp4]"
+DEFAULT_FORMAT = "http-240p/http-360p/worstvideo[ext=mp4]/mp4"
 DEFAULT_SEARCH = "ytsearch10"
 
 app = FastAPI(docs_url=None, redoc_url=None)

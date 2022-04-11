@@ -43,6 +43,7 @@
     "got": "^10.6.0",
     "gray-matter": "^4.0.3",
     "js-video-url-parser": "^0.5.1",
+    "just-debounce": "^1.1.0",
     "just-filter-object": "^3.0.1",
     "just-has": "^2.1.0",
     "just-map-values": "^3.0.2",

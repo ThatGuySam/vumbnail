@@ -97,9 +97,23 @@ export async function getFfmpegUrl ( options = {} ) {
         ...options
     }
 
-    // console.log('deployUrl', deployUrl)
+    
+    // Prefered format list separated by slashes
+    // 
+    // Vimeo Example: http-240p/http-360p/worstvideo[ext=mp4]/mp4
+    // https://github.com/ytdl-org/youtube-dl/blob/master/README.md#format-selection
+    const formatOptions = [
+      // Vimeo Formats
+      'http-240p',
+      'http-360p',
+      'http-480p',
 
-    const ytdlUrl = new URL(`${ deployUrl }/api/info?q=${ videoUrl }&f=worstvideo[ext=${ extension }]`)
+      // Generic
+      'worstvideo[ext=mp4]', 
+      'mp4'
+    ].join('/')
+
+    const ytdlUrl = new URL(`${ deployUrl }/api/info?q=${ videoUrl }&f=${ formatOptions }`)
 
     // console.log('ytdlUrl', ytdlUrl)
 

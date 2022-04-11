@@ -1,77 +1,62 @@
 <template>
 
     <div
-        id="app"
         class="flex items-center flex-col px-6"
     >
-        
-        <nav
-            class="w-full py-8"
-            style="max-width: 960px;"
-        >
-            <ul class="flex">
-                <li class="mr-6">
-                  <a class="font-bold text-blue-500 hover:text-blue-800" href="/">Vumbnail</a>
-                </li>
-                <li class="mr-6">
-                    <a class="text-blue-500 hover:text-blue-800" href="#responsive-image">Examples</a>
-                </li>
-                
-                <!--
-                <li class="mr-6">
-                    <a class="text-blue-500 hover:text-blue-800" href="#medium-image">Medium Example</a>
-                </li>
-                <li class="mr-6">
-                    <a class="text-blue-500 hover:text-blue-800" href="#small-image">Small Example</a>
-                </li> -->
-                <li class="mr-6">
-                  <a class="text-blue-500 hover:text-blue-800" href="https://docs.google.com/forms/d/e/1FAIpQLSeFU6f19pAEJMI8yJYOzGIV8y8Sg5NvSnaM6tXz83VtvZeU7Q/viewform?usp=sf_link">Send me updates</a>
-                </li>
 
-                <li class="mr-6">
-                    <a class="text-blue-500 hover:text-blue-800" href="https://github.com/ThatGuySam/vimeo-thumbnail-server/discussions">Help</a>
-                </li>
-            </ul>
-        </nav>
-
-        <main
-            class="w-full py-16"
-            style="max-width: 960px;"
+        <div
+            class="w-full max-w-3xl py-16"
         >
 
             <section class="text-center pb-16">
                 A quick way to get Vimeo Thumbnails with just an ID. 
             </section>
 
-            <section class="flex justify-center text-center pb-16">
-                <div>
+            <section class="flex flex-col justify-center text-center max-w-3xl pb-16">
 
-                    <label>
-                        <h3 class="pb-3">
-                            Enter your Vimeo Video ID
-                        </h3>
-                        <input
-                            v-model="vimeoId"
-                            class="border rounded bg-transparent p-3"
-                            focus
-                        />
-                    </label>
-
-                    <div class="example-videos py-5">
-                        <h3 class="pb-3">
-                            Example Videos
-                        </h3>
-                        <div class="button-group px-4">
-                            <button
-                                v-for="video in exampleVideos"
-                                :key="video.id"
-                                class="bg-transparent hover:bg-gray-500 text-gray-300 font-semibold hover:text-white border border-gray-500 hover:border-transparent rounded py-2 px-4 mx-3"
-                                @click="vimeoId = video.id"
-                            >{{ video.label }}</button>
-                        </div>
+                <label>
+                    <h3 class="sr-only">
+                        Enter your Video URL or ID
+                    </h3>
+                    <input
+                        v-model="videoReference"
+                        class="border rounded bg-transparent w-full max-w-xl text-2xl py-4 px-8"
+                        placeholder="Paste a video url or id..."
+                        autofocus
+                    />
+                    <div
+                        v-if="showInputError"
+                        class="text-sm py-3"
+                    >
+                        <p class="">
+                            <span>
+                                Not yet supported. 
+                            </span>
+                            <span>
+                                <a 
+                                    class="underline"
+                                    :href="`https://github.com/ThatGuySam/vumbnail/discussions?discussions_q=${ getAnyHost(videoReference) }`"
+                                    target="_blank"
+                                >Request</a>
+                            </span>
+                        </p>
                     </div>
+                </label>
 
+                <div class="example-videos py-5">
+                    <h2 class="pb-3">
+                        Examples
+                    </h2>
+                    <div class="button-group px-4">
+                        <button
+                            v-for="video in exampleVideos"
+                            :key="video.id"
+                            class="bg-transparent hover:bg-gray-500 text-gray-300 hover:text-white border border-gray-500 hover:border-transparent rounded py-1 px-2 mx-3"
+                            @click="videoReference = video.id"
+                        >{{ video.label }}</button>
+                    </div>
                 </div>
+
             </section>
     
     
@@ -79,23 +64,25 @@
                 <div
                     class="pb-16"
                 >
-                    <h2
-                        id="responsive-image"
-                        class="text-4xl"
-                    >Responsive Image (Recommended)</h2>
-                    <h4 class="text-xl pb-4">Let's the browser pick the exact right image for the screen size so it loads as fast as possible. </h4>
-                    <div
-                        v-html="responsiveImageHtml"
-                    ></div>
+                    <section>
+                        <h2
+                            id="responsive-image"
+                            class="text-4xl"
+                        >Responsive Image (Recommended)</h2>
+                        <h4 class="text-xl pb-4">Let's the browser pick the exact right image for the screen size so it loads as fast as possible. </h4>
+                        <div
+                            v-html="responsiveImageHtml"
+                        ></div>
 
-                    <br>
+                        <br>
 
-                    <h3 class="text-xl pb-4">Image HTML</h3>
-                    <code
-                        class="responsive-image-html whitespace-pre block border rounded p-3"
-                    >
-                        {{ responsiveImageHtml }}
-                    </code>
+                        <h3 class="text-xl pb-4">Image HTML</h3>
+                        <code
+                            class="responsive-image-html block whitespace-pre-wrap border rounded p-3"
+                        >
+                            {{ responsiveImageHtml }}
+                        </code>
+                    </section>
 
                     <div class="py-5">
 
@@ -220,7 +207,7 @@
 
             </section>
 
-        </main>
+        </div>
 
         <footer
             class="w-full py-8"
@@ -241,7 +228,56 @@
 <script>
 
 import ClipboardJS from 'clipboard'
+import urlParser from 'js-video-url-parser'
+import debounce from 'just-debounce'
 
+
+function isValidUrl ( maybeUrl ) {
+    try {
+        const url = new URL( maybeUrl )
+
+        return true
+    } catch ( error ) {
+        return false
+    }
+}
+
+function isSupportedVideoUrl ( maybeUrl ) {
+    if ( ! isValidUrl( maybeUrl ) ) {
+        return false
+    }
+
+    // https://github.com/Zod-/jsVideoUrlParser#readme
+    const urlDetails = urlParser.parse( maybeUrl )
+
+    const supportedProviders = [
+        'youtube',
+        'vimeo',
+    ]
+
+    try {
+        return supportedProviders.includes( urlDetails.provider )
+    } catch ( error ) {
+        return false
+    }
+}
+
+function isValidId ( maybeId ) {
+    const isCorrectLength = maybeId.length >= 8
+    const isAlphanumeric = /^[a-zA-Z0-9]+$/i.test( maybeId )
+
+    return isCorrectLength && isAlphanumeric
+}
+
+function getAnyHost ( maybeUrl ) {
+    if ( !isValidUrl ( maybeUrl ) ) {
+        return ''
+    }
+
+    const url = new URL( maybeUrl )
+
+    return url.host
+}
 
 function getDomain () {
 
@@ -260,10 +296,10 @@ const imageTemplate = ( srcset, src ) => (
 `<!-- Reference Docs: https://vumbnail.com -->
 <img
     srcset="
-        ${srcset}
+        ${ srcset }
     "
     sizes="(max-width: 640px) 100vw, 640px"
-    src="${src}"
+    src="${ src }"
     alt="Vimeo Thumbnail"
 />`
 )
@@ -271,8 +307,12 @@ const imageTemplate = ( srcset, src ) => (
 export default {
     data () {
         return {
-            vimeoId: '358629078',
+            videoReference: '',
             exampleVideos: [
+                {
+                    label: 'Making Films',
+                    id: '358629078'
+                }, 
                 {
                     label: 'Dad Life',
                     id: '12714406'
@@ -284,34 +324,38 @@ export default {
                 {
                     label: 'Girl Walk',
                     id: '32845443'
+                },
+                {
+                    label: 'J-Money',
+                    id: '376454747'
                 }
             ],
             items: [
                 {
                     heading: 'JPG Example',
                     id: 'regular-image',
-                    imageSrcTemplate: `/{vimeoId}.jpg`,
+                    imageSrcTemplate: `/{videoId}.jpg`,
                     imageAlt: 'Regular Thumbnail Example',
                     width: 640
                 },
                 {
                     heading: 'JPG Large Example',
                     id: 'large-image',
-                    imageSrcTemplate: `/{vimeoId}_large.jpg`,
+                    imageSrcTemplate: `/{videoId}_large.jpg`,
                     imageAlt: 'Large Thumbnail Example',
                     width: 640
                 },
                 {
                     heading: 'JPG Medium Example',
                     id: 'medium-image',
-                    imageSrcTemplate: `/{vimeoId}_medium.jpg`,
+                    imageSrcTemplate: `/{videoId}_medium.jpg`,
                     imageAlt: 'Medium Thumbnail Example',
                     width: 200
                 },
                 {
                     heading: 'JPG Small Example',
                     id: 'small-image',
-                    imageSrcTemplate: `/{vimeoId}_small.jpg`,
+                    imageSrcTemplate: `/{videoId}_small.jpg`,
                     imageAlt: 'Small Thumbnail Example',
                     width: 100
                 }
@@ -322,12 +366,48 @@ export default {
         domain () {
             return getDomain()
         },
+        hasReference () {
+            return this.videoReference.trim().length > 0
+        }, 
+        hasSupportedReference () {
+            
+            // Are the first 8 characters alphanumeric? 
+            // If not, it's probably a URL.
+            if ( isValidId( this.videoReference ) ) {
+                return true
+            }
+
+            return isSupportedVideoUrl( this.videoReference )
+        },
+        showInputError () {
+            return this.hasReference && !this.hasSupportedReference
+        },
+        videoId () {
+            const defaultId = this.exampleVideos[Math.floor(Math.random() * this.exampleVideos.length)].id// '358629078'
+
+            if ( ! this.hasReference ) {
+                return defaultId
+            }
+
+            if ( !this.hasSupportedReference ) {
+                return defaultId
+            }
+
+            // If the srting is a valid ID on it's own, use it.
+            if ( isValidId( this.videoReference ) ) {
+                return this.videoReference
+            }
+
+            const urlDetails = urlParser.parse( this.videoReference )
+
+            return urlDetails.id
+        },
         mappedItems () {
             return this.items.map(item => {
                 // console.log('item', item)
                 // console.log('item.imageSrcTemplate', item.imageSrcTemplate)
 
-                item.imageSrc = getDomain() + item.imageSrcTemplate.replace('{vimeoId}', this.vimeoId)
+                item.imageSrc = getDomain() + item.imageSrcTemplate.replace('{videoId}', this.videoId)
 
                 return item
             })
@@ -355,6 +435,7 @@ export default {
         }
     },
     methods: {
+        getAnyHost, 
         // copyImageUrl ( event ) {
         //     const { copyUrl } = event.target.dataset
 
@@ -376,6 +457,11 @@ export default {
     mounted () {
         // This may break on the next render
         new ClipboardJS('.copy')
+    },
+    watch: {
+        showInputError: debounce(function (newVal) {
+            this.showInputError = newVal
+        }, 750)
     }
 }
 </script>

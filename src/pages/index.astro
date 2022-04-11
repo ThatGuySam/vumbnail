@@ -4,7 +4,8 @@ import '../styles/global.css';
 import '../styles/home.css';
 
 // Component Imports
-import Tour from '../components/Tour.astro'
+import Layout from '../layouts/default.astro'
+
 import HomeExamples from '../components/home-examples.vue'
 
 // You can import components from any supported Framework here!
@@ -21,48 +22,23 @@ const description = 'A quick way to get Vimeo thumbnails by the video\'s ID'
 // Full Astro Component Syntax:
 // https://docs.astro.build/core-concepts/astro-components/
 ---
-<html lang="en">
-<head>
-	<meta charset="UTF-8">
-	<meta name="viewport" content="width=device-width">
-	<title>{ title }</title>
+<Layout
+	headTitle={ title }
+	headDescription={ description }
+>
+	<HomeExamples 
+		client:visible
+	/>
 
-	<meta name="Description" content="{ description }">
+	<!--
 
-	<link rel="icon" type="image/x-icon" href="/favicon.ico" />
+	You can also use imported framework components directly in your markup!
+	
+	Note: by default, these components are NOT interactive on the client.
+	The `:visible` directive tells Astro to make it interactive.
+	
+	See https://docs.astro.build/core-concepts/component-hydration/ 
 
-	<link rel="preconnect" href="https://www.googletagmanager.com" crossorigin>
+	-->
 
-</head>
-<body>
-	<main>
-
-		<HomeExamples 
-			client:visible
-		/>
-
-		<!--
-
-		You can also use imported framework components directly in your markup!
-		
-		Note: by default, these components are NOT interactive on the client.
-		The `:visible` directive tells Astro to make it interactive.
-		
-		See https://docs.astro.build/core-concepts/component-hydration/ 
-
-		-->
-
-	</main>
-</body>
-
-<!-- Global site tag (gtag.js) - Google Analytics -->
-<script async src="https://www.googletagmanager.com/gtag/js?id=UA-28434239-20"></script>
-<script>
-	window.dataLayer = window.dataLayer || [];
-	function gtag(){dataLayer.push(arguments);}
-	gtag('js', new Date());
-
-	gtag('config', 'UA-28434239-20');
-</script>
-
-</html>
+</Layout>

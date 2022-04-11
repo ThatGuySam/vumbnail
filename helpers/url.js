@@ -25,6 +25,8 @@ const optionKeys = Object.keys(optionSets)
 
 
 
+
+
 function getProviderAndIdFromFilename ( filenameWithoutExtension ) {
     // Assumptions
     // Youtube ID = 11 alphanumeric characters
@@ -70,7 +72,8 @@ function getProviderAndIdFromFilename ( filenameWithoutExtension ) {
 
     // Check if the first 11 characters of the filename
     // are alphanumeric. If so, assume it's a Youtube ID.
-    if ( /^[A-Za-z0-9_\-]{11}$/.test(filenameWithoutExtension.substring(0, 11)) ) {
+    const alphanumericFirst11Chars = /^[A-Za-z0-9_\-]{11}$/.test(filenameWithoutExtension.substring(0, 11))
+    if ( alphanumericFirst11Chars ) {
             
         const videoId = filenameWithoutExtension.substring(0, 11)
         return {

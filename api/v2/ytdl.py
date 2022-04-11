@@ -7,7 +7,7 @@ from starlette.exceptions import HTTPException as StarletteHTTPException
 from youtube_dl.version import __version__ as youtube_dl_version
 
 # DEFAULT_FORMAT = "bestvideo+bestaudio/best"
-DEFAULT_FORMAT = "worstvideo[ext=mp4]"
+DEFAULT_FORMAT = "http-240p/http-360p/worstvideo[ext=mp4]/mp4"
 DEFAULT_SEARCH = "ytsearch10"
 
 app = FastAPI(docs_url=None, redoc_url=None)
@@ -34,7 +34,7 @@ async def get_info(q: str, f: str = DEFAULT_FORMAT):
     with youtube_dl.YoutubeDL(ydl_opts) as ydl:
         try:
             res = ydl.extract_info(q, download=False)
-            return JSONResponse(res, headers={"Cache-Control": "s-maxage=2592000, stale-while-revalidate"})
+            return JSONResponse(res, headers={"Cache-Control": "no-store, s-maxage=0"})
         except Exception as e:
             raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail=repr(e), headers={"Cache-Control": "no-store, max-age=0"})
 

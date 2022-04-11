@@ -4,8 +4,7 @@ import { execa } from 'execa'
 
 
 import { getFfmpegUrl } from './get-ffmpeg-url.js'
-import { sendSuccessResponseMedia } from './send-response.js'
-
+import { performance } from './performance.js'
 
 
 
@@ -45,10 +44,16 @@ export async function getClipFromVideoUrl ( videoUrl, options = {} ) {
         extension = 'mp4',
     } = options
 
+    const urlFetchMarkerName = 'url-fetch'
+    performance.mark( urlFetchMarkerName )
+
     const ffpemgUrl = await getFfmpegUrl({
         videoUrl,
         extension,
     })
+
+    performance.measure( 'URL Fetch time', urlFetchMarkerName )
+    
 
     // // Process MPD manifest (dash)
     // // An FFmpeg Solution: https://video.stackexchange.com/a/25389
@@ -82,12 +87,16 @@ export async function getClipFromVideoUrl ( videoUrl, options = {} ) {
         '-codec:v',
             'libx264',
 
+        // https://trac.ffmpeg.org/wiki/Encode/H.264
+        // '-preset', 
+        //     'ultrafast', 
+
         // Audio Codec
         // '-acodec',
             // 'aac',
 
         '-movflags',
-        'frag_keyframe+empty_moov',
+            'frag_keyframe+empty_moov',
 
         // Set format
         '-f',
@@ -95,8 +104,20 @@ export async function getClipFromVideoUrl ( videoUrl, options = {} ) {
         '-'
     ]
 
+
+    const ffmpegMarkerName = 'ffmpeg-process'
+    performance.mark( ffmpegMarkerName )
+
+    performance.measure( 'FFmpeg time', ffmpegMarkerName )
+
     // Run command
     const ffmpegProcess = execa( pathToFfmpeg, ffmpegArgs )
+
+    // On pipe end 
+    ffmpegProcess.stdout.on( 'end', () => {
+        // console.log('ffmpegProcess.stdout.on( \'end\' )')
+        performance.measure( 'FFmpeg time', ffmpegMarkerName )
+    })
 
     return {
         fileStream: ffmpegProcess.stdout,

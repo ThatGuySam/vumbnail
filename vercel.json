@@ -1,49 +1,70 @@
 {
-    "version": 2,
     "github": {
         "silent": true
     },
-    "routes": [
+
+    "builds": [
         {
-            "src": "/",
-            "headers": { "cache-control": "no-cache" },
-            "dest": "public/index.html"
+            "src": "package.json",
+            "use": "@vercel/static-build",
+            "config": { 
+                "distDir": "dist" 
+            }
+        },
+        { "src": "api/**/*.py", "use": "@vercel/python" },
+        { "src": "api/**/*.js", "use": "@vercel/node" }
+    ],
+
+    "headers": [
+        {
+            "source": "/api/performance/v1",
+            "headers": [
+                {
+                    "key": "cache-control",
+                    "value": "no-cache"
+                }
+            ]
+        },
+    
+        {
+            "source": "/api/info",
+            "headers": [
+                {
+                    "key": "cache-control",
+                    "value": "no-cache"
+                }
+            ]
         },
         {
-            "src": "/favicon.ico",
-            "headers": { "cache-control": "no-cache" },
-            "dest": "public/favicon.ico"
-        },
-        {
-            "src": "/robots.txt",
-            "headers": { "cache-control": "no-cache" },
-            "dest": "public/robots.txt"
-        },
-        {
-            "src": "/media/:match*",
-            "headers": { "cache-control": "public, s-maxage=2419200, stale-while-revalidate" },
-            "dest": "public/media/:match*"
-        },
-        {
-            "src": "/341241947.mp4",
-            "headers": { "cache-control": "public, s-maxage=2419200, stale-while-revalidate" },
-            "dest": "public/media/breathtaking.mp4"
-        },
+            "source": "/api/version",
+            "headers": [
+                {
+                    "key": "cache-control",
+                    "value": "no-cache"
+                }
+            ]
+        }
+    ],
+
+    "rewrites": [
 
         {
-			"src": "/api/info",
-            "headers": { "cache-control": "no-cache" },
-			"dest": "api/v2/ytdl.py"
-		},
-		{
-			"src": "/api/version",
-            "headers": { "cache-control": "no-cache" },
-			"dest": "api/v2/ytdl.py"
-		},
-
+            "source": "/performance/v1",
+            "destination": "/api/performance/v1/index.js"
+        },
+        
         {
-            "src": "/(?<vimeoId>[^/]*)",
-            "dest": "/api/v2/media"
+            "source": "/api/info",
+            "destination": "/api/v2/ytdl.py"
+        },
+        {
+            "source": "/api/version",
+            "destination": "/api/v2/ytdl.py"
+        },
+
+        { 
+            "source": "/(.*)", 
+            "destination": "/api/v2/media.js" 
         }
     ]
 }

@@ -25,6 +25,8 @@ const optionKeys = Object.keys(optionSets)
 
 
 
+
+
 function getProviderAndIdFromFilename ( filenameWithoutExtension ) {
     // Assumptions
     // Youtube ID = 11 alphanumeric characters
@@ -70,7 +72,8 @@ function getProviderAndIdFromFilename ( filenameWithoutExtension ) {
 
     // Check if the first 11 characters of the filename
     // are alphanumeric. If so, assume it's a Youtube ID.
-    if ( /^[A-Za-z0-9_\-]{11}$/.test(filenameWithoutExtension.substring(0, 11)) ) {
+    const alphanumericFirst11Chars = /^[A-Za-z0-9_\-]{11}$/.test(filenameWithoutExtension.substring(0, 11))
+    if ( alphanumericFirst11Chars ) {
             
         const videoId = filenameWithoutExtension.substring(0, 11)
         return {
@@ -84,7 +87,10 @@ function getProviderAndIdFromFilename ( filenameWithoutExtension ) {
 }
 
 function parsePathPartsFromUrl ( thumbnailPath ) {
-    const urlPath = (new URL( thumbnailPath, 'https://example.com' )).pathname
+    const urlPathname = (new URL( thumbnailPath, 'https://example.com' )).pathname
+
+    // Remove any query strings
+    const urlPath = urlPathname.split('?')[0]
 
     return path.parse( urlPath )
 }
@@ -129,7 +135,7 @@ const pathOptionParsers = {
     'videoId': thumbnailPath => {
         const { 
             name: filenameWithoutExtension
-        } = path.parse( thumbnailPath )
+        } = parsePathPartsFromUrl( thumbnailPath )
 
         // Handle video IDs
         const {

@@ -26,9 +26,19 @@
                     />
                     <div
                         v-if="showInputError"
+                        class="text-sm py-3"
                     >
                         <p class="">
-                            This video is not supported.
+                            <span>
+                                Not yet supported. 
+                            </span>
+                            <span>
+                                <a 
+                                    class="underline"
+                                    :href="`https://github.com/ThatGuySam/vumbnail/discussions?discussions_q=${ getAnyHost(videoReference) }`"
+                                    target="_blank"
+                                >Request</a>
+                            </span>
                         </p>
                     </div>
                 </label>
@@ -259,6 +269,16 @@ function isValidId ( maybeId ) {
     return isCorrectLength && isAlphanumeric
 }
 
+function getAnyHost ( maybeUrl ) {
+    if ( !isValidUrl ( maybeUrl ) ) {
+        return ''
+    }
+
+    const url = new URL( maybeUrl )
+
+    return url.host
+}
+
 function getDomain () {
 
     if ( typeof window !== 'undefined' ) {
@@ -387,8 +407,6 @@ export default {
                 // console.log('item', item)
                 // console.log('item.imageSrcTemplate', item.imageSrcTemplate)
 
-                console.log('this.videoId', this.videoId)
-
                 item.imageSrc = getDomain() + item.imageSrcTemplate.replace('{videoId}', this.videoId)
 
                 return item
@@ -417,6 +435,7 @@ export default {
         }
     },
     methods: {
+        getAnyHost, 
         // copyImageUrl ( event ) {
         //     const { copyUrl } = event.target.dataset
 

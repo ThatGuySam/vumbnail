@@ -162,15 +162,21 @@
                     class="pb-16"
                 >
                     <div class="heading-area pb-4">
-                        <h2
-                            id="animated-image"
-                            class="text-4xl"
-                        >Coming Soon - Animated Thumbnail Example</h2>
+                        Coming Soon
+                        <div class="flex gap-3">
+                            <h2
+                                id="animated-image"
+                                class="text-4xl"
+                            >Animated Thumbnail Example</h2>
+                            <div class="pro-pill h-5 text-xs font-bold bg-black flex justify-center items-center outline-0 rounded-full ease px-2" style="top: -1em; right: 0px;">
+                                Pro
+                            </div>
+                        </div>
                         <h4 class="text-xl">An animated preview thumbnail of the Vimeo video. </h4>
                         <a
                             class="inline-block bg-transparent hover:bg-gray-500 font-semibold hover:text-white border border-gray-500 hover:border-transparent rounded py-2 px-4 my-3"
                             href="https://docs.google.com/forms/d/e/1FAIpQLSeFU6f19pAEJMI8yJYOzGIV8y8Sg5NvSnaM6tXz83VtvZeU7Q/viewform?usp=pp_url&entry.5778473=Animated+Thumbnails"
-                        >Get Notified</a>
+                        >Join Waitlist</a>
                     </div>
 
                     <div

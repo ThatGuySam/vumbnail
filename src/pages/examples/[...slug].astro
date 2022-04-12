@@ -1,0 +1,175 @@
+---
+// Component Imports
+import Layout from '../../layouts/default.astro'
+
+export async function getStaticPaths( ) {
+    const allExamples = await Astro.glob('../../../examples/**/*.md')
+
+    const allExamplePages = await Promise.all( allExamples.map(async exampleEntry => {
+        // console.log( 'exampleEntry', exampleEntry )
+        // console.log( 'headers', await exampleEntry.getHeaders() )
+
+
+        return {
+            params: {
+                // Get slug from file path
+                slug: exampleEntry.file.split('/').at(-2),
+            },
+            props: {
+              // Use first header as title
+              title: (await exampleEntry.getHeaders())[0].text,
+
+              entry: exampleEntry,
+
+              nav: null
+            }
+        }
+    }) )
+
+    const nav = allExamplePages.map( examplePage => {
+
+        return {
+            label: examplePage.props.title,
+            href: `/examples/${examplePage.params.slug}`,
+            slug: examplePage.params.slug
+        }
+    })
+
+
+    return allExamplePages
+        //Add nav to each page
+        .map( page => {
+            page.props.nav = nav
+
+            return page
+        })
+}
+
+const {
+  slug
+} = Astro.params
+
+const {
+  title,
+  nav,
+  entry: {
+    Content,
+  },
+} = Astro.props
+
+---
+<Layout
+  headTitle={ title }
+  headDescription={``}
+>
+    <div class="max-w-8xl mx-auto px-4 sm:px-6 md:px-8">
+        <div class="hidden lg:block fixed z-20 inset-0 top-[3.8125rem] left-[max(0px,calc(50%-45rem))] right-auto w-[16.5rem] pb-10 px-8 overflow-y-auto">
+            <nav id="nav" class="lg:text-sm lg:leading-6 relative">
+
+                <!-- <div class="sticky top-0 -ml-0.5 pointer-events-none">
+                    <div class="h-10 bg-white dark:bg-slate-900"></div>
+                    <div class="bg-white dark:bg-slate-900 relative pointer-events-auto">
+                        <button type="button" class="hidden w-full lg:flex items-center text-sm leading-6 text-slate-400 rounded-md ring-1 ring-slate-900/10 shadow-sm py-1.5 pl-2 pr-3 hover:ring-slate-300 dark:bg-slate-800 dark:highlight-white/5 dark:hover:bg-slate-700">
+                            <svg width="24" height="24" fill="none" aria-hidden="true" class="mr-3 flex-none">
+                                <path d="m19 19-3.5-3.5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path>
+                                <circle cx="11" cy="11" r="6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></circle>
+                            </svg>
+                            Quick search...<span class="ml-auto pl-3 flex-none text-xs font-semibold">⌘K</span>
+                        </button>
+                    </div>
+                    <div class="h-8 bg-gradient-to-b from-white dark:from-slate-900"></div>
+                </div> -->
+
+                <ul>
+                    <!-- <li>
+                        <a href="/docs/installation" class="group flex items-center lg:text-sm lg:leading-6 mb-4 font-semibold text-sky-500 dark:text-sky-400">
+                            <div class="mr-4 rounded-md ring-1 ring-slate-900/5 shadow-sm group-hover:shadow group-hover:ring-slate-900/10 dark:ring-0 dark:shadow-none dark:group-hover:shadow-none dark:group-hover:highlight-white/10 group-hover:shadow-sky-200 dark:group-hover:bg-sky-500 dark:bg-sky-500 dark:highlight-white/10">
+                                <svg class="h-6 w-6" viewBox="0 0 24 24" fill="none">
+                                    <path fill-rule="evenodd" clip-rule="evenodd" d="M8.5 7c1.093 0 2.117.27 3 .743V17a6.345 6.345 0 0 0-3-.743c-1.093 0-2.617.27-3.5.743V7.743C5.883 7.27 7.407 7 8.5 7Z" class="fill-sky-200 group-hover:fill-sky-500 dark:fill-sky-300 dark:group-hover:fill-sky-300"></path>
+                                    <path fill-rule="evenodd" clip-rule="evenodd" d="M15.5 7c1.093 0 2.617.27 3.5.743V17c-.883-.473-2.407-.743-3.5-.743s-2.117.27-3 .743V7.743a6.344 6.344 0 0 1 3-.743Z" class="fill-sky-400 group-hover:fill-sky-500 dark:fill-sky-200 dark:group-hover:fill-sky-200"></path>
+                                </svg>
+                            </div>
+                            Documentation
+                        </a>
+                    </li>
+                    <li>
+                        <a href="https://tailwindui.com/components?utm_source=tailwindcss&amp;utm_medium=navigation" class="group flex items-center lg:text-sm lg:leading-6 mb-4 font-medium text-slate-700 hover:text-slate-900 dark:text-slate-400 dark:hover:text-slate-300">
+                            <div class="mr-4 rounded-md ring-1 ring-slate-900/5 shadow-sm group-hover:shadow group-hover:ring-slate-900/10 dark:ring-0 dark:shadow-none dark:group-hover:shadow-none dark:group-hover:highlight-white/10 group-hover:shadow-indigo-200 dark:group-hover:bg-indigo-500 dark:bg-slate-800 dark:highlight-white/5">
+                                <svg class="h-6 w-6" viewBox="0 0 24 24" fill="none">
+                                    <path d="m6 9 6-3 6 3v6l-6 3-6-3V9Z" class="fill-indigo-100 group-hover:fill-indigo-200 dark:fill-slate-400"></path>
+                                    <path d="m6 9 6 3v7l-6-3V9Z" class="fill-indigo-300 group-hover:fill-indigo-400 dark:group-hover:fill-indigo-300 dark:fill-slate-500"></path>
+                                    <path d="m18 9-6 3v7l6-3V9Z" class="fill-indigo-400 group-hover:fill-indigo-500 dark:group-hover:fill-indigo-400 dark:fill-slate-600"></path>
+                                </svg>
+                            </div>
+                            Components
+                        </a>
+                    </li> -->
+
+                    <li class="mt-12 lg:mt-8">
+                        <h5
+                            class="mb-8 lg:mb-3 font-semibold text-slate-900 dark:text-slate-200"
+                            >Examples</h5>
+                        <ul class="space-y-6 lg:space-y-2 border-l border-slate-100 dark:border-slate-800">
+                            { nav.map( navItem => (
+                                <li>
+                                    <a
+                                        class={[
+                                            'block border-l pl-4 -ml-px border-current font-semibold',
+                                            navItem.slug === slug ? 'text-sky-500 dark:text-sky-400' : 'text-slate-700 hover:text-slate-900 dark:text-slate-400 dark:hover:text-slate-300',
+                                        ].join(' ')}
+                                        href={ navItem.href }
+                                    >{ navItem.label }</a>
+                                </li>
+                            )) }
+                        </ul>
+                    </li>
+
+                </ul>
+            </nav>
+        </div>
+        <div class="lg:pl-[16.5rem]">
+            <main class="max-w-3xl mx-auto relative z-20 pt-10 xl:max-w-none">
+                <!-- <header id="header" class="mb-10 md:flex md:items-start">
+                    <div class="flex-auto max-w-4xl">
+                        <p class="mb-4 text-sm leading-6 font-semibold text-sky-500 dark:text-sky-400">Installation</p>
+                        <h1 class="text-3xl sm:text-4xl font-extrabold text-slate-900 tracking-tight dark:text-slate-200">Get started with Tailwind CSS</h1>
+                        <p class="mt-4 text-lg text-slate-700 dark:text-slate-400">Tailwind CSS works by scanning all of your HTML files, JavaScript components, and any other templates for class names, generating the corresponding styles and then writing them to a static CSS file.</p>
+                        <p class="mt-4 text-lg text-slate-700 dark:text-slate-400">It's fast, flexible, and reliable — with zero-runtime.</p>
+                    </div>
+                </header> -->
+                <section class="mb-16 relative">
+
+                    <div class="font-bold">Example</div>
+                        <div
+                            class="markdown-content flex flex-col gap-4 mb-32"
+                        >
+                        <Content />
+                    </div>
+                </section>
+            </main>
+            <footer class="text-sm leading-6 mt-16">
+                <div class="pt-10 pb-28 border-t border-slate-200 sm:flex justify-between text-slate-500 dark:border-slate-200/5">
+                    <div class="mb-6 sm:mb-0 sm:flex">
+                        <p>Copyright © 2022 Vumbnail.</p>
+                    </div>
+                    <div class="flex space-x-10 text-slate-400 dark:text-slate-500">
+                        <a href="https://github.com/ThatGuySam/vumbnail" class="hover:text-slate-500 dark:hover:text-slate-400">
+                            <span class="sr-only">GitHub</span>
+                            <svg width="25" height="24" fill="currentColor">
+                                <path fill-rule="evenodd" clip-rule="evenodd" d="M12.846 0c-6.63 0-12 5.506-12 12.303 0 5.445 3.435 10.043 8.205 11.674.6.107.825-.262.825-.585 0-.292-.015-1.261-.015-2.291-3.015.569-3.795-.754-4.035-1.446-.135-.354-.72-1.446-1.23-1.738-.42-.23-1.02-.8-.015-.815.945-.015 1.62.892 1.845 1.261 1.08 1.86 2.805 1.338 3.495 1.015.105-.8.42-1.338.765-1.645-2.67-.308-5.46-1.37-5.46-6.075 0-1.338.465-2.446 1.23-3.307-.12-.308-.54-1.569.12-3.26 0 0 1.005-.323 3.3 1.26.96-.276 1.98-.415 3-.415s2.04.139 3 .416c2.295-1.6 3.3-1.261 3.3-1.261.66 1.691.24 2.952.12 3.26.765.861 1.23 1.953 1.23 3.307 0 4.721-2.805 5.767-5.475 6.075.435.384.81 1.122.81 2.276 0 1.645-.015 2.968-.015 3.383 0 .323.225.707.825.585a12.047 12.047 0 0 0 5.919-4.489 12.537 12.537 0 0 0 2.256-7.184c0-6.798-5.37-12.304-12-12.304Z"></path>
+                            </svg>
+                        </a>
+                        <!-- <a href="/discord" class="hover:text-slate-500 dark:hover:text-slate-400">
+                            <span class="sr-only">Discord</span>
+                            <svg width="23" height="24" fill="currentColor">
+                                <path d="M9.555 9.23c-.74 0-1.324.624-1.324 1.385S8.827 12 9.555 12c.739 0 1.323-.624 1.323-1.385.013-.761-.584-1.385-1.323-1.385Zm4.737 0c-.74 0-1.324.624-1.324 1.385S13.564 12 14.292 12c.74 0 1.324-.624 1.324-1.385s-.584-1.385-1.324-1.385Z"></path>
+                                <path d="M20.404 0H3.442c-.342 0-.68.065-.995.19a2.614 2.614 0 0 0-.843.536 2.46 2.46 0 0 0-.562.801c-.13.3-.197.62-.196.944v16.225c0 .324.066.645.196.944.13.3.321.572.562.801.241.23.527.412.843.537.315.124.653.189.995.19h14.354l-.67-2.22 1.62 1.428 1.532 1.344L23 24V2.472c0-.324-.066-.644-.196-.944a2.46 2.46 0 0 0-.562-.8A2.614 2.614 0 0 0 21.4.19a2.726 2.726 0 0 0-.995-.19V0Zm-4.886 15.672s-.456-.516-.836-.972c1.659-.444 2.292-1.428 2.292-1.428a7.38 7.38 0 0 1-1.456.707 8.67 8.67 0 0 1-1.836.517 9.347 9.347 0 0 1-3.279-.012 11.074 11.074 0 0 1-1.86-.516 7.621 7.621 0 0 1-.924-.409c-.039-.023-.076-.035-.113-.06-.027-.011-.04-.023-.052-.035-.228-.12-.354-.204-.354-.204s.608.96 2.215 1.416c-.38.456-.848.996-.848.996-2.797-.084-3.86-1.824-3.86-1.824 0-3.864 1.822-6.996 1.822-6.996 1.823-1.296 3.557-1.26 3.557-1.26l.127.145c-2.278.623-3.33 1.57-3.33 1.57s.279-.143.747-.347c1.355-.564 2.43-.72 2.873-.756.077-.012.14-.024.216-.024a10.804 10.804 0 0 1 6.368 1.129s-1.001-.9-3.153-1.526l.178-.19s1.735-.037 3.557 1.259c0 0 1.823 3.133 1.823 6.996 0 0-1.076 1.74-3.874 1.824Z"></path>
+                            </svg>
+                        </a> -->
+                    </div>
+                </div>
+            </footer>
+        </div>
+    </div>
+
+</Layout>

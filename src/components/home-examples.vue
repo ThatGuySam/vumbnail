@@ -9,7 +9,7 @@
         >
 
             <section class="text-center pb-16">
-                A quick way to get Vimeo Thumbnails with just an ID. 
+                A quick way to get Vimeo Thumbnails with just an ID.
             </section>
 
             <section class="flex flex-col justify-center text-center max-w-3xl pb-16">
@@ -30,10 +30,10 @@
                     >
                         <p class="">
                             <span>
-                                Not yet supported. 
+                                Not yet supported.
                             </span>
                             <span>
-                                <a 
+                                <a
                                     class="underline"
                                     :href="`https://github.com/ThatGuySam/vumbnail/discussions?discussions_q=${ getAnyHost(videoReference) }`"
                                     target="_blank"
@@ -58,8 +58,8 @@
                 </div>
 
             </section>
-    
-    
+
+
             <section class="pb-16">
                 <div
                     class="pb-16"
@@ -94,8 +94,8 @@
                         </div>
 
                     </div>
-        
-        
+
+
                     <br>
                     <br>
                     <br>
@@ -135,7 +135,7 @@
                                 :data-clipboard-text="item.imageSrc"
                             >Copy</button>
                         </div>
-    
+
                         <div class="inline">
                             <a
                                 :href="item.imageSrc"
@@ -148,8 +148,8 @@
                         </div>
 
                     </div>
-        
-        
+
+
                     <br>
                     <br>
                     <br>
@@ -197,8 +197,8 @@
                         </div>
 
                     </div>
-        
-        
+
+
                     <br>
                     <br>
                     <br>
@@ -208,17 +208,6 @@
             </section>
 
         </div>
-
-        <footer
-            class="w-full py-8"
-            style="max-width: 960px;"
-        >
-            <ul class="flex">
-                <li class="mr-6">
-                    <a class="text-blue-500 hover:text-blue-800" href="https://github.com/ThatGuySam/vimeo-thumbnail-server/discussions">Help</a>
-                </li>
-            </ul>
-        </footer>
 
     </div>
 
@@ -312,7 +301,7 @@ export default {
                 {
                     label: 'Making Films',
                     id: '358629078'
-                }, 
+                },
                 {
                     label: 'Dad Life',
                     id: '12714406'
@@ -368,10 +357,10 @@ export default {
         },
         hasReference () {
             return this.videoReference.trim().length > 0
-        }, 
+        },
         hasSupportedReference () {
-            
-            // Are the first 8 characters alphanumeric? 
+
+            // Are the first 8 characters alphanumeric?
             // If not, it's probably a URL.
             if ( isValidId( this.videoReference ) ) {
                 return true
@@ -435,7 +424,7 @@ export default {
         }
     },
     methods: {
-        getAnyHost, 
+        getAnyHost,
         // copyImageUrl ( event ) {
         //     const { copyUrl } = event.target.dataset
 

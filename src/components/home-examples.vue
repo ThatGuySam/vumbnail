@@ -9,7 +9,7 @@
         >
 
             <section class="text-center pb-16">
-                A quick way to get Vimeo Thumbnails with just an ID. 
+                A quick way to get Vimeo Thumbnails with just an ID.
             </section>
 
             <section class="flex flex-col justify-center text-center max-w-3xl pb-16">
@@ -30,10 +30,10 @@
                     >
                         <p class="">
                             <span>
-                                Not yet supported. 
+                                Not yet supported.
                             </span>
                             <span>
-                                <a 
+                                <a
                                     class="underline"
                                     :href="`https://github.com/ThatGuySam/vumbnail/discussions?discussions_q=${ getAnyHost(videoReference) }`"
                                     target="_blank"
@@ -58,8 +58,8 @@
                 </div>
 
             </section>
-    
-    
+
+
             <section class="pb-16">
                 <div
                     class="pb-16"
@@ -94,8 +94,8 @@
                         </div>
 
                     </div>
-        
-        
+
+
                     <br>
                     <br>
                     <br>
@@ -135,7 +135,7 @@
                                 :data-clipboard-text="item.imageSrc"
                             >Copy</button>
                         </div>
-    
+
                         <div class="inline">
                             <a
                                 :href="item.imageSrc"
@@ -148,8 +148,8 @@
                         </div>
 
                     </div>
-        
-        
+
+
                     <br>
                     <br>
                     <br>
@@ -162,15 +162,21 @@
                     class="pb-16"
                 >
                     <div class="heading-area pb-4">
-                        <h2
-                            id="animated-image"
-                            class="text-4xl"
-                        >Coming Soon - Animated Thumbnail Example</h2>
+                        Coming Soon
+                        <div class="flex gap-3">
+                            <h2
+                                id="animated-image"
+                                class="text-4xl"
+                            >Animated Thumbnail Example</h2>
+                            <div class="pro-pill h-5 text-xs font-bold bg-black flex justify-center items-center outline-0 rounded-full ease px-2" style="top: -1em; right: 0px;">
+                                Pro
+                            </div>
+                        </div>
                         <h4 class="text-xl">An animated preview thumbnail of the Vimeo video. </h4>
                         <a
                             class="inline-block bg-transparent hover:bg-gray-500 font-semibold hover:text-white border border-gray-500 hover:border-transparent rounded py-2 px-4 my-3"
                             href="https://docs.google.com/forms/d/e/1FAIpQLSeFU6f19pAEJMI8yJYOzGIV8y8Sg5NvSnaM6tXz83VtvZeU7Q/viewform?usp=pp_url&entry.5778473=Animated+Thumbnails"
-                        >Get Notified</a>
+                        >Join Waitlist</a>
                     </div>
 
                     <div
@@ -197,8 +203,8 @@
                         </div>
 
                     </div>
-        
-        
+
+
                     <br>
                     <br>
                     <br>
@@ -208,17 +214,6 @@
             </section>
 
         </div>
-
-        <footer
-            class="w-full py-8"
-            style="max-width: 960px;"
-        >
-            <ul class="flex">
-                <li class="mr-6">
-                    <a class="text-blue-500 hover:text-blue-800" href="https://github.com/ThatGuySam/vimeo-thumbnail-server/discussions">Help</a>
-                </li>
-            </ul>
-        </footer>
 
     </div>
 
@@ -312,7 +307,7 @@ export default {
                 {
                     label: 'Making Films',
                     id: '358629078'
-                }, 
+                },
                 {
                     label: 'Dad Life',
                     id: '12714406'
@@ -368,10 +363,10 @@ export default {
         },
         hasReference () {
             return this.videoReference.trim().length > 0
-        }, 
+        },
         hasSupportedReference () {
-            
-            // Are the first 8 characters alphanumeric? 
+
+            // Are the first 8 characters alphanumeric?
             // If not, it's probably a URL.
             if ( isValidId( this.videoReference ) ) {
                 return true
@@ -435,7 +430,7 @@ export default {
         }
     },
     methods: {
-        getAnyHost, 
+        getAnyHost,
         // copyImageUrl ( event ) {
         //     const { copyUrl } = event.target.dataset
 

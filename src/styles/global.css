@@ -15,8 +15,10 @@ body {
 	/* padding: 4rem 2rem; */
 	width: 100%;
 	min-height: 100vh;
-	display: grid;
-	justify-content: center;
+	display: flex;
+    flex-direction: column;
+	align-items: center;
+
 	background: #f9fafb;
 	color: #111827;
 }
@@ -26,4 +28,33 @@ body {
 		background: #111827;
 		color: #fff;
 	}
+}
+
+details summary {
+	cursor: pointer;
+}
+
+
+
+
+.markdown-content h1 {
+	@apply text-6xl;
+	@apply font-bold;
+	@apply mb-4;
+}
+
+.markdown-content h2 {
+	@apply text-3xl;
+	@apply font-bold;
+	@apply mt-6;
+}
+
+.markdown-content a {
+	/* color: #111827; */
+	text-decoration: underline;
+}
+
+.astro-code {
+	@apply p-6;
+	@apply rounded-lg;
 }

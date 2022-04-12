@@ -1,10 +1,19 @@
 ---
+import '../styles/global.css'
+
 import Navbar from '../components/navbar.vue'
+import Footer from '../components/footer.astro'
 
 const {
-    headTitle, 
-    headDescription
+    headTitle,
+    headDescription,
+    contained = true
 } = Astro.props
+
+const mainClasses = [
+    'main',
+    contained ? 'container w-full max-w-8xl' : '',
+].join(' ')
 
 ---
 <html lang="en">
@@ -22,9 +31,11 @@ const {
 <body>
     <Navbar />
 
-	<main>
+	<div class={ mainClasses }>
 		<slot />
-	</main>
+	</div>
+
+    <Footer />
 </body>
 
 <!-- Global site tag (gtag.js) - Google Analytics -->

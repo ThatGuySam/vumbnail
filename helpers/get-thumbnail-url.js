@@ -207,7 +207,7 @@ async function tryThumbnailUrlMethods ( options = {} ) {
         try {
             thumbnailUrl = await method( videoId )
         } catch ( error ) {
-            console.log(`Error fetching thumbnail url from ${ method.name }: ${ error }`)
+            console.log(`Thumbnails method ${ method.name } failed. Trying next method.`)
             continue
         }
 

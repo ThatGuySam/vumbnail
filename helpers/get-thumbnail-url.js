@@ -88,7 +88,7 @@ const youtubeThumbnailSizes = {
         width: 320,
         height: 180,
         pathOptionName: true,
-    }, 
+    },
 
     // May or may not be available
 
@@ -230,14 +230,14 @@ async function tryThumbnailUrlMethods ( options = {} ) {
 export async function getInputImageDetails ( options = {} ) {
 
     const {
-        videoId, 
+        videoId,
         videoPassword,
-        provider, 
-        targetSizeKey = vimeoDefaultSize, 
+        provider,
+        targetSizeKey = vimeoDefaultSize,
         targetExtension = 'jpg',
     } = options
-    
-    
+
+
     let inputUrl
     let size
     let extension
@@ -262,7 +262,7 @@ export async function getInputImageDetails ( options = {} ) {
                 methods: [
                     getPublicVimeoThumbnail,
                     getVimeoThumbnailFromOembed,
-                    getVimeoThumbnailFromEmbedConfig, 
+                    getVimeoThumbnailFromEmbedConfig,
                     // Maybe a YoutubeDL method?
                 ],
                 videoId
@@ -280,10 +280,10 @@ export async function getInputImageDetails ( options = {} ) {
         const inputUrlPrefix = inputUrl.substr(0, lastIndexOfUnderscore)
 
         inputUrl = ([
-            inputUrlPrefix, 
+            inputUrlPrefix,
             newSize
         ]).join( separator )
-        
+
         extension = 'jpg'
     }
 
@@ -302,9 +302,9 @@ export async function getInputImageDetails ( options = {} ) {
 
 
     return {
-        inputUrl, 
-        size, 
-        extension, 
+        inputUrl,
+        size,
+        extension,
     }
 }
 
@@ -324,7 +324,7 @@ export async function getOutputImage ( options = {} ) {
         ...defaultOptions,
         ...options
     }
-    
+
     const {
         inputUrl,
         size,
@@ -341,7 +341,7 @@ export async function getOutputImage ( options = {} ) {
 
     // Resize and convert images here
 
-    
+
     return {
         url: inputUrl,
         size,

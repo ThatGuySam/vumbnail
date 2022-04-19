@@ -18,11 +18,15 @@
                     <h3 class="sr-only">
                         Enter your Video URL or ID
                     </h3>
-                    <input
-                        v-model="videoReference"
-                        class="border rounded bg-transparent w-full max-w-xl text-2xl py-4 px-8"
-                        placeholder="Paste a video url or id..."
+                    <!-- videoReference: {{ videoReference }} -->
+                    <video-reference-input
+                        :video-reference="videoReference"
+
                         autofocus
+
+                        @update:videoReference="videoReference = $event"
+                        @update:videoId="videoId = $event"
+                        @update:showInputError="showInputError = $event"
                     />
                     <div
                         v-if="showInputError"
@@ -223,56 +227,14 @@
 <script>
 
 import ClipboardJS from 'clipboard'
-import urlParser from 'js-video-url-parser'
-import debounce from 'just-debounce'
+// import debounce from 'just-debounce'
 
+import {
+    isValidUrl
+} from '../../helpers/url.js'
 
-let videoReferences
+import VideoReferenceInput from './video-reference-input.vue'
 
-async function getVideoReferences () {
-    if ( !videoReferences ) {
-        videoReferences = await import( '../../helpers/video-references.js' )
-    }
-
-    return videoReferences
-}
-
-function isValidUrl ( maybeUrl ) {
-    try {
-        const url = new URL( maybeUrl )
-
-        return true
-    } catch ( error ) {
-        return false
-    }
-}
-
-function isSupportedVideoUrl ( maybeUrl ) {
-    if ( ! isValidUrl( maybeUrl ) ) {
-        return false
-    }
-
-    // https://github.com/Zod-/jsVideoUrlParser#readme
-    const urlDetails = urlParser.parse( maybeUrl )
-
-    const supportedProviders = [
-        'youtube',
-        'vimeo',
-    ]
-
-    try {
-        return supportedProviders.includes( urlDetails.provider )
-    } catch ( error ) {
-        return false
-    }
-}
-
-function isValidId ( maybeId ) {
-    const isCorrectLength = maybeId.length >= 8
-    const isAlphanumeric = /^[a-zA-Z0-9]+$/i.test( maybeId )
-
-    return isCorrectLength && isAlphanumeric
-}
 
 function getAnyHost ( maybeUrl ) {
     if ( !isValidUrl ( maybeUrl ) ) {
@@ -310,9 +272,14 @@ const imageTemplate = ( srcset, src ) => (
 )
 
 export default {
+    components: {
+        VideoReferenceInput,
+    },
     data () {
         return {
             videoReference: '',
+            videoId: '',
+            showInputError: false,
             exampleVideos: [
                 {
                     label: 'Making Films',
@@ -371,44 +338,6 @@ export default {
         domain () {
             return getDomain()
         },
-        hasReference () {
-            return this.videoReference.trim().length > 0
-        },
-        hasSupportedReference () {
-
-            // Are the first 8 characters alphanumeric?
-            // If not, it's probably a URL.
-            if ( isValidId( this.videoReference ) ) {
-                return true
-            }
-
-            return isSupportedVideoUrl( this.videoReference )
-        },
-        showInputError () {
-            return this.hasReference && !this.hasSupportedReference
-        },
-        videoId () {
-            const defaultId = this.exampleVideos[Math.floor(Math.random() * this.exampleVideos.length)].id// '358629078'
-
-            if ( ! this.hasReference ) {
-                return defaultId
-            }
-
-            if ( !this.hasSupportedReference ) {
-                return defaultId
-            }
-
-            // If the srting is a valid ID on it's own, use it.
-            if ( isValidId( this.videoReference ) ) {
-                return this.videoReference
-            }
-
-            // Store the video
-
-            const urlDetails = urlParser.parse( this.videoReference )
-
-            return urlDetails.id
-        },
         mappedItems () {
             return this.items.map(item => {
                 // console.log('item', item)
@@ -443,46 +372,10 @@ export default {
     },
     methods: {
         getAnyHost,
-        // copyImageUrl ( event ) {
-        //     const { copyUrl } = event.target.dataset
-
-        //     console.log('Copying', copyUrl)
-        //     const clipboard = new ClipboardJS(event.target, {
-        //         // text: (trigger) => {
-        //         //     return copyUrl
-        //         // }
-        //     })
-
-        //     // clipboard.target(event.target)
-
-        //     clipboard.action('copy')
-
-        //     console.log('clipboard', clipboard)
-
-        // }
     },
     mounted () {
         // This may break on the next render
         new ClipboardJS('.copy')
-
-        getVideoReferences()
-            .then( async ({ getLatestReference }) => {
-                const latestReference = await getLatestReference()
-
-                // Paste the latest reference into the input.
-                this.videoReference = latestReference
-            })
-    },
-    watch: {
-        showInputError: debounce(function (newVal) {
-            this.showInputError = newVal
-        }, 750),
-        videoId () {
-            getVideoReferences()
-                .then( ({ saveReference }) => {
-                    saveReference( this.videoReference )
-                })
-        }
     }
 }
 </script>

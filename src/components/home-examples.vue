@@ -227,6 +227,16 @@ import urlParser from 'js-video-url-parser'
 import debounce from 'just-debounce'
 
 
+let videoReferences
+
+async function getVideoReferences () {
+    if ( !videoReferences ) {
+        videoReferences = await import( '../../helpers/video-references.js' )
+    }
+
+    return videoReferences
+}
+
 function isValidUrl ( maybeUrl ) {
     try {
         const url = new URL( maybeUrl )
@@ -393,6 +403,8 @@ export default {
                 return this.videoReference
             }
 
+            // Store the video
+
             const urlDetails = urlParser.parse( this.videoReference )
 
             return urlDetails.id
@@ -452,11 +464,25 @@ export default {
     mounted () {
         // This may break on the next render
         new ClipboardJS('.copy')
+
+        getVideoReferences()
+            .then( async ({ getLatestReference }) => {
+                const latestReference = await getLatestReference()
+
+                // Paste the latest reference into the input.
+                this.videoReference = latestReference
+            })
     },
     watch: {
         showInputError: debounce(function (newVal) {
             this.showInputError = newVal
-        }, 750)
+        }, 750),
+        videoId () {
+            getVideoReferences()
+                .then( ({ saveReference }) => {
+                    saveReference( this.videoReference )
+                })
+        }
     }
 }
 </script>

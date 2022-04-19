@@ -5,8 +5,7 @@ import { sizeOptions } from './get-thumbnail-url.js'
 import mapValues from 'just-map-values'
 
 
-// https://stackoverflow.com/a/66011585/1397641
-export const vercelUrl = process.env.VERCEL_BETA_URL || `https://${process.env.VERCEL_URL}`
+
 
 export function isValidUrl ( url ) {
     try {

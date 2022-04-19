@@ -27,12 +27,12 @@ const optionKeys = Object.keys(optionSets)
 
 
 
-function getProviderAndIdFromFilename ( filenameWithoutExtension ) {
+export function getProviderAndIdFromFilename ( filenameWithoutExtension ) {
     // Assumptions
     // Youtube ID = 11 alphanumeric characters
     // https://stackoverflow.com/a/6250619/1397641
     // Vimeo ID = 8+ digits
-    
+
     // Goal is to be 99.9% accurate
 
 
@@ -44,22 +44,22 @@ function getProviderAndIdFromFilename ( filenameWithoutExtension ) {
     // Check if the first 8 characters of the filename
     // are digits. If so, assume it's a Vimeo ID
     // since it's not very likely a Youtube ID will start
-    // with 8 digits(but not impossible). 
+    // with 8 digits(but not impossible).
     const numericFirst8Chars = /^\d{8,}$/.test( filenameWithoutExtension.substring(0, 8) )
     if ( numericFirst8Chars ) {
 
         // May contain a password seperated by a colon
         const [ vumbnailIdentifier ] = filenameWithoutExtension.split('_')
 
-        const [ 
-            videoId, 
+        const [
+            videoId,
             videoPassword = null,
         ] = vumbnailIdentifier.split(':')
 
         // console.log( 'vimeo', videoId, videoPassword )
 
         return {
-            ...defaultDetails, 
+            ...defaultDetails,
             provider: 'vimeo',
             videoId,
             videoPassword
@@ -74,10 +74,10 @@ function getProviderAndIdFromFilename ( filenameWithoutExtension ) {
     // are alphanumeric. If so, assume it's a Youtube ID.
     const alphanumericFirst11Chars = /^[A-Za-z0-9_\-]{11}$/.test(filenameWithoutExtension.substring(0, 11))
     if ( alphanumericFirst11Chars ) {
-            
+
         const videoId = filenameWithoutExtension.substring(0, 11)
         return {
-            ...defaultDetails, 
+            ...defaultDetails,
             provider: 'youtube',
             videoId,
         }
@@ -120,7 +120,7 @@ const pathOptionParsers = {
     },
 
     'provider': thumbnailPath => {
-        const { 
+        const {
             name: filenameWithoutExtension
         } = parsePathPartsFromUrl( thumbnailPath )
 
@@ -133,7 +133,7 @@ const pathOptionParsers = {
     },
 
     'videoId': thumbnailPath => {
-        const { 
+        const {
             name: filenameWithoutExtension
         } = parsePathPartsFromUrl( thumbnailPath )
 
@@ -146,7 +146,7 @@ const pathOptionParsers = {
     },
 
     'videoPassword': thumbnailPath => {
-        const { 
+        const {
             name: filenameWithoutExtension
         } = path.parse( thumbnailPath )
 
@@ -185,14 +185,14 @@ export function parseOptionsFromPath ( thumbnailPath, options = {} ) {
             console.log(error)
         }
     }
-    
+
 
     try {
 
-        const { 
+        const {
             name: filenameWithoutExtension
         } = path.parse( thumbnailPath )
-        
+
         // Get options from filename
         // Allowed url path characters (https://stackoverflow.com/a/4669755/1397641)
         // A–Z, a–z, 0–9, -, ., _, ~, !, $, &, ', ), (, *, +, ,, ;, =, :, @

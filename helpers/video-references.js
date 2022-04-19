@@ -33,11 +33,16 @@ export async function saveReference ( reference ) {
     // Get the reference list
     const videoReferences = await getVideoReferences()
 
-    console.log('saveReference', reference, videoReferences)
+    // console.log('saveReference', reference, videoReferences)
+
+    // Delete any existing references that match
+    const updatedVideoReferences = videoReferences.filter( ( reference ) => {
+        return reference === reference
+    })
 
     // Add the new reference to the list
-    videoReferences.push(reference)
+    updatedVideoReferences.push(reference)
 
     // Save the updated reference list
-    await localForage.setItem( storageKey, videoReferences )
+    await localForage.setItem( storageKey, updatedVideoReferences )
 }

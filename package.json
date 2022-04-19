@@ -54,6 +54,7 @@
     "react-dom": "^17.0.2",
     "serverless-lighthouse": "^1.0.8",
     "sharp": "^0.30.0",
+    "shiki": "^0.10.1",
     "youtube-dl-exec": "^2.0.2",
     "ytdl-core": "^4.10.1"
   },

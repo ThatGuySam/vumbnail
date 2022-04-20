@@ -48,17 +48,14 @@
                 </label>
 
                 <div class="example-videos py-5">
-                    <h2 class="pb-3">
+                    <h2 class="sr-only pb-3">
                         Examples
                     </h2>
-                    <div class="button-group px-4">
-                        <button
-                            v-for="video in exampleVideos"
-                            :key="video.id"
-                            class="bg-transparent hover:bg-gray-500 text-gray-300 hover:text-white border border-gray-500 hover:border-transparent rounded py-1 px-2 mx-3"
-                            @click="videoReference = video.id"
-                        >{{ video.label }}</button>
-                    </div>
+                    <videos-for-input
+                        :video-reference="videoReference"
+
+                        @update:videoReference="videoReference = $event"
+                    />
                 </div>
 
             </section>
@@ -230,11 +227,11 @@ import ClipboardJS from 'clipboard'
 // import debounce from 'just-debounce'
 
 import {
-    isValidUrl,
     getAnyHost
 } from '../../helpers/url.js'
 
 import VideoReferenceInput from './video-reference-input.vue'
+import VideosForInput from './videos-for-input.vue'
 
 function getDomain () {
 
@@ -264,6 +261,7 @@ const imageTemplate = ( srcset, src ) => (
 export default {
     components: {
         VideoReferenceInput,
+        VideosForInput,
     },
     data () {
         return {

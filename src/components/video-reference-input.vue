@@ -137,7 +137,7 @@ export default {
         videoId ( newId ) {
             this.$emit( 'update:videoId', newId )
 
-            if ( newId.length !== 0 ) {
+            if ( newId.length !== 0 && isSupportedVideoUrl( this.videoReference ) ) {
                 getVideoReferences()
                     .then( async ({ saveReference }) => {
                         await saveReference( this.videoReference )

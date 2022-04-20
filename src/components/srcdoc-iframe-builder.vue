@@ -35,6 +35,12 @@
             </div>
         </label>
 
+        <videos-for-input
+            :video-reference="videoReference"
+
+            @update:videoReference="videoReference = $event"
+        />
+
         <div class="example-videos py-5">
             <h2 class="pb-3">
                 Examples
@@ -111,6 +117,7 @@ import {
 } from '../../helpers/url.js'
 
 import VideoReferenceInput from './video-reference-input.vue'
+import VideosForInput from './videos-for-input.vue'
 
 
 
@@ -160,6 +167,7 @@ const embedTemplate = ({
 export default {
     components: {
         VideoReferenceInput,
+        VideosForInput
     },
     data () {
         return {

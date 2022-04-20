@@ -32,7 +32,7 @@ export async function getVideoReferences () {
 export async function getLatestReference () {
     const videoReferences = await getVideoReferences()
 
-    return videoReferences[ videoReferences.length - 1 ]
+    return videoReferences[ 0 ]
 }
 
 
@@ -47,9 +47,9 @@ export async function saveReference ( newReference ) {
         return newReference !== storedReference
     })
 
-    // Add the new reference to the list
-    updatedVideoReferences.push( newReference )
-
     // Save the updated reference list
-    await localForage.setItem( storageKey, updatedVideoReferences )
+    await localForage.setItem( storageKey, [
+        newReference,
+        ...updatedVideoReferences
+    ] )
 }

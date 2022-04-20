@@ -24,7 +24,8 @@ import debounce from 'just-debounce'
 
 import {
     getProviderAndIdFromFilename,
-    isValidUrl
+    isSupportedVideoUrl,
+    isValidId
 } from '../../helpers/url.js'
 
 
@@ -36,33 +37,6 @@ async function getVideoReferences () {
     }
 
     return videoReferences
-}
-
-function isSupportedVideoUrl ( maybeUrl ) {
-    if ( ! isValidUrl( maybeUrl ) ) {
-        return false
-    }
-
-    // https://github.com/Zod-/jsVideoUrlParser#readme
-    const urlDetails = urlParser.parse( maybeUrl )
-
-    const supportedProviders = [
-        'youtube',
-        'vimeo',
-    ]
-
-    try {
-        return supportedProviders.includes( urlDetails.provider )
-    } catch ( error ) {
-        return false
-    }
-}
-
-function isValidId ( maybeId ) {
-    const isCorrectLength = maybeId.length >= 8
-    const isAlphanumeric = /^[a-zA-Z0-9]+$/i.test( maybeId )
-
-    return isCorrectLength && isAlphanumeric
 }
 
 

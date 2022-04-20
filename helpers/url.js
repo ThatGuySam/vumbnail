@@ -26,11 +26,61 @@ export function getAnyHost ( maybeUrl ) {
     return url.host
 }
 
+export function getDomain () {
+
+    if ( typeof import.meta.env.VITE_VERCEL_URL === 'string' ) {
+        return `https://${ import.meta.env.VITE_VERCEL_URL }`
+    }
+
+    if ( typeof window !== 'undefined' ) {
+        return `${window.location.protocol}//${window.location.host}`
+    }
+
+    return `https://vumbnail.com`
+}
+
 export const optionSets = {
     ...mapValues( sizeOptions, ( value ) => ({ targetSizeKey: value.key }) ),
 }
 
 const optionKeys = Object.keys(optionSets)
+
+
+export function isValidId ( maybeId ) {
+    const isCorrectLength = maybeId.length >= 8
+    const isAlphanumeric = /^[a-zA-Z0-9_-]+$/i.test( maybeId )
+
+    console.log('maybeId', maybeId)
+    console.log('isCorrectLength', isCorrectLength)
+    console.log('isAlphanumeric', isAlphanumeric)
+
+    return isCorrectLength && isAlphanumeric
+}
+
+export function isSupportedVideoUrl ( maybeUrl ) {
+    if ( ! isValidUrl( maybeUrl ) ) {
+        return false
+    }
+
+    // https://github.com/Zod-/jsVideoUrlParser#readme
+    const urlDetails = urlParser.parse( maybeUrl )
+
+    // Reject URls with unsupported video IDs
+    if ( !isValidId( urlDetails.id ) ) {
+        return false
+    }
+
+    const supportedProviders = [
+        'youtube',
+        'vimeo',
+    ]
+
+    try {
+        return supportedProviders.includes( urlDetails.provider )
+    } catch ( error ) {
+        return false
+    }
+}
 
 
 

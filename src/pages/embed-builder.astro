@@ -1,0 +1,52 @@
+---
+// Component Imports
+import Layout from '../layouts/default.astro'
+
+import SrcDocIframeBuilder from '../components/srcdoc-iframe-builder.vue'
+
+// You can import components from any supported Framework here!
+
+
+// Component Script:
+// You can write any JavaScript/TypeScript that you'd like here.
+// It will run during the build, but never in the browser.
+// All variables are available to use in the HTML template below.
+const title = 'Vumbnail Embed Builder | Vumbnail'
+
+const description = 'Build video embeds for YouTube and Vimeo optimized for Google Lighthouse performance'
+
+// Full Astro Component Syntax:
+// https://docs.astro.build/core-concepts/astro-components/
+---
+<Layout
+	headTitle={ title }
+	headDescription={ description }
+>
+
+    <div
+        class="flex items-center flex-col px-6"
+    >
+
+        <div
+            class="w-full max-w-6xl py-16"
+        >
+
+            <SrcDocIframeBuilder
+                client:visible
+            />
+
+        </div>
+    </div>
+
+	<!--
+
+	You can also use imported framework components directly in your markup!
+
+	Note: by default, these components are NOT interactive on the client.
+	The `:visible` directive tells Astro to make it interactive.
+
+	See https://docs.astro.build/core-concepts/component-hydration/
+
+	-->
+
+</Layout>

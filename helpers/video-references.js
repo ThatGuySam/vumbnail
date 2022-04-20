@@ -13,13 +13,20 @@ localForage.config({
 // then initialize the reference list
 // with an empty array
 export async function getVideoReferences () {
+    const initialValue = []
+
     const videoReferences = await localForage.getItem( storageKey )
 
-    if ( !videoReferences ) {
-        await localForage.setItem( storageKey, [] )
+    // Return the stored list
+    if ( !!videoReferences ) {
+        return videoReferences
     }
 
-    return videoReferences
+    // Intialize the reference list
+    await localForage.setItem( storageKey, initialValue )
+
+    // Return initial value
+    return initialValue
 }
 
 export async function getLatestReference () {
@@ -29,19 +36,19 @@ export async function getLatestReference () {
 }
 
 
-export async function saveReference ( reference ) {
+export async function saveReference ( newReference ) {
     // Get the reference list
     const videoReferences = await getVideoReferences()
 
-    // console.log('saveReference', reference, videoReferences)
+    // console.log('saveReference', newReference, videoReferences)
 
-    // Delete any existing references that match
-    const updatedVideoReferences = videoReferences.filter( ( reference ) => {
-        return reference === reference
+    // Exlude any existing references that match
+    const updatedVideoReferences = videoReferences.filter( ( storedReference ) => {
+        return newReference !== storedReference
     })
 
     // Add the new reference to the list
-    updatedVideoReferences.push(reference)
+    updatedVideoReferences.push( newReference )
 
     // Save the updated reference list
     await localForage.setItem( storageKey, updatedVideoReferences )

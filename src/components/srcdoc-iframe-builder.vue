@@ -107,7 +107,7 @@
 import has from 'just-has'
 
 import {
-    getDomain
+    getAnyHost
 } from '../../helpers/url.js'
 
 import VideoReferenceInput from './video-reference-input.vue'
@@ -175,6 +175,8 @@ export default {
     },
 
     methods: {
+        getAnyHost,
+
         hasHighlightedCode ( reference ) {
             return has( this.highlightedCode, [reference] )
         },

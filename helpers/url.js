@@ -143,7 +143,7 @@ export function getProviderAndIdFromFilename ( filenameWithoutExtension ) {
         }
     }
 
-    throw new Error(`Could not determine provider and video ID from filename: ${filename}`)
+    throw new Error(`Could not determine provider and video ID from filename: ${ filenameWithoutExtension }`)
 }
 
 function parsePathPartsFromUrl ( thumbnailPath ) {

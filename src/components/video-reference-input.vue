@@ -1,13 +1,18 @@
 <template>
 
-    <input
-        ref="input"
-        v-model="videoReference"
-        class="border rounded bg-transparent w-full max-w-xl text-2xl py-4 px-8"
-        placeholder="Paste a video url or id..."
+    <div class="input-container relative flex justify-center">
+        <input
+            ref="input"
+            v-model="videoReference"
+            class="border rounded-lg bg-transparent w-full max-w-xl text-2xl py-4 px-8"
+            placeholder="Paste a video url or id..."
 
-        @input="$emit('update:videoReference', $event.target.value)"
-    />
+            :autofocus="autofocus"
+
+            @input="$emit('update:videoReference', $event.target.value)"
+        />
+        <!-- Thumbnail Preview -->
+    </div>
 
 </template>
 
@@ -64,6 +69,10 @@ function isValidId ( maybeId ) {
 
 export default {
     props: {
+        autofocus: {
+            type: Boolean,
+            default: false
+        },
         videoReference: {
             type: String,
             default: '',

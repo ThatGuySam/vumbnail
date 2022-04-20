@@ -202,7 +202,7 @@ export default {
         },
 
         thumbnailUrl () {
-            return `https://vumbnail.com/${ this.videoId }_maxresdefault.jpg`
+            return `https://vumbnail.com/${ this.videoId }.jpg`
         },
 
         embedPlainMarkup () {

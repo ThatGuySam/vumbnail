@@ -2,7 +2,7 @@
 import urlParser from 'js-video-url-parser'
 import axios from 'axios'
 
-import { vercelUrl } from './url.js'
+import { vercelUrl } from './get-vercel-url.js'
 
 
 const providerDefaultOptions = {
@@ -97,9 +97,9 @@ export async function getFfmpegUrl ( options = {} ) {
         ...options
     }
 
-    
+
     // Prefered format list separated by slashes
-    // 
+    //
     // Vimeo Example: http-240p/http-360p/worstvideo[ext=mp4]/mp4
     // https://github.com/ytdl-org/youtube-dl/blob/master/README.md#format-selection
     const formatOptions = [
@@ -109,7 +109,7 @@ export async function getFfmpegUrl ( options = {} ) {
       'http-480p',
 
       // Generic
-      'worstvideo[ext=mp4]', 
+      'worstvideo[ext=mp4]',
       'mp4'
     ].join('/')
 

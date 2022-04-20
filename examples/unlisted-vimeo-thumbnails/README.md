@@ -7,7 +7,7 @@ Keep in mind that your video secret will be visible to anyone who can view you a
 
 ## URL Example
 
-```css
+```nim
 https://vumbnail.com/692839122:3144c3edfc.jpg
 ```
 

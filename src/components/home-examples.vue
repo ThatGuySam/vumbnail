@@ -9,7 +9,7 @@
         >
 
             <section class="text-center pb-16">
-                A quick way to get Vimeo Thumbnails with just an ID.
+                Simple Video Thumbnails for Frontend Developers
             </section>
 
             <section class="flex flex-col justify-center text-center max-w-3xl pb-16">
@@ -18,11 +18,15 @@
                     <h3 class="sr-only">
                         Enter your Video URL or ID
                     </h3>
-                    <input
-                        v-model="videoReference"
-                        class="border rounded bg-transparent w-full max-w-xl text-2xl py-4 px-8"
-                        placeholder="Paste a video url or id..."
+                    <!-- videoReference: {{ videoReference }} -->
+                    <video-reference-input
+                        :video-reference="videoReference"
+
                         autofocus
+
+                        @update:videoReference="videoReference = $event"
+                        @update:videoId="videoId = $event"
+                        @update:showInputError="showInputError = $event"
                     />
                     <div
                         v-if="showInputError"
@@ -44,17 +48,14 @@
                 </label>
 
                 <div class="example-videos py-5">
-                    <h2 class="pb-3">
+                    <h2 class="sr-only pb-3">
                         Examples
                     </h2>
-                    <div class="button-group px-4">
-                        <button
-                            v-for="video in exampleVideos"
-                            :key="video.id"
-                            class="bg-transparent hover:bg-gray-500 text-gray-300 hover:text-white border border-gray-500 hover:border-transparent rounded py-1 px-2 mx-3"
-                            @click="videoReference = video.id"
-                        >{{ video.label }}</button>
-                    </div>
+                    <videos-for-input
+                        :video-reference="videoReference"
+
+                        @update:videoReference="videoReference = $event"
+                    />
                 </div>
 
             </section>
@@ -223,56 +224,14 @@
 <script>
 
 import ClipboardJS from 'clipboard'
-import urlParser from 'js-video-url-parser'
-import debounce from 'just-debounce'
+// import debounce from 'just-debounce'
 
+import {
+    getAnyHost
+} from '../../helpers/url.js'
 
-function isValidUrl ( maybeUrl ) {
-    try {
-        const url = new URL( maybeUrl )
-
-        return true
-    } catch ( error ) {
-        return false
-    }
-}
-
-function isSupportedVideoUrl ( maybeUrl ) {
-    if ( ! isValidUrl( maybeUrl ) ) {
-        return false
-    }
-
-    // https://github.com/Zod-/jsVideoUrlParser#readme
-    const urlDetails = urlParser.parse( maybeUrl )
-
-    const supportedProviders = [
-        'youtube',
-        'vimeo',
-    ]
-
-    try {
-        return supportedProviders.includes( urlDetails.provider )
-    } catch ( error ) {
-        return false
-    }
-}
-
-function isValidId ( maybeId ) {
-    const isCorrectLength = maybeId.length >= 8
-    const isAlphanumeric = /^[a-zA-Z0-9]+$/i.test( maybeId )
-
-    return isCorrectLength && isAlphanumeric
-}
-
-function getAnyHost ( maybeUrl ) {
-    if ( !isValidUrl ( maybeUrl ) ) {
-        return ''
-    }
-
-    const url = new URL( maybeUrl )
-
-    return url.host
-}
+import VideoReferenceInput from './video-reference-input.vue'
+import VideosForInput from './videos-for-input.vue'
 
 function getDomain () {
 
@@ -300,9 +259,15 @@ const imageTemplate = ( srcset, src ) => (
 )
 
 export default {
+    components: {
+        VideoReferenceInput,
+        VideosForInput,
+    },
     data () {
         return {
             videoReference: '',
+            videoId: '',
+            showInputError: false,
             exampleVideos: [
                 {
                     label: 'Making Films',
@@ -361,42 +326,6 @@ export default {
         domain () {
             return getDomain()
         },
-        hasReference () {
-            return this.videoReference.trim().length > 0
-        },
-        hasSupportedReference () {
-
-            // Are the first 8 characters alphanumeric?
-            // If not, it's probably a URL.
-            if ( isValidId( this.videoReference ) ) {
-                return true
-            }
-
-            return isSupportedVideoUrl( this.videoReference )
-        },
-        showInputError () {
-            return this.hasReference && !this.hasSupportedReference
-        },
-        videoId () {
-            const defaultId = this.exampleVideos[Math.floor(Math.random() * this.exampleVideos.length)].id// '358629078'
-
-            if ( ! this.hasReference ) {
-                return defaultId
-            }
-
-            if ( !this.hasSupportedReference ) {
-                return defaultId
-            }
-
-            // If the srting is a valid ID on it's own, use it.
-            if ( isValidId( this.videoReference ) ) {
-                return this.videoReference
-            }
-
-            const urlDetails = urlParser.parse( this.videoReference )
-
-            return urlDetails.id
-        },
         mappedItems () {
             return this.items.map(item => {
                 // console.log('item', item)
@@ -431,32 +360,10 @@ export default {
     },
     methods: {
         getAnyHost,
-        // copyImageUrl ( event ) {
-        //     const { copyUrl } = event.target.dataset
-
-        //     console.log('Copying', copyUrl)
-        //     const clipboard = new ClipboardJS(event.target, {
-        //         // text: (trigger) => {
-        //         //     return copyUrl
-        //         // }
-        //     })
-
-        //     // clipboard.target(event.target)
-
-        //     clipboard.action('copy')
-
-        //     console.log('clipboard', clipboard)
-
-        // }
     },
     mounted () {
         // This may break on the next render
         new ClipboardJS('.copy')
-    },
-    watch: {
-        showInputError: debounce(function (newVal) {
-            this.showInputError = newVal
-        }, 750)
     }
 }
 </script>

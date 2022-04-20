@@ -84,7 +84,7 @@ const pathExamples = [
             filename: 'V-66rBGAGns_large.webm',
             filenameWithoutExtension: 'V-66rBGAGns_large',
         }
-    }, 
+    },
     {
         path: '/579958628:c8b4fb043c.jpg',
         expected: {
@@ -122,6 +122,19 @@ const pathExamples = [
             filenameWithoutExtension: '643816644',
         }
     },
+
+    // With Period in Query String Alt
+    {
+        path: '/639263424.jpg?mw=539.9999856948853&mh=304.199991941452',
+        expected: {
+            videoId: '639263424',
+            videoPassword: null,
+            provider: 'vimeo',
+            extension: 'jpg',
+            filename: '639263424.jpg',
+            filenameWithoutExtension: '639263424',
+        }
+    },
 ]
 
 for ( const pathExample of pathExamples ) {
@@ -130,14 +143,14 @@ for ( const pathExample of pathExamples ) {
         const options = parseOptionsFromPath(pathExample.path)
 
         // t.log('options', options)
-        
+
         t.deepEqual(options, pathExample.expected)
     })
 
 
     test(`Can handler key from path: ${pathExample.path}`, t => {
         const options = parseOptionsFromPath(pathExample.path)
-        
+
         t.deepEqual(options, pathExample.expected)
     })
 

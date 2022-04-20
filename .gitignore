@@ -4,6 +4,7 @@ dist/
 .now
 .vercel
 /.vscode/snipsnap.code-snippets
+/public/shiki
 
 # dependencies
 node_modules/

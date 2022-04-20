@@ -47,6 +47,7 @@
     "just-filter-object": "^3.0.1",
     "just-has": "^2.1.0",
     "just-map-values": "^3.0.2",
+    "localforage": "^1.10.0",
     "markdown-it": "^12.3.2",
     "micro-redirect": "^1.0.2",
     "npm-run-all": "^4.1.5",
@@ -54,6 +55,7 @@
     "react-dom": "^17.0.2",
     "serverless-lighthouse": "^1.0.8",
     "sharp": "^0.30.0",
+    "shiki": "^0.10.1",
     "youtube-dl-exec": "^2.0.2",
     "ytdl-core": "^4.10.1"
   },

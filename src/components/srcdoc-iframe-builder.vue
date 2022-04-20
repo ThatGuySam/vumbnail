@@ -14,6 +14,7 @@
                 @update:videoReference="videoReference = $event"
                 @update:videoId="videoId = $event"
                 @update:showInputError="showInputError = $event"
+                @update:provider="provider = $event"
             />
             <div
                 v-if="showInputError"
@@ -105,11 +106,18 @@
 
 import has from 'just-has'
 
+import {
+    getDomain
+} from '../../helpers/url.js'
+
 import VideoReferenceInput from './video-reference-input.vue'
 
 
 
-const embedTemplate = () => (
+const embedTemplate = ({
+    embedUrl,
+    thumbnailUrl
+}) => (
 /* html */`
 <!-- Reference: https://vumbnail.com/examples/srcdoc-iframe-for-lighthouse -->
 <iframe
@@ -125,11 +133,11 @@ const embedTemplate = () => (
             }
         </style>
         <a
-            href='https://www.youtube.com/embed/d1vBNOiRyEI?autoplay=1'
+            href='${ embedUrl }'
             class='full'
         >
             <img
-                src='https://vumbnail.com/d1vBNOiRyEI_maxresdefault.jpg'
+                src='${ thumbnailUrl }'
                 class='full'
             />
             <svg
@@ -157,7 +165,9 @@ export default {
             highlighter: null,
 
             videoReference: '',
-            videoId: '',
+            videoId: 'd1vBNOiRyEI',
+            provider: 'youtube',
+
             showInputError: false,
             exampleVideos: [],
             highlightedCode: {}
@@ -182,13 +192,22 @@ export default {
 
         embedUrl () {
 
-            // https://player.vimeo.com/video/${ this.videoReference }
+            if( this.provider === 'youtube' ) {
+                return `https://www.youtube.com/embed/${ this.videoId }?autoplay=1`
+            }
 
-            return `https://www.youtube.com/embed/${ this.videoId }`
+            return `https://player.vimeo.com/video/${ this.videoId }?autoplay=1&autopause=0`
+        },
+
+        thumbnailUrl () {
+            return `https://vumbnail.com/${ this.videoId }_maxresdefault.jpg`
         },
 
         embedPlainMarkup () {
-            return embedTemplate()
+            return embedTemplate({
+                embedUrl: this.embedUrl,
+                thumbnailUrl: this.thumbnailUrl,
+            })
         },
 
         embedHighlightedMarkup () {

@@ -1,8 +1,9 @@
 // import url from 'url'
 import path from 'path'
+import urlParser from 'js-video-url-parser'
+import mapValues from 'just-map-values'
 
 import { sizeOptions } from './get-thumbnail-url.js'
-import mapValues from 'just-map-values'
 
 
 

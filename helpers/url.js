@@ -16,6 +16,16 @@ export function isValidUrl ( url ) {
     }
 }
 
+export function getAnyHost ( maybeUrl ) {
+    if ( !isValidUrl ( maybeUrl ) ) {
+        return ''
+    }
+
+    const url = new URL( maybeUrl )
+
+    return url.host
+}
+
 export const optionSets = {
     ...mapValues( sizeOptions, ( value ) => ({ targetSizeKey: value.key }) ),
 }

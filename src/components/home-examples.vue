@@ -230,21 +230,11 @@ import ClipboardJS from 'clipboard'
 // import debounce from 'just-debounce'
 
 import {
-    isValidUrl
+    isValidUrl,
+    getAnyHost
 } from '../../helpers/url.js'
 
 import VideoReferenceInput from './video-reference-input.vue'
-
-
-function getAnyHost ( maybeUrl ) {
-    if ( !isValidUrl ( maybeUrl ) ) {
-        return ''
-    }
-
-    const url = new URL( maybeUrl )
-
-    return url.host
-}
 
 function getDomain () {
 

@@ -9,7 +9,7 @@
         >
 
             <section class="text-center pb-16">
-                A quick way to get Vimeo Thumbnails with just an ID.
+                Simple Video Thumbnails for Frontend Developers
             </section>
 
             <section class="flex flex-col justify-center text-center max-w-3xl pb-16">

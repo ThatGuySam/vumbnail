@@ -130,6 +130,7 @@ const embedTemplate = ({
                 position: absolute;
                 display: flex;
                 justify-content: center;
+                object-fit: cover;
             }
         </style>
         <a

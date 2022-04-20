@@ -1,6 +1,6 @@
 <template>
 
-    <section class="flex flex-col justify-center pb-16">
+    <section class="flex flex-col justify-center gap-5 pb-16">
 
         <label>
             <h3 class="sr-only">

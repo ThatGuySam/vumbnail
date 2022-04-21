@@ -1,5 +1,3 @@
-https://vumbnail.com/examples/srcdoc-iframe-for-lighthouse
-
 # How to fix Reduce unused JavaScript on YouTube Videos
 
 In this article we go the fixing YouTube Lighthouse issues using a Src Embed.

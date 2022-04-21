@@ -215,17 +215,6 @@ export default {
             return this.highlighter.codeToHtml( this.embedPlainMarkup , { lang: 'html' })
         },
 
-        // embedMarkup () {
-
-        //     console.log('this.hasHighlightedCode( this.videoReference )', this.hasHighlightedCode( this.videoReference ))
-        //     // If we have the highlighted code, use that.
-        //     if ( this.hasHighlightedCode( this.videoReference ) ) {
-        //         return this.highlightedCode[ this.videoReference ]
-        //     }
-
-        //     // Otherwise, use the plain markup.
-        //     return this.embedPlainMarkup
-        // }
     },
 
     mounted () {
@@ -235,25 +224,9 @@ export default {
             import('../../helpers/highlighter.js')
                 .then(async ( { initHighlighter } ) => {
                     this.highlighter = await initHighlighter()
-
-                    // Generate initial markup
-                    // this.generateEmbedMarkup()
                 })
         }
     },
-
-    watch: {
-        // videoId () {
-        //     // If we don't have this highlighted code yet,
-        //     // we need to generate it.
-
-        //     if ( this.hasHighlighterInstance && ! this.hasHighlightedCode( this.videoReference ) ) {
-        //         this.generateEmbedMarkup()
-        //         // console.log('highlighted', html)
-        //     }
-
-        // }
-    }
 
 }
 </script>

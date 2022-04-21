@@ -221,15 +221,6 @@ export default {
                 event.target.classList.remove( animateClass )
             }, 1000 )
         },
-
-
-        openCodePen ( event ) {
-            event.preventDefault()
-
-            const url = `https://codepen.io/pen/define/${ this.embedPlainMarkup }`
-
-            window.open( url, '_blank' )
-        },
     },
     computed: {
         hasHighlighterInstance () {

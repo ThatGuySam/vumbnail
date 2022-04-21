@@ -3,6 +3,7 @@ export async function mapExamplesToPages ( allExamples ) {
         // console.log( 'exampleEntry', exampleEntry )
         // console.log( 'headers', await exampleEntry.getHeaders() )
 
+        const examplePath = exampleEntry.file.split('examples')[1]
 
         return {
             params: {
@@ -14,6 +15,10 @@ export async function mapExamplesToPages ( allExamples ) {
               title: (await exampleEntry.getHeaders())[0].text,
 
               entry: exampleEntry,
+
+              repoPath: '/examples' + examplePath,
+
+              gitHubEditUrl: `https://github.com/ThatGuySam/vumbnail/edit/main/examples${ examplePath }`,
 
               nav: null
             }

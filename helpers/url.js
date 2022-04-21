@@ -51,10 +51,6 @@ export function isValidId ( maybeId ) {
     const isCorrectLength = maybeId.length >= 8
     const isAlphanumeric = /^[a-zA-Z0-9_-]+$/i.test( maybeId )
 
-    console.log('maybeId', maybeId)
-    console.log('isCorrectLength', isCorrectLength)
-    console.log('isAlphanumeric', isAlphanumeric)
-
     return isCorrectLength && isAlphanumeric
 }
 

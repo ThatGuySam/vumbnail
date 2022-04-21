@@ -93,3 +93,5 @@ Image.network(
 ```
 
 </details>
+
+If you need help reach out in on [GitHub](https://github.com/ThatGuySam/vumbnail/discussions).

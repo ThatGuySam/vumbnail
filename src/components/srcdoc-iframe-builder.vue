@@ -41,30 +41,50 @@
             @update:videoReference="videoReference = $event"
         />
 
-        <div class="example-videos py-5">
-            <h2 class="pb-3">
-                Examples
-            </h2>
-            <div class="button-group px-4">
-                <button
-                    v-for="video in exampleVideos"
-                    :key="video.id"
-                    class="bg-transparent hover:bg-gray-500 text-gray-300 hover:text-white border border-gray-500 hover:border-transparent rounded py-1 px-2 mx-3"
-                    @click="videoReference = video.id"
-                >{{ video.label }}</button>
-            </div>
-        </div>
-
         <div
             class="pb-16"
         >
             <section class="flex w-full">
 
                 <div
-                    class="code-area w-full overflow-scroll border rounded p-3"
+                    class="code-area flex flex-col gap-4 w-full overflow-scroll border rounded p-3"
                     style="background-color: #0d1117"
                 >
-                    <h3 class="text-xl pb-4">Code</h3>
+                    <div class="flex items-center gap-4">
+
+                        <h3 class="text-xl font-bold">Code</h3>
+
+                        <div class="w-full flex justify-between items-center">
+
+                            <button
+                                ref="copyButton"
+                                :class="[
+                                    'copy px-3 py-1 border rounded',
+                                    'focus:bg-white'
+                                ]"
+
+                                @click="animateCopy( $event )"
+                            >Copy</button>
+
+                            <div class="end-content">
+                                <form
+                                    action="https://codepen.io/pen/define/"
+                                    method="post"
+                                    target="_blank"
+                                >
+                                     <input
+                                        type="hidden"
+                                        name="data"
+                                        :value='codePenOptions'
+                                    >
+                                    <button
+                                        type="submit"
+                                    >Edit on CodePen</button>
+                                </form>
+                            </div>
+                        </div>
+
+                    </div>
                     <hr>
                     <div
                         v-if="embedHighlightedMarkup"
@@ -77,24 +97,13 @@
                 </div>
 
                 <div class="preview-area w-full  p-3">
-                    <h3 class="text-xl pb-4">Preview</h3>
+                    <h3 class="text-xl font-bold pb-4">Preview</h3>
                     <div
                         v-html="embedPlainMarkup"
                     />
                 </div>
 
             </section>
-
-            <div class="py-5">
-
-                <div class="inline">
-                    <button
-                        class="copy p-3 border rounded"
-                        data-clipboard-target=".responsive-image-html"
-                    >Copy</button>
-                </div>
-
-            </div>
 
 
             <br>
@@ -110,6 +119,7 @@
 
 <script>
 
+import ClipboardJS from 'clipboard'
 import has from 'just-has'
 
 import {
@@ -125,8 +135,7 @@ const embedTemplate = ({
     embedUrl,
     thumbnailUrl
 }) => (
-/* html */`
-<!-- Reference: https://vumbnail.com/examples/srcdoc-iframe-for-lighthouse -->
+/* html */`<!-- Reference: https://vumbnail.com/examples/srcdoc-iframe-for-lighthouse -->
 <iframe
     srcdoc="
         <style>
@@ -195,6 +204,23 @@ export default {
 
             this.highlightedCode[ this.videoReference ] = html
         },
+
+        animateCopy ( event ) {
+            const animateClass = 'animate-ping'
+
+            // Remove any existing animation classes
+            event.target.classList.remove( animateClass )
+
+            // Add the animation class
+            // to trigger the animation
+            event.target.classList.add( animateClass )
+
+            // Remove the animation class
+            // after the animation is complete
+            setTimeout( () => {
+                event.target.classList.remove( animateClass )
+            }, 1000 )
+        },
     },
     computed: {
         hasHighlighterInstance () {
@@ -229,45 +255,44 @@ export default {
             return this.highlighter.codeToHtml( this.embedPlainMarkup , { lang: 'html' })
         },
 
-        // embedMarkup () {
+        // https://blog.codepen.io/documentation/prefill/#all-the-json-options-0
+        codePenOptions () {
+            // https://codepen.io/ThatGuySam/pen/rNpvrQg
+            const parentPen = '60039603'
 
-        //     console.log('this.hasHighlightedCode( this.videoReference )', this.hasHighlightedCode( this.videoReference ))
-        //     // If we have the highlighted code, use that.
-        //     if ( this.hasHighlightedCode( this.videoReference ) ) {
-        //         return this.highlightedCode[ this.videoReference ]
-        //     }
+            const options = {
+                title: `Vumbnail Embed for ${ this.videoReference }`,
+                description: `Src Embed for ${ this.videoReference } optimized for Google Lighthouse performance`,
+                parent: parentPen,
+                tags: ['YouTube', 'Vimeo', 'Embed', 'Lighthouse', 'Performance'],
+                editors: '100',
+                layout: 'left',
 
-        //     // Otherwise, use the plain markup.
-        //     return this.embedPlainMarkup
-        // }
+                html: this.embedPlainMarkup,
+            }
+
+            return JSON.stringify( options, null, 2 )
+        },
     },
 
     mounted () {
+
+        // Setup Copy to Clipboard
+        // https://github.com/zenorocha/clipboard.js#advanced-options
+        this.clipboard = new ClipboardJS( this.$refs.copyButton , {
+            text: () => {
+                return this.embedPlainMarkup
+            },
+        })
 
         // Initialize the highlighter on client only
         if ( !import.meta.env.SSR ) {
             import('../../helpers/highlighter.js')
                 .then(async ( { initHighlighter } ) => {
                     this.highlighter = await initHighlighter()
-
-                    // Generate initial markup
-                    // this.generateEmbedMarkup()
                 })
         }
     },
-
-    watch: {
-        // videoId () {
-        //     // If we don't have this highlighted code yet,
-        //     // we need to generate it.
-
-        //     if ( this.hasHighlighterInstance && ! this.hasHighlightedCode( this.videoReference ) ) {
-        //         this.generateEmbedMarkup()
-        //         // console.log('highlighted', html)
-        //     }
-
-        // }
-    }
 
 }
 </script>

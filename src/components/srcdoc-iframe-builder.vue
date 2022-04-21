@@ -54,7 +54,8 @@
 
                         <h3 class="text-xl font-bold">Code</h3>
 
-                        <div class="inline">
+                        <div class="w-full flex justify-between items-center">
+
                             <button
                                 ref="copyButton"
                                 :class="[
@@ -64,6 +65,23 @@
 
                                 @click="animateCopy( $event )"
                             >Copy</button>
+
+                            <div class="end-content">
+                                <form
+                                    action="https://codepen.io/pen/define/"
+                                    method="post"
+                                    target="_blank"
+                                >
+                                     <input
+                                        type="hidden"
+                                        name="data"
+                                        :value='codePenOptions'
+                                    >
+                                    <button
+                                        type="submit"
+                                    >Edit on CodePen</button>
+                                </form>
+                            </div>
                         </div>
 
                     </div>
@@ -202,7 +220,16 @@ export default {
             setTimeout( () => {
                 event.target.classList.remove( animateClass )
             }, 1000 )
-        }
+        },
+
+
+        openCodePen ( event ) {
+            event.preventDefault()
+
+            const url = `https://codepen.io/pen/define/${ this.embedPlainMarkup }`
+
+            window.open( url, '_blank' )
+        },
     },
     computed: {
         hasHighlighterInstance () {
@@ -237,6 +264,23 @@ export default {
             return this.highlighter.codeToHtml( this.embedPlainMarkup , { lang: 'html' })
         },
 
+        // https://blog.codepen.io/documentation/prefill/#all-the-json-options-0
+        codePenOptions () {
+            // https://codepen.io/ThatGuySam/pen/rNpvrQg
+            const parentPen = '60039603'
+
+            const options = {
+                title: `Vumbnail Embed for ${ this.videoReference }`,
+                description: `Src Embed for ${ this.videoReference } optimized for Google Lighthouse performance`,
+                parent: parentPen,
+                tags: ['YouTube', 'Vimeo', 'Embed', 'Lighthouse', 'Performance'],
+                editors: '100',
+
+                html: this.embedPlainMarkup,
+            }
+
+            return JSON.stringify( options, null, 2 )
+        },
     },
 
     mounted () {

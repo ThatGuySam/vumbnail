@@ -4,11 +4,11 @@
 
         <div
             ref="row"
-            class="video-row-contents flex w-full overflow-x-auto flex-nowrap p-2 px-6 gap-6"
+            class="video-row-contents flex w-full overflow-x-auto flex-nowrap p-6 gap-6"
             style="scroll-snap-type:x mandatory;"
         >
 
-            <div
+            <button
                 v-for="video in mappedVideos"
                 :key="video.reference"
 
@@ -17,25 +17,22 @@
                     videoReference === video.reference ? 'border-white' : null
                 ]"
                 style="max-width: 100px; flex-basis: 100px; scroll-snap-align: start;"
+                :aria-label="video.label"
+
+                @click="$emit('update:videoReference', video.reference)"
             >
-                <button
-                    @click="$emit('update:videoReference', video.reference)"
-                    class=""
-                    :aria-label="video.label"
-                >
-                    <!-- Reference Docs: https://vumbnail.com -->
-                    <img
-                        :srcset="`
-                            ${ video.thumbnailUrls.medium } 200w,
-                            ${ video.thumbnailUrls.small } 100w
-                        `"
-                        sizes="(max-width: 640px) 100vw, 640px"
-                        :src="video.thumbnailUrls.base"
-                        role="presentation"
-                        class="w-full h-full object-cover object-center"
-                    />
-                </button>
-            </div>
+                <!-- Reference Docs: https://vumbnail.com -->
+                <img
+                    :srcset="`
+                        ${ video.thumbnailUrls.medium } 200w,
+                        ${ video.thumbnailUrls.small } 100w
+                    `"
+                    sizes="(max-width: 640px) 100vw, 640px"
+                    :src="video.thumbnailUrls.base"
+                    role="presentation"
+                    class="w-full h-full object-cover object-center"
+                />
+            </button>
 
     </div>
 

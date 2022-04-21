@@ -7,12 +7,13 @@ import Footer from '../components/footer.astro'
 const {
     headTitle,
     headDescription,
-    contained = true
+    contained = true,
+    maxWidthClass = 'max-w-8xl'
 } = Astro.props
 
 const mainClasses = [
     'main',
-    contained ? 'container w-full max-w-8xl' : '',
+    contained ? `container w-full ${ maxWidthClass }` : '',
 ].join(' ')
 
 ---

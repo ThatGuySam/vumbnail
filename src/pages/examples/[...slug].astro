@@ -4,7 +4,7 @@ import Layout from '../../layouts/default.astro'
 
 import { mapExamplesToPages } from '../../../helpers/map-examples-to-page.js'
 
-export async function getStaticPaths( ) {
+export async function getStaticPaths() {
     const allExamples = await Astro.glob('../../../examples/**/*.md')
 
     return await mapExamplesToPages( allExamples )
@@ -17,6 +17,7 @@ const {
 const {
   title,
   nav,
+  gitHubEditUrl,
   entry: {
     Content,
   },
@@ -105,11 +106,17 @@ const {
                 <section class="mb-16 relative">
 
                     <div class="font-bold">Example</div>
-                        <div
-                            class="markdown-content flex flex-col gap-4 mb-32"
-                        >
+
+                    <div
+                        class="markdown-content flex flex-col gap-4 mb-32"
+                    >
                         <Content />
                     </div>
+
+                    <a
+                        href={ gitHubEditUrl }
+                        class="underline"
+                    >Edit on GitHub</a>
                 </section>
             </main>
         </div>

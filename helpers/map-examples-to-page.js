@@ -3,11 +3,7 @@ export async function mapExamplesToPages ( allExamples ) {
         // console.log( 'exampleEntry', exampleEntry )
         // console.log( 'headers', await exampleEntry.getHeaders() )
 
-
         const examplePath = exampleEntry.file.split('examples')[1]
-
-        console.log('examplePath', examplePath)
-
 
         return {
             params: {

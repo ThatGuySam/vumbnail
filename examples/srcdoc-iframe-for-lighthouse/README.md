@@ -22,7 +22,41 @@ This attribute allows us to prefill an iframe with text and html instead of load
 
 Now this won't give us a YouTube Video however it does let us *link* the video from within our iframe, then, when the link is clicked the full Embeddable YouTube page will be loaded.
 
-This also offers better performance than Lazy Loading since there is no additional JavaScript required.
+## Performance
+
+Rather than just saying it's better I've set up some demo pages so you can see the results yourself.
+
+Keep in mind these scores always vary based on network conditions and updates to Google Lighthouse itself, but should generally be similar to scores recorded at time of writing.
+
+### Classic YouTube Embed
+
+Results
+
+- 63/100 - Performance
+- 1.95s - Reduce unused JavaScript
+- 8.9s - Time to Interactive
+- Sometimes Passes Core Web Vitals
+
+[View Page](https://vumbnail.com/examples/embed-classic)
+[Run Results Now](https://pagespeed.web.dev/report?url=https%3A%2F%2Fvumbnail.com%2Fexamples%2Fembed-classic)
+
+### Src YouTube Embed
+
+Results
+
+- 99/100 - Performance
+- 0.0s - Reduce unused JavaScript
+- 2.9s - Time to Interactive
+- Consistently Passes Core Web Vitals
+
+[View Page](https://vumbnail.com/examples/embed-src-embed)
+[Run Results Now](https://pagespeed.web.dev/report?url=https%3A%2F%2Fvumbnail.com%2Fexamples%2Fembed-src-embed)
+
+> Tip: If you want even better results you can remove the image entirely or replace it with an inline SVG image.
+
+This can even offer better performance than Lazy Loading, when you have to load videos above the fold, since there is no additional JavaScript required.
+
+## The Code
 
 The code can be kind of verbose so I've setup a simple Embed Builder you can use the generate the code from a YouTube or Vimeo URL:
 [Src Embed Builder](https://vumbnail.com/embed-builder)

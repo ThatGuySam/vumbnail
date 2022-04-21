@@ -47,10 +47,26 @@
             <section class="flex w-full">
 
                 <div
-                    class="code-area w-full overflow-scroll border rounded p-3"
+                    class="code-area flex flex-col gap-4 w-full overflow-scroll border rounded p-3"
                     style="background-color: #0d1117"
                 >
-                    <h3 class="text-xl pb-4">Code</h3>
+                    <div class="flex items-center gap-4">
+
+                        <h3 class="text-xl font-bold">Code</h3>
+
+                        <div class="inline">
+                            <button
+                                ref="copyButton"
+                                :class="[
+                                    'copy px-3 py-1 border rounded',
+                                    'focus:bg-white'
+                                ]"
+
+                                @click="animateCopy( $event )"
+                            >Copy</button>
+                        </div>
+
+                    </div>
                     <hr>
                     <div
                         v-if="embedHighlightedMarkup"
@@ -63,24 +79,13 @@
                 </div>
 
                 <div class="preview-area w-full  p-3">
-                    <h3 class="text-xl pb-4">Preview</h3>
+                    <h3 class="text-xl font-bold pb-4">Preview</h3>
                     <div
                         v-html="embedPlainMarkup"
                     />
                 </div>
 
             </section>
-
-            <div class="py-5">
-
-                <div class="inline">
-                    <button
-                        class="copy p-3 border rounded"
-                        data-clipboard-target=".responsive-image-html"
-                    >Copy</button>
-                </div>
-
-            </div>
 
 
             <br>
@@ -96,6 +101,7 @@
 
 <script>
 
+import ClipboardJS from 'clipboard'
 import has from 'just-has'
 
 import {
@@ -111,8 +117,7 @@ const embedTemplate = ({
     embedUrl,
     thumbnailUrl
 }) => (
-/* html */`
-<!-- Reference: https://vumbnail.com/examples/srcdoc-iframe-for-lighthouse -->
+/* html */`<!-- Reference: https://vumbnail.com/examples/srcdoc-iframe-for-lighthouse -->
 <iframe
     srcdoc="
         <style>
@@ -181,6 +186,23 @@ export default {
 
             this.highlightedCode[ this.videoReference ] = html
         },
+
+        animateCopy ( event ) {
+            const animateClass = 'animate-ping'
+
+            // Remove any existing animation classes
+            event.target.classList.remove( animateClass )
+
+            // Add the animation class
+            // to trigger the animation
+            event.target.classList.add( animateClass )
+
+            // Remove the animation class
+            // after the animation is complete
+            setTimeout( () => {
+                event.target.classList.remove( animateClass )
+            }, 1000 )
+        }
     },
     computed: {
         hasHighlighterInstance () {
@@ -218,6 +240,14 @@ export default {
     },
 
     mounted () {
+
+        // Setup Copy to Clipboard
+        // https://github.com/zenorocha/clipboard.js#advanced-options
+        this.clipboard = new ClipboardJS( this.$refs.copyButton , {
+            text: () => {
+                return this.embedPlainMarkup
+            },
+        })
 
         // Initialize the highlighter on client only
         if ( !import.meta.env.SSR ) {

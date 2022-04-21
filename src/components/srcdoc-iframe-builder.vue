@@ -275,6 +275,7 @@ export default {
                 parent: parentPen,
                 tags: ['YouTube', 'Vimeo', 'Embed', 'Lighthouse', 'Performance'],
                 editors: '100',
+                layout: 'left',
 
                 html: this.embedPlainMarkup,
             }

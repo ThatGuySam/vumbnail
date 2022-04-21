@@ -72,7 +72,7 @@ So without further ado, here's the code:
 
 This also works for any embed that uses an iframe, such as Vimeo, an embeded slide presentation, or an iframe chat embed.
 
-# Disadvantages
+## Disadvantages
 
 Although this method delivers better load performance than lazy loading, one of it's disadvatages is that sometimes the YouTube player does autoplay due to [Media Playback policies](https://developer.mozilla.org/en-US/docs/Web/Media/Autoplay_guide), meaning that users will need to manually click the video a second time to start playback if the browser thinks your site shouldn't be allowed to autoplay videos yet.
 

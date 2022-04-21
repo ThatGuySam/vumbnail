@@ -1,6 +1,6 @@
 # How to fix Reduce unused JavaScript on YouTube Videos
 
-In this article we go the fixing YouTube Lighthouse issues using a Src Embed.
+In this article we go through fixing YouTube Lighthouse issues using a Src Embed.
 
 When optimizing for PageSpeed with tools like Google Lighthouse it can be challenging to get all the parts optimized, but it can be especially frustrating when you're being held back by a page you have no control of, such as  a video embedded in an iframe.
 

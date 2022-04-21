@@ -27,7 +27,7 @@ This also offers better performance than Lazy Loading since there is no addition
 The code can be kind of verbose so I've setup a simple Embed Builder you can use the generate the code from a YouTube or Vimeo URL:
 [Src Embed Builder](https://vumbnail.com/embed-builder)
 
-So without further due, here's the code:
+So without further ado, here's the code:
 
 [Open on CodePen](https://codepen.io/ThatGuySam/pen/rNpvrQg)
 

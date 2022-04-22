@@ -227,24 +227,12 @@ import ClipboardJS from 'clipboard'
 // import debounce from 'just-debounce'
 
 import {
-    getAnyHost
+    getAnyHost,
+    getDomain
 } from '../../helpers/url.js'
 
 import VideoReferenceInput from './video-reference-input.vue'
 import VideosForInput from './videos-for-input.vue'
-
-function getDomain () {
-
-    if ( typeof window !== 'undefined' ) {
-        return `${window.location.protocol}//${window.location.host}`
-    }
-
-    if ( typeof import.meta.env.VITE_VERCEL_URL === 'string' ) {
-        return `https://${ import.meta.env.VITE_VERCEL_URL }`
-    }
-
-    return `https://vumbnail.com`
-}
 
 const imageTemplate = ( srcset, src ) => (
 `<!-- Reference Docs: https://vumbnail.com -->

@@ -9,7 +9,7 @@
 
             :autofocus="autofocus"
 
-            @input="$emit('update:videoReference', $event.target.value)"
+            @input="emitNonEmptyReference( $event.target.value )"
         />
         <!-- Thumbnail Preview -->
     </div>
@@ -113,6 +113,15 @@ export default {
             return provider
         },
 
+        emitNonEmptyReference ( videoReference ) {
+            // Cancel if the reference is empty
+            if ( videoReference.trim().length === 0 ) {
+                throw new Error( 'Cannot emit empty reference' )
+            }
+
+            this.$emit( 'update:videoReference', videoReference )
+        },
+
     },
 
     mounted () {
@@ -128,7 +137,8 @@ export default {
 
                 // Paste the latest reference into the input.
                 this.$refs.input.value = latestReference
-                this.$emit('update:videoReference', latestReference)
+
+                this.emitNonEmptyReference( latestReference )
             })
     },
 

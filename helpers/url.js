@@ -29,12 +29,12 @@ export function getAnyHost ( maybeUrl ) {
 
 export function getDomain () {
 
-    if ( typeof import.meta.env.VITE_VERCEL_URL === 'string' ) {
-        return `https://${ import.meta.env.VITE_VERCEL_URL }`
+    if ( typeof import.meta.env.PUBLIC_VERCEL_URL === 'string' ) {
+        return `https://${ import.meta.env.PUBLIC_VERCEL_URL }`
     }
 
-    if ( typeof window !== 'undefined' ) {
-        return `${window.location.protocol}//${window.location.host}`
+    if ( typeof window !== 'undefined' && !window.location.host.includes('localhost') ) {
+        return `${ window.location.protocol }//${ window.location.host }`
     }
 
     return `https://vumbnail.com`

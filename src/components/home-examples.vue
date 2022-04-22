@@ -254,7 +254,7 @@ export default {
     data () {
         return {
             videoReference: '',
-            videoId: '',
+            videoId: '621585396',
             showInputError: false,
             exampleVideos: [
                 {

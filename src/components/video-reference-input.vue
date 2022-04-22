@@ -120,6 +120,12 @@ export default {
             .then( async ({ getLatestReference }) => {
                 const latestReference = await getLatestReference()
 
+                // If reference is falsy
+                // then stop
+                if ( !latestReference ) {
+                    return
+                }
+
                 // Paste the latest reference into the input.
                 this.$refs.input.value = latestReference
                 this.$emit('update:videoReference', latestReference)

@@ -56,7 +56,7 @@
     "serverless-lighthouse": "^1.0.8",
     "sharp": "^0.30.0",
     "shiki": "^0.10.1",
-    "youtube-dl-exec": "^2.0.2",
+    "youtube-dl-exec": "^2.4.15",
     "ytdl-core": "^4.10.1"
   },
   "devDependencies": {

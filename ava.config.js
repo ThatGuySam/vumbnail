@@ -4,11 +4,19 @@ export default () => {
         'dotenv/config',
       ],
       // https://github.com/avajs/ava/blob/main/docs/recipes/watch-mode.md
-      ignoredByWatcher: [
-        '!**/*.{js,vue}',
-        './build',
-        './dist',
-        './.output',
+      watchMode: {
+        ignoreChanges: [
+          '!**/*.{js,vue}',
+          './build',
+          './dist',
+          './.output',
+        ],
+      },
+      extensions: {
+        "ts": "module"
+      },
+      nodeArguments: [
+        "--import=tsimp"
       ],
       // tap: true,
       // verbose: true,

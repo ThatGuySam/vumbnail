@@ -57,6 +57,7 @@
     "serverless-lighthouse": "^1.0.8",
     "sharp": "^0.30.0",
     "shiki": "^0.10.1",
+    "tsimp": "^2.0.11",
     "youtube-dl-exec": "^2.4.15",
     "ytdl-core": "^4.10.1"
   },
@@ -65,7 +66,7 @@
     "@astrojs/vue": "^0.0.2",
     "astro": "^1.0.0-beta.5",
     "autoprefixer": "^10.4.4",
-    "ava": "^4.0.1",
+    "ava": "^6.1.2",
     "postcss": "^8.4.12",
     "tailwindcss": "^3.0.23",
     "vue": "^3.2.31"

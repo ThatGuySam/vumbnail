@@ -8,7 +8,6 @@
 import 'dotenv/config'
 import axios from 'axios'
 import has from 'just-has'
-import 
 
 import { parseOptionsFromPath } from '../../helpers/url.js'
 import { getClipFromVideoId } from '../../helpers/get-clip-from-video-url.js'

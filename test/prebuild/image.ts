@@ -180,13 +180,13 @@ for ( const imageDetails of vimeoImageDetailExamples ) {
 
     test(`Can get valid input Vimeo image: ${JSON.stringify( Object.values( imageDetails.options ) )}`, async t => {
 
-        const details: ImageDetails = await getInputImageDetails( imageDetails.options )
+        const details = await getInputImageDetails( imageDetails.options ) as ImageDetails
 
         // We check the url starts with the vimeo cdn 
-        t.assert( details.inputUrl.includes('https://i.vimeocdn.com/video/') )
+        t.assert( details.inputUrl?.includes('https://i.vimeocdn.com/video/') )
 
         // We check the url end with the correct size
-        t.is( details.inputUrl.split('_')[1], `${ imageDetails.expected.size.width }x${ imageDetails.expected.size.height }` )
+        t.is( details.inputUrl?.split('_')[1], `${ imageDetails.expected.size.width }x${ imageDetails.expected.size.height }` )
 
         // Then delete the url since it's not an exact match we can put in the test
         delete details.inputUrl

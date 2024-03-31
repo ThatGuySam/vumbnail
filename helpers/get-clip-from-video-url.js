@@ -1,13 +1,5 @@
-// https://github.com/eugeneware/ffmpeg-static
-import pathToFfmpeg from 'ffmpeg-static'
-import { execa } from 'execa'
-
-
 import { getFfmpegUrl } from './get-ffmpeg-url.js'
 import { performance } from './performance.js'
-
-
-
 
 function makeVideoUrlFromId ( videoId, provider ) {
 
@@ -110,17 +102,22 @@ export async function getClipFromVideoUrl ( videoUrl, options = {} ) {
 
     performance.measure( 'FFmpeg time', ffmpegMarkerName )
 
-    // Run command
-    const ffmpegProcess = execa( pathToFfmpeg, ffmpegArgs )
-
-    // On pipe end 
-    ffmpegProcess.stdout.on( 'end', () => {
-        // console.log('ffmpegProcess.stdout.on( \'end\' )')
-        performance.measure( 'FFmpeg time', ffmpegMarkerName )
-    })
-
     return {
-        fileStream: ffmpegProcess.stdout,
-        videoProcess: ffmpegProcess
+        fileStream: null,
+        videoProcess: null
     }
+
+    // // Run command
+    // const ffmpegProcess = execa( pathToFfmpeg, ffmpegArgs )
+
+    // // On pipe end 
+    // ffmpegProcess.stdout.on( 'end', () => {
+    //     // console.log('ffmpegProcess.stdout.on( \'end\' )')
+    //     performance.measure( 'FFmpeg time', ffmpegMarkerName )
+    // })
+
+    // return {
+    //     fileStream: ffmpegProcess.stdout,
+    //     videoProcess: ffmpegProcess
+    // }
 }

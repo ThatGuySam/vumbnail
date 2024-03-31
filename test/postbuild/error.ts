@@ -5,8 +5,10 @@ import test from 'ava'
 // import { getFfmpegUrl } from '../helpers/get-ffmpeg-url.js'
 // import { getClipFromVideoUrl } from '../../helpers/get-clip-from-video-url.js'
 
-import type { MediaRequest, MediaResponse } from '../../api/v2/media'
-import videoFunction from '../../api/v2/media'
+
+import type { MediaRequest, MediaResponse } from '../../api/v2/media.ts'
+// @ts-expect-error - Vercel wants to know the file extension
+import videoFunction from '../../api/v2/media.ts'
 
 
 test(`Can get non-media error response URL`, async t => {

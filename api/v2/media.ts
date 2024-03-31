@@ -6,9 +6,9 @@
 // 50 MB Vercel Limit: https://vercel.com/docs/concepts/limits/overview#serverless-function-size
 
 import 'dotenv/config'
-// URL utility
 import axios from 'axios'
 import has from 'just-has'
+import 
 
 import { parseOptionsFromPath } from '../../helpers/url.js'
 import { getClipFromVideoId } from '../../helpers/get-clip-from-video-url.js'
@@ -21,15 +21,23 @@ import { getOutputImage } from '../../helpers/get-thumbnail-url.js'
 
 // const ffmpeg = createFFmpeg({ log: true });
 
+interface VimeoJSONResponse {
+    videoData?: any
+    error?: any
+}
+
+
 
 async function defaultHandler ({
     req, 
     res,
     options
 }) {
+    const { videoId } = options
+
     const apiUrl = `https://vimeo.com/api/v2/video/${ options.videoId }.json`
 
-    const { videoData = null, error = null } = await axios.get(apiUrl).then(response => {
+    const { videoData = null, error = null }: VimeoJSONResponse = await axios.get(apiUrl).then(response => {
         
         // console.log(videoData)
         return {
@@ -37,7 +45,7 @@ async function defaultHandler ({
         }
         // => { url: 'https://video.fpat1-1.fna.fbcdn.net/...mp4?934&OE=2kf2lf4g' }
     }).catch(error => {
-        console.warn(`Error fetching video ${id}`, error)
+        console.warn(`Error fetching video ${videoId}`, error)
 
         return { error }
     })
@@ -115,8 +123,17 @@ async function imageHandler ( options = {} ) {
     return
 }
 
+interface MediaRequest extends Request {
+    supressErrors?: boolean
+    statusCode?: number
+}
 
-export default async function (req, res) {
+interface MediaResponse extends Response {
+    send: (data: any) => void
+    statusCode?: number
+}
+
+export default async function ( req: MediaRequest, res: MediaResponse ) {
 
     // Check for display error option here
     const enableErrorMediaResponse = !req.url.includes('disable-error-media')

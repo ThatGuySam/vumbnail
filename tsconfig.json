@@ -1,6 +1,17 @@
 {
   "compilerOptions": {
+    "strict": true,
+    "baseUrl": ".",
+    "paths": {
+      "~/*": ["./*"],
+      "@/*": ["./src/*"],
+      "@/public/*": ["./public/*"]
+    },
+    "outDir": "./dist",
     "moduleResolution": "node",
     "allowJs": true,
-  }
+  },
+  "exclude": [
+    "./node_modules/**/*"
+  ]
 }

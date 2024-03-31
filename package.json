@@ -58,7 +58,6 @@
     "sharp": "^0.30.0",
     "shiki": "^0.10.1",
     "tsimp": "^2.0.11",
-    "youtube-dl-exec": "^2.4.15",
     "ytdl-core": "^4.10.1"
   },
   "devDependencies": {

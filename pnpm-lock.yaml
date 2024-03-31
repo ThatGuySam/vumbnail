@@ -33,8 +33,8 @@ dependencies:
     specifier: ^1.0.2
     version: 1.0.2
   ffmpeg-static:
-    specifier: ^4.4.1
-    version: 4.4.1
+    specifier: ^5.2.0
+    version: 5.2.0
   fs-extra:
     specifier: ^10.0.0
     version: 10.0.0
@@ -2759,9 +2759,9 @@ packages:
       pend: 1.2.0
     dev: false
 
-  /ffmpeg-static@4.4.1:
-    resolution: {integrity: sha512-gyGTIf5kgmLDmH7Rwj8vMmNK46bjXKKofHS2gY+LUqoTe/iybVuTuvnhJQR2tZHlKlDG7A/BIH7cRa2jWDKgWw==}
-    engines: {node: '>=10'}
+  /ffmpeg-static@5.2.0:
+    resolution: {integrity: sha512-WrM7kLW+do9HLr+H6tk7LzQ7kPqbAgLjdzNE32+u3Ff11gXt9Kkkd2nusGFrlWMIe+XaA97t+I8JS7sZIrvRgA==}
+    engines: {node: '>=16'}
     requiresBuild: true
     dependencies:
       '@derhuerst/http-basic': 8.2.2

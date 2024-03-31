@@ -5,10 +5,8 @@ import test from 'ava'
 // import { getFfmpegUrl } from '../helpers/get-ffmpeg-url.js'
 // import { getClipFromVideoUrl } from '../../helpers/get-clip-from-video-url.js'
 
-import videoFunction from '../../api/v2/media.js'
-
-
-
+import type { MediaRequest, MediaResponse } from '../../api/v2/media'
+import videoFunction from '../../api/v2/media'
 
 
 test(`Can get non-media error response URL`, async t => {
@@ -20,14 +18,14 @@ test(`Can get non-media error response URL`, async t => {
             {
                 url: '/!!!!!!!!!_disable-error-media.mp4',
                 supressErrors: true,
-            },
+            } as MediaRequest,
             // Response
             {
                 send: data => {
                     responseData = data
                     //t.pass()
                 }
-            }
+            } as MediaResponse
         )
     } catch ( error ) {
         // console.log('error', error)

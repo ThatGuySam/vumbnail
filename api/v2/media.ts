@@ -20,7 +20,7 @@ import { getOutputImage } from '../../helpers/get-thumbnail-url.js'
 
 // const ffmpeg = createFFmpeg({ log: true });
 
-interface VimeoJSONResponse {
+export interface VimeoJSONResponse {
     videoData?: any
     error?: any
 }
@@ -122,12 +122,12 @@ async function imageHandler ( options = {} ) {
     return
 }
 
-interface MediaRequest extends Request {
+export interface MediaRequest extends Request {
     supressErrors?: boolean
     statusCode?: number
 }
 
-interface MediaResponse extends Response {
+export interface MediaResponse extends Response {
     send: (data: any) => void
     statusCode?: number
 }

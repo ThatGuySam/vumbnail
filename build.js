@@ -1,10 +1,6 @@
 import fs from 'fs-extra'
-import sharp from 'sharp'
-import pathToFfmpeg from 'ffmpeg-static'
-import { execa } from 'execa'
 
 import {
-    svgTemplate,
     errorMedia
 } from './helpers/send-response.js'
 

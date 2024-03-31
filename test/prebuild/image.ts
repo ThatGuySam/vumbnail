@@ -4,8 +4,7 @@ import { getOutputImage } from '../../helpers/get-thumbnail-url.js'
 import { 
     getInputImageDetails
 } from '../../helpers/get-thumbnail-url.js'
-
-
+import type { ImageDetails } from '../../src/types.d'
 
 test(`Can get Youtube Thumbnail URL`, async t => {
 
@@ -102,16 +101,6 @@ for ( const imageDetails of youtubeImageDetailExamples ) {
         t.deepEqual(details, imageDetails.expected)
     })
 
-}
-
-interface ImageDetails {
-    extension: string,
-    inputUrl?: string,
-    size: {
-        width: number,
-        height: number,
-        pathOptionName: string | boolean,
-    }
 }
 
 interface ImageExample {

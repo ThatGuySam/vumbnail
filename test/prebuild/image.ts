@@ -20,7 +20,7 @@ test(`Can get Youtube Thumbnail URL`, async t => {
 
     // t.log('url', url)
 
-    t.assert( url.includes( videoId ) )
+    t.assert( url?.includes( videoId ) )
 })
 
 
@@ -33,7 +33,7 @@ test(`Can get Vimeo Thumbnail URL`, async t => {
         targetSizeKey: 'thumbnail_large',
     })
 
-    t.assert( url.includes('https://i.vimeocdn.com/video/') )
+    t.assert( url?.includes('https://i.vimeocdn.com/video/') )
 })
 
 test(`Can get Vimeo Thumbnail URL without size`, async t => {
@@ -45,7 +45,7 @@ test(`Can get Vimeo Thumbnail URL without size`, async t => {
         // targetSizeKey: 'thumbnail_large',
     })
 
-    t.assert( url.includes('https://i.vimeocdn.com/video/') )
+    t.assert( url?.includes('https://i.vimeocdn.com/video/') )
 })
 
 // test(`Can get Twitch URL`, async t => {
@@ -104,7 +104,24 @@ for ( const imageDetails of youtubeImageDetailExamples ) {
 
 }
 
+interface ImageDetails {
+    extension: string,
+    inputUrl?: string,
+    size: {
+        width: number,
+        height: number,
+        pathOptionName: string | boolean,
+    }
+}
 
+interface ImageExample {
+    options: {
+        videoId: string,
+        targetSizeKey: string,
+        provider: string,
+    },
+    expected: ImageDetails
+}
 
 const vimeoImageDetailExamples = [
     {
@@ -157,13 +174,13 @@ const vimeoImageDetailExamples = [
             }
         }
     }
-]
+] as const satisfies ImageExample[]
 
 for ( const imageDetails of vimeoImageDetailExamples ) {
 
     test(`Can get valid input Vimeo image: ${JSON.stringify( Object.values( imageDetails.options ) )}`, async t => {
 
-        const details = await getInputImageDetails( imageDetails.options )
+        const details: ImageDetails = await getInputImageDetails( imageDetails.options )
 
         // We check the url starts with the vimeo cdn 
         t.assert( details.inputUrl.includes('https://i.vimeocdn.com/video/') )
@@ -174,7 +191,7 @@ for ( const imageDetails of vimeoImageDetailExamples ) {
         // Then delete the url since it's not an exact match we can put in the test
         delete details.inputUrl
         
-        t.deepEqual(details, imageDetails.expected)
+        t.deepEqual(details, imageDetails?.expected)
     })
 
 

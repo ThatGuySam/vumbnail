@@ -8,7 +8,8 @@
       "@/public/*": ["./public/*"]
     },
     "outDir": "./dist",
-    "moduleResolution": "node",
+    "module": "ESNext",
+    "moduleResolution": "bundler",
     "allowJs": true,
     "skipLibCheck": true,
   },

@@ -1,13 +1,21 @@
 // URL utility
-import url from 'url'
+import { URL } from 'url'
 
+// @ts-expect-error - No types yet
 import lighthouse from 'serverless-lighthouse'
 
+import type { VercelRequest, VercelResponse } from '@vercel/node'
 
+export default async function ( req: VercelRequest, res: VercelResponse ) {
+    const urlString = req.url
 
-export default async function ( req, res ) {
+    // Throw an error if the URL is not provided
+    if ( !urlString ) {
+        throw new Error('No URL provided')
+    }
+    
     // Break out the id param from our request's query string
-    const { query: { id, redirect = false, key = null } } = url.parse(req.url, true)
+    // const { query: { id, redirect = false, key = null } } = req
 
     // const videoUrl = `https://www.facebook.com/${id}`
     
@@ -23,6 +31,6 @@ export default async function ( req, res ) {
 
     // console.log(`Fetched video data from https://vimeo.com/${id}`)
 
-    // Repond with Video JSON Data
+    // Respond with Video JSON Data
     res.json( result )
 }

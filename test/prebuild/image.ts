@@ -4,7 +4,7 @@ import { getOutputImage } from '../../helpers/get-thumbnail-url.js'
 import { 
     getInputImageDetails
 } from '../../helpers/get-thumbnail-url.js'
-import type { ImageDetails } from '../../src/types.d'
+import type { ImageDetails } from '../../src/types'
 
 test(`Can get Youtube Thumbnail URL`, async t => {
 

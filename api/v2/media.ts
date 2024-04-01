@@ -17,7 +17,6 @@ import {
     sendSuccessResponseMedia
 } from '../../helpers/send-response.js'
 import { getOutputImage } from '../../helpers/get-thumbnail-url.js'
-import type { ImageDetails } from '../../src/types.d'
 
 
 // const ffmpeg = createFFmpeg({ log: true });

@@ -92,6 +92,9 @@ dependencies:
   tsimp:
     specifier: ^2.0.11
     version: 2.0.11(typescript@5.4.3)
+  typescript:
+    specifier: ^5.4.3
+    version: 5.4.3
   ytdl-core:
     specifier: ^4.10.1
     version: 4.10.1

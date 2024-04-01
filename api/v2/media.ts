@@ -8,6 +8,7 @@
 import 'dotenv/config'
 import axios from 'axios'
 import has from 'just-has'
+import type { VercelRequest, VercelResponse } from '@vercel/node'
 
 import { parseOptionsFromPath } from '../../helpers/url.js'
 import { getClipFromVideoId } from '../../helpers/get-clip-from-video-url.js'
@@ -16,6 +17,7 @@ import {
     sendSuccessResponseMedia
 } from '../../helpers/send-response.js'
 import { getOutputImage } from '../../helpers/get-thumbnail-url.js'
+import type { ImageDetails } from '../../src/types.d'
 
 
 // const ffmpeg = createFFmpeg({ log: true });
@@ -25,48 +27,17 @@ export interface VimeoJSONResponse {
     error?: any
 }
 
-
-
-async function defaultHandler ({
-    req, 
-    res,
-    options
-}) {
-    const { videoId } = options
-
-    const apiUrl = `https://vimeo.com/api/v2/video/${ options.videoId }.json`
-
-    const { videoData = null, error = null }: VimeoJSONResponse = await axios.get(apiUrl).then(response => {
-        
-        // console.log(videoData)
-        return {
-          videoData: response.data[0]
-        }
-        // => { url: 'https://video.fpat1-1.fna.fbcdn.net/...mp4?934&OE=2kf2lf4g' }
-    }).catch(error => {
-        console.warn(`Error fetching video ${videoId}`, error)
-
-        return { error }
-    })
-    
-    
-    return {
-        headers: {
-            // Set Cors Headers to allow all origins so data can be requested by a browser
-            'Access-Control-Allow-Origin': '*',
-            'Access-Control-Allow-Headers': 'Origin, X-Requested-With, Content-Type, Accept'
-        },
-        sendResponse: () => {
-            res.json(videoData)
-        }
-    }
+interface HandlerOptions {
+    videoId: string
+    provider: string
+    extension: string
+    res: VercelResponse
+    req: VercelRequest
 }
 
-
-async function videoHandler ( options = {} ) {
+async function videoHandler ( options: HandlerOptions ) {
 
     const {
-        req,
         res,
     } = options
 
@@ -91,10 +62,9 @@ async function videoHandler ( options = {} ) {
     return
 }
 
-async function imageHandler ( options = {} ) {
+async function imageHandler ( options: HandlerOptions ) {
 
     const {
-        req,
         res,
     } = options
 
@@ -106,7 +76,10 @@ async function imageHandler ( options = {} ) {
         url: thumbnailUrl
     } = await getOutputImage( options )
 
-    // console.log('thumbnailUrl', thumbnailUrl)
+    // Throw on no thumbnail URL
+    if ( !thumbnailUrl ) {
+        throw new Error('No thumbnail URL')
+    }
 
     const thumbResponse = await axios.get( thumbnailUrl, {
         responseType: 'stream'
@@ -122,22 +95,33 @@ async function imageHandler ( options = {} ) {
     return
 }
 
-export interface MediaRequest extends Request {
+export interface MediaRequest extends VercelRequest {
     supressErrors?: boolean
-    statusCode?: number
 }
 
-export interface MediaResponse extends Response {
-    send: (data: any) => void
-    statusCode?: number
-}
+export interface MediaResponse extends VercelResponse {}
+
+type Extension = 'mp4' | 'jpg' | 'jpeg' | 'png'
 
 export default async function ( req: MediaRequest, res: MediaResponse ) {
+    // Throw on no URL
+    if ( !req.url ) {
+        throw new Error('No URL provided')
+    }
 
     // Check for display error option here
     const enableErrorMediaResponse = !req.url.includes('disable-error-media')
 
-    const options = parseOptionsFromPath( req.url, { supressErrors: !!req?.supressErrors })
+    const options = parseOptionsFromPath( req.url, { supressErrors: !!req?.supressErrors }) as {
+        videoId: string
+        provider: string
+        extension: Extension
+    }
+
+    // Throw on no options
+    if ( !options ) {
+        throw new Error('No options provided')
+    }
 
     try {
 

@@ -17,6 +17,7 @@ import {
     sendSuccessResponseMedia
 } from '../../helpers/send-response.js'
 import { getOutputImage } from '../../helpers/get-thumbnail-url.js'
+import { MediaExtension } from '~/src/types.js'
 
 
 // const ffmpeg = createFFmpeg({ log: true });
@@ -100,8 +101,6 @@ export interface MediaRequest extends VercelRequest {
 
 export interface MediaResponse extends VercelResponse {}
 
-type Extension = 'mp4' | 'jpg' | 'jpeg' | 'png'
-
 export default async function ( req: MediaRequest, res: MediaResponse ) {
     // Throw on no URL
     if ( !req.url ) {
@@ -114,7 +113,7 @@ export default async function ( req: MediaRequest, res: MediaResponse ) {
     const options = parseOptionsFromPath( req.url, { supressErrors: !!req?.supressErrors }) as {
         videoId: string
         provider: string
-        extension: Extension
+        extension: MediaExtension
     }
 
     // Throw on no options

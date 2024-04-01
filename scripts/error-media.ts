@@ -1,5 +1,6 @@
-import fs from 'fs-extra'
-import sharp from 'sharp'
+import * as fs from 'fs-extra'
+import * as sharp from 'sharp'
+// @ts-expect-error - No types yet
 import pathToFfmpeg from 'ffmpeg-static'
 import { execa } from 'execa'
 

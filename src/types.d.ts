@@ -1,7 +1,11 @@
 
 
+type ImageExtension = 'jpg' | 'jpeg' | 'png'
+type VideoExtension = 'mp4'
+type MediaExtension = ImageExtension | VideoExtension
+
 export interface ImageDetails {
-    extension: string,
+    extension: MediaExtension,
     inputUrl?: string,
     size: {
         width: number,

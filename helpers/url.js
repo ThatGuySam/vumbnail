@@ -220,7 +220,7 @@ export function parseOptionsFromPath ( thumbnailPath, options = {} ) {
     let optionsFromPath = {}
 
     const {
-        supressErrors = false
+        suppressErrors = false
     } = options
 
 
@@ -235,7 +235,7 @@ export function parseOptionsFromPath ( thumbnailPath, options = {} ) {
 
             optionsFromPath[optionKey] = optionValue
         } catch ( error ) {
-            if ( !!supressErrors ) return
+            if ( !!suppressErrors ) return
 
             console.log(`Could not parse "${optionKey}" from path: ${thumbnailPath}`)
             console.log(error)

@@ -17,7 +17,7 @@ test(`Can get non-media error response URL`, async () => {
             // Request
             {
                 url: '/!!!!!!!!!_disable-error-media.mp4',
-                supressErrors: true,
+                suppressErrors: true,
             } as MediaRequest,
             // Response
             {

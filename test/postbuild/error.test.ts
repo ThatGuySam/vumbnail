@@ -5,9 +5,8 @@ import { expect, test } from 'vitest'
 // import { getClipFromVideoUrl } from '../../helpers/get-clip-from-video-url.js'
 
 
-import type { MediaRequest, MediaResponse } from '../../api/v2/media.ts'
-// @ts-expect-error - Vercel wants to know the file extension
-import videoFunction from '../../api/v2/media.ts'
+import type { MediaRequest, MediaResponse } from '~/api/v2/media'
+import videoFunction from '~/api/v2/media'
 
 
 test(`Can get non-media error response URL`, async () => {

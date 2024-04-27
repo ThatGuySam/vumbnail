@@ -5,9 +5,9 @@
   "description": "",
   "main": "subreddit.js",
   "scripts": {
-    "test": "ava",
-    "test-prebuild": "ava ./test/prebuild/*",
-    "test-postbuild": "ava ./test/postbuild/*",
+    "test": "vitest",
+    "test-prebuild": "vitest ./test/prebuild/*",
+    "test-postbuild": "vitest ./test/postbuild/*",
     "preinstall": "npx only-allow pnpm",
     "type-check": "tsc",
     "build": "node ./build.js && astro build",

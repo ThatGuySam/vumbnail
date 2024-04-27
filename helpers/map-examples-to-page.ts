@@ -1,10 +1,17 @@
-export async function mapExamplesToPages ( allExamples ) {
+import { MarkdownInstance } from "astro"
+
+type ExamplePage = MarkdownInstance<Record<string, string>>
+
+export async function mapExamplesToPages ( allExamples: ExamplePage[] ) {
+
     const allExamplePages = await Promise.all( allExamples.map(async exampleEntry => {
         // console.log( 'exampleEntry', exampleEntry )
         // console.log( 'headers', await exampleEntry.getHeaders() )
 
         const examplePath = exampleEntry.file.split('examples')[1]
 
+        
+        
         return {
             params: {
                 // Get slug from file path
@@ -12,7 +19,7 @@ export async function mapExamplesToPages ( allExamples ) {
             },
             props: {
               // Use first header as title
-              title: (await exampleEntry.getHeaders())[0].text,
+              title: (await exampleEntry.getHeadings())[0].text,
 
               entry: exampleEntry,
 
@@ -38,8 +45,12 @@ export async function mapExamplesToPages ( allExamples ) {
     return allExamplePages
         //Add nav to each page
         .map( page => {
-            page.props.nav = nav
-
-            return page
+            return {
+                ...page,
+                props: {
+                    ...page.props,
+                    nav
+                }
+            }
         })
 }

@@ -60,8 +60,8 @@ dependencies:
     specifier: ^2.3.0
     version: 2.3.0
   just-map-values:
-    specifier: ^3.0.2
-    version: 3.0.2
+    specifier: ^3.2.0
+    version: 3.2.0
   localforage:
     specifier: ^1.10.0
     version: 1.10.0
@@ -4994,8 +4994,8 @@ packages:
     resolution: {integrity: sha512-JzxCot/ETqLDullSSC5OtT/PLWiqgRNO5z33gVit6BoCXe/6BHut33o9ZunG5jQSqeY4EyzFnl8Wqc7S8Ci/wQ==}
     dev: false
 
-  /just-map-values@3.0.2:
-    resolution: {integrity: sha512-bPrvJIZ/0QbrsnrY1f8JxfPZ7joimSecUeYjoxVctBTYxjRKjtVU1QMgAJCK5RTo5bNGonVY7FxrwQ+gQrIyww==}
+  /just-map-values@3.2.0:
+    resolution: {integrity: sha512-TyqCKtK3NxiUgOjRYMIKURvBTHesi3XzomDY0QVPZ3rYzLCF+nNq5rSi0B/L5aOd/WMTZo6ukzA4wih4HUbrDg==}
     dev: false
 
   /jwa@2.0.0:

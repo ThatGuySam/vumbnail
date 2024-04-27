@@ -1,5 +1,4 @@
-import test from 'ava'
-
+import { expect, test } from 'vitest'
 
 // import { isValidUrl } from '../helpers/url.js'
 // import { getFfmpegUrl } from '../helpers/get-ffmpeg-url.js'
@@ -11,7 +10,7 @@ import type { MediaRequest, MediaResponse } from '../../api/v2/media.ts'
 import videoFunction from '../../api/v2/media.ts'
 
 
-test(`Can get non-media error response URL`, async t => {
+test(`Can get non-media error response URL`, async () => {
     let responseData = null
 
     try {
@@ -36,5 +35,5 @@ test(`Can get non-media error response URL`, async t => {
         // t.assert( !!error.message, 'Has error message' )
     }
 
-    t.assert( responseData, 'Has response data' )
+    expect( responseData ).toBeTruthy()
 })

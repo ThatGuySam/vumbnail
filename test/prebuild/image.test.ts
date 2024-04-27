@@ -1,12 +1,12 @@
-import test from 'ava'
+import { test, expect } from 'vitest'
 
-import { getOutputImage } from '../../helpers/get-thumbnail-url.js'
+import { getOutputImage } from '~/helpers/get-thumbnail-url.js'
 import { 
     getInputImageDetails
-} from '../../helpers/get-thumbnail-url.js'
-import type { ImageDetails } from '../../src/types'
+} from '~/helpers/get-thumbnail-url'
+import type { ImageDetails } from '~/src/types'
 
-test(`Can get Youtube Thumbnail URL`, async t => {
+test(`Can get Youtube Thumbnail URL`, async () => {
 
     const videoId = 'W2EMHNhyEnQ'
 
@@ -19,11 +19,11 @@ test(`Can get Youtube Thumbnail URL`, async t => {
 
     // t.log('url', url)
 
-    t.assert( url?.includes( videoId ) )
+    expect( url?.includes( videoId ) )
 })
 
 
-test(`Can get Vimeo Thumbnail URL`, async t => {
+test(`Can get Vimeo Thumbnail URL`, async () => {
 
     const { url } = await getOutputImage({
         videoId: '376454747',
@@ -32,10 +32,10 @@ test(`Can get Vimeo Thumbnail URL`, async t => {
         targetSizeKey: 'thumbnail_large',
     })
 
-    t.assert( url?.includes('https://i.vimeocdn.com/video/') )
+    expect( url?.includes('https://i.vimeocdn.com/video/') )
 })
 
-test(`Can get Vimeo Thumbnail URL without size`, async t => {
+test(`Can get Vimeo Thumbnail URL without size`, async () => {
 
     const { url } = await getOutputImage({
         videoId: '376454747',
@@ -44,7 +44,7 @@ test(`Can get Vimeo Thumbnail URL without size`, async t => {
         // targetSizeKey: 'thumbnail_large',
     })
 
-    t.assert( url?.includes('https://i.vimeocdn.com/video/') )
+    expect( url?.includes('https://i.vimeocdn.com/video/') )
 })
 
 // test(`Can get Twitch URL`, async t => {
@@ -95,10 +95,11 @@ const youtubeImageDetailExamples = [
 
 for ( const imageDetails of youtubeImageDetailExamples ) {
 
-    test(`Can get valid input Youtube image: ${JSON.stringify( Object.values( imageDetails.options ) )}`, async t => {
+    test(`Can get valid input Youtube image: ${JSON.stringify( Object.values( imageDetails.options ) )}`, async () => {
         const details = await getInputImageDetails( imageDetails.options )
         
-        t.deepEqual(details, imageDetails.expected)
+        // t.deepEqual(details, imageDetails.expected)
+        expect(details).toEqual(imageDetails.expected)
     })
 
 }
@@ -167,20 +168,20 @@ const vimeoImageDetailExamples = [
 
 for ( const imageDetails of vimeoImageDetailExamples ) {
 
-    test(`Can get valid input Vimeo image: ${JSON.stringify( Object.values( imageDetails.options ) )}`, async t => {
+    test(`Can get valid input Vimeo image: ${JSON.stringify( Object.values( imageDetails.options ) )}`, async () => {
 
         const details = await getInputImageDetails( imageDetails.options ) as ImageDetails
 
         // We check the url starts with the vimeo cdn 
-        t.assert( details.inputUrl?.includes('https://i.vimeocdn.com/video/') )
+        expect( details.inputUrl?.includes('https://i.vimeocdn.com/video/') )
 
         // We check the url end with the correct size
-        t.is( details.inputUrl?.split('_')[1], `${ imageDetails.expected.size.width }x${ imageDetails.expected.size.height }` )
+        expect( details.inputUrl?.split('_')[1] ).toEqual(`${ imageDetails.expected.size.width }x${ imageDetails.expected.size.height }` )
 
         // Then delete the url since it's not an exact match we can put in the test
         delete details.inputUrl
         
-        t.deepEqual(details, imageDetails?.expected)
+        expect(details).toEqual(imageDetails.expected)
     })
 
 

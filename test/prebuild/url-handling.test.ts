@@ -1,6 +1,6 @@
-import test from 'ava'
+import { expect, test } from 'vitest'
 
-import { parseOptionsFromPath } from '../../helpers/url.js'
+import { parseOptionsFromPath } from '~/helpers/url'
 
 
 const pathExamples = [
@@ -139,19 +139,19 @@ const pathExamples = [
 
 for ( const pathExample of pathExamples ) {
 
-    test(`Can parse options from path: ${pathExample.path}`, t => {
+    test(`Can parse options from path: ${pathExample.path}`, () => {
         const options = parseOptionsFromPath(pathExample.path)
 
         // t.log('options', options)
 
-        t.deepEqual(options, pathExample.expected)
+        expect(options).toEqual(pathExample.expected)
     })
 
 
-    test(`Can handler key from path: ${pathExample.path}`, t => {
+    test(`Can handler key from path: ${pathExample.path}`, () => {
         const options = parseOptionsFromPath(pathExample.path)
 
-        t.deepEqual(options, pathExample.expected)
+        expect(options).toEqual(pathExample.expected)
     })
 
 }

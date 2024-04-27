@@ -223,34 +223,22 @@ const pathOptionParsers = {
 type OptionKey = keyof typeof pathOptionParsers
 
 
-export function parseOptionsFromPath ( thumbnailPath: string , options: {
-    suppressErrors?: boolean
-} = {} ) {
+export function parseOptionsFromPath ( thumbnailPath: string , options: {} = {} ) {
     let optionsFromPath: Record<string, string | null> = {}
-
-    const {
-        suppressErrors = false
-    } = options
-
 
     // Run through parsers and pull out options
     for ( const optionKey in pathOptionParsers ) {
         const optionParser = pathOptionParsers[ optionKey as OptionKey ]
-
-        // console.log(`Parsing option ${optionKey} from path: ${thumbnailPath}`)
 
         try {
             const optionValue = optionParser(thumbnailPath)
 
             optionsFromPath[ optionKey as OptionKey ] = optionValue
         } catch ( error ) {
-            if ( !!suppressErrors ) return
-
-            console.log(`Could not parse "${optionKey}" from path: ${thumbnailPath}`)
-            console.log(error)
+            // console.log(`Could not parse "${optionKey}" from path: ${thumbnailPath}`)
+            // console.log(error)
         }
     }
-
 
     try {
 

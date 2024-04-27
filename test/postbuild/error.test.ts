@@ -17,7 +17,6 @@ test(`Can get non-media error response URL`, async () => {
             // Request
             {
                 url: '/!!!!!!!!!_disable-error-media.mp4',
-                suppressErrors: true,
             } as MediaRequest,
             // Response
             {
@@ -28,7 +27,7 @@ test(`Can get non-media error response URL`, async () => {
             } as MediaResponse
         )
     } catch ( error ) {
-        // console.log('error', error)
+        console.log('error', error)
 
         // Assert that the error is a non-media error
         // t.assert( !!error.message, 'Has error message' )

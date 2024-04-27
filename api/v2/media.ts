@@ -95,9 +95,7 @@ async function imageHandler ( options: HandlerOptions ) {
     return
 }
 
-export interface MediaRequest extends VercelRequest {
-    suppressErrors?: boolean
-}
+export interface MediaRequest extends VercelRequest {}
 
 export interface MediaResponse extends VercelResponse {}
 
@@ -110,7 +108,7 @@ export default async function ( req: MediaRequest, res: MediaResponse ) {
     // Check for display error option here
     const enableErrorMediaResponse = !req.url.includes('disable-error-media')
 
-    const options = parseOptionsFromPath( req.url, { suppressErrors: !!req?.suppressErrors }) as {
+    const options = parseOptionsFromPath( req.url ) as {
         videoId: string
         provider: string
         extension: MediaExtension

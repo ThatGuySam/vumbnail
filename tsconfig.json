@@ -1,6 +1,15 @@
 {
   "compilerOptions": {
     "strict": true,
+    "target": "ESNext",
+    "lib": ["ESNext"],
+    "module": "ESNext",
+    "moduleResolution": "Bundler",
+    "resolveJsonModule": true,
+    "strictNullChecks": true,
+    "esModuleInterop": true,
+    "skipDefaultLibCheck": true,
+    "skipLibCheck": true,
     "baseUrl": ".",
     "paths": {
       "~/*": ["./*"],
@@ -8,10 +17,7 @@
       "@/public/*": ["./public/*"]
     },
     "outDir": "./dist",
-    "module": "ESNext",
-    "moduleResolution": "bundler",
     "allowJs": true,
-    "skipLibCheck": true,
   },
   "exclude": [
     "./node_modules/**/*",

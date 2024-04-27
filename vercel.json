@@ -14,7 +14,7 @@
         {
             "src": "api/**/*.py",
             "use": "@vercel/python",
-            "config": { "maxLambdaSize": "50mb", "runtime": "python3.8" }
+            "config": { "maxLambdaSize": "50mb" }
         },
         { "src": "api/**/*.js", "use": "@vercel/node" }
     ],

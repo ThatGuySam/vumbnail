@@ -229,7 +229,7 @@ import ClipboardJS from 'clipboard'
 import {
     getAnyHost,
     getDomain
-} from '../../helpers/url.js'
+} from '~/helpers/url'
 
 import VideoReferenceInput from './video-reference-input.vue'
 import VideosForInput from './videos-for-input.vue'

@@ -10,14 +10,13 @@ import axios from 'axios'
 import has from 'just-has'
 import type { VercelRequest, VercelResponse } from '@vercel/node'
 
-import { parseOptionsFromPath } from '../../helpers/url.js'
-import { getClipFromVideoId } from '../../helpers/get-clip-from-video-url.js'
+import { parseOptionsFromPath } from '~/helpers/url'
+import { getClipFromVideoId } from '~/helpers/get-clip-from-video-url.js'
 import { 
     sendErrorResponseMedia,
     sendSuccessResponseMedia
 } from '../../helpers/send-response.js'
-import { getOutputImage } from '../../helpers/get-thumbnail-url.js'
-import { MediaExtension } from '~/src/types.js'
+import { getOutputImage } from '~/helpers/get-thumbnail-url'
 
 
 // const ffmpeg = createFFmpeg({ log: true });

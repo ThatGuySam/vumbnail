@@ -124,7 +124,7 @@ import has from 'just-has'
 
 import {
     getAnyHost
-} from '../../helpers/url.js'
+} from '~/helpers/url'
 
 import VideoReferenceInput from './video-reference-input.vue'
 import VideosForInput from './videos-for-input.vue'

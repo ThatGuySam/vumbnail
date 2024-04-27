@@ -49,7 +49,7 @@ import urlParser from 'js-video-url-parser'
 // import {
 //     getProviderAndIdFromFilename,
 //     isValidUrl
-// } from '../../helpers/url.js'
+// } from '~/helpers/url'
 
 
 const exampleVideos = [

@@ -4,11 +4,12 @@ import urlParser from 'js-video-url-parser'
 import mapValues from 'just-map-values'
 
 import { sizeOptions } from './get-thumbnail-url.js'
+import { ParsedVideoUrl, VideoId } from '~/src/types.js'
 
 
 
 
-export function isValidUrl ( url ) {
+export function isValidUrl ( url: string ): url is `http${ string }` {
     try {
         new URL(url)
         return true
@@ -17,7 +18,7 @@ export function isValidUrl ( url ) {
     }
 }
 
-export function getAnyHost ( maybeUrl ) {
+export function getAnyHost ( maybeUrl: string ) {
     if ( !isValidUrl ( maybeUrl ) ) {
         return ''
     }
@@ -47,20 +48,24 @@ export const optionSets = {
 const optionKeys = Object.keys(optionSets)
 
 
-export function isValidId ( maybeId ) {
+export function isValidId ( maybeId: string ): maybeId is VideoId {
     const isCorrectLength = maybeId.length >= 8
     const isAlphanumeric = /^[a-zA-Z0-9_-]+$/i.test( maybeId )
 
     return isCorrectLength && isAlphanumeric
 }
 
-export function isSupportedVideoUrl ( maybeUrl ) {
+export function isSupportedVideoUrl ( maybeUrl: string ): boolean {
     if ( ! isValidUrl( maybeUrl ) ) {
         return false
     }
 
     // https://github.com/Zod-/jsVideoUrlParser#readme
     const urlDetails = urlParser.parse( maybeUrl )
+
+    if ( !urlDetails || !urlDetails.provider ) {
+        return false
+    }
 
     // Reject URls with unsupported video IDs
     if ( !isValidId( urlDetails.id ) ) {
@@ -83,7 +88,7 @@ export function isSupportedVideoUrl ( maybeUrl ) {
 
 
 
-export function getProviderAndIdFromFilename ( filenameWithoutExtension ) {
+export function getProviderAndIdFromFilename ( filenameWithoutExtension: string ) {
     // Assumptions
     // Youtube ID = 11 alphanumeric characters
     // https://stackoverflow.com/a/6250619/1397641
@@ -142,7 +147,7 @@ export function getProviderAndIdFromFilename ( filenameWithoutExtension ) {
     throw new Error(`Could not determine provider and video ID from filename: ${ filenameWithoutExtension }`)
 }
 
-function parsePathPartsFromUrl ( thumbnailPath ) {
+function parsePathPartsFromUrl ( thumbnailPath: string ) {
     const urlPathname = (new URL( thumbnailPath, 'https://example.com' )).pathname
 
     // Remove any query strings
@@ -152,7 +157,7 @@ function parsePathPartsFromUrl ( thumbnailPath ) {
 }
 
 const pathOptionParsers = {
-    'extension': thumbnailPath => {
+    'extension': ( thumbnailPath: string ) => {
         const { ext } = parsePathPartsFromUrl( thumbnailPath )
 
         // console.log('ext', ext)
@@ -163,19 +168,19 @@ const pathOptionParsers = {
         return extension
     },
 
-    'filename': thumbnailPath => {
+    'filename': ( thumbnailPath: string ) => {
         const { base } = parsePathPartsFromUrl( thumbnailPath )
 
         return base
     },
 
-    'filenameWithoutExtension': thumbnailPath => {
+    'filenameWithoutExtension': ( thumbnailPath: string ) => {
         const { name } = parsePathPartsFromUrl( thumbnailPath )
 
         return name
     },
 
-    'provider': thumbnailPath => {
+    'provider': ( thumbnailPath: string ) => {
         const {
             name: filenameWithoutExtension
         } = parsePathPartsFromUrl( thumbnailPath )
@@ -188,7 +193,7 @@ const pathOptionParsers = {
         return provider
     },
 
-    'videoId': thumbnailPath => {
+    'videoId': ( thumbnailPath: string ) => {
         const {
             name: filenameWithoutExtension
         } = parsePathPartsFromUrl( thumbnailPath )
@@ -201,7 +206,7 @@ const pathOptionParsers = {
         return videoId
     },
 
-    'videoPassword': thumbnailPath => {
+    'videoPassword': ( thumbnailPath: string ) => {
         const {
             name: filenameWithoutExtension
         } = path.parse( thumbnailPath )
@@ -213,11 +218,15 @@ const pathOptionParsers = {
 
         return videoPassword
     }
-}
+} as const
+
+type OptionKey = keyof typeof pathOptionParsers
 
 
-export function parseOptionsFromPath ( thumbnailPath, options = {} ) {
-    let optionsFromPath = {}
+export function parseOptionsFromPath ( thumbnailPath: string , options: {
+    suppressErrors?: boolean
+} = {} ) {
+    let optionsFromPath: Record<string, string | null> = {}
 
     const {
         suppressErrors = false
@@ -226,14 +235,14 @@ export function parseOptionsFromPath ( thumbnailPath, options = {} ) {
 
     // Run through parsers and pull out options
     for ( const optionKey in pathOptionParsers ) {
-        const optionParser = pathOptionParsers[optionKey]
+        const optionParser = pathOptionParsers[ optionKey as OptionKey ]
 
         // console.log(`Parsing option ${optionKey} from path: ${thumbnailPath}`)
 
         try {
             const optionValue = optionParser(thumbnailPath)
 
-            optionsFromPath[optionKey] = optionValue
+            optionsFromPath[ optionKey as OptionKey ] = optionValue
         } catch ( error ) {
             if ( !!suppressErrors ) return
 

@@ -30,7 +30,7 @@
   },
   "homepage": "https://github.com/ThatGuySam/vumbnail#readme",
   "dependencies": {
-    "@astrojs/vercel": "^0.0.3-beta.1",
+    "@astrojs/vercel": "^7.5.4",
     "@ffmpeg/core": "^0.10.0",
     "@ffmpeg/ffmpeg": "^0.10.1",
     "@vercel/node": "^3.0.25",
@@ -65,15 +65,15 @@
     "ytdl-core": "^4.10.1"
   },
   "devDependencies": {
-    "@astrojs/tailwind": "^0.1.0",
-    "@astrojs/vue": "^0.0.2",
+    "@astrojs/tailwind": "^5.1.0",
+    "@astrojs/vue": "^4.1.0",
     "@types/fs-extra": "~11.0.4",
     "@types/markdown-it": "~13.0.7",
     "@types/react": "~17.0.80",
     "@types/react-dom": "~17.0.25",
     "@types/sharp": "~0.30.5",
     "@types/tailwindcss": "~3.0.11",
-    "astro": "^1.0.0-beta.5",
+    "astro": "^4.7.0",
     "autoprefixer": "^10.4.4",
     "ava": "^6.1.2",
     "postcss": "^8.4.12",

@@ -4,6 +4,9 @@
   "version": "1.0.0",
   "description": "",
   "main": "subreddit.js",
+  "engines": {
+    "node": "18.x"
+  },
   "scripts": {
     "test": "vitest",
     "test-prebuild": "vitest ./test/prebuild/*",

@@ -28,7 +28,7 @@
                 </li>
 
                 <li class="mr-6">
-                    <a class="text-blue-500 hover:text-blue-800" href="https://github.com/ThatGuySam/vimeo-thumbnail-server/discussions">Help</a>
+                    <a class="text-blue-500 hover:text-blue-800" href="https://github.com/ThatGuySam/vumbnail/discussions">Help</a>
                 </li>
             </ul>
         </nav>

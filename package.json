@@ -1,5 +1,5 @@
 {
-  "name": "vimeo-thumbnail-server",
+  "name": "vumbnail",
   "type": "module",
   "version": "1.0.0",
   "description": "",
@@ -21,14 +21,14 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/ThatGuySam/vimeo-thumbnail-server.git"
+    "url": "git+https://github.com/ThatGuySam/vumbnail.git"
   },
   "author": "@ThatGuySam",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/ThatGuySam/vimeo-thumbnail-server/issues"
+    "url": "https://github.com/ThatGuySam/vumbnail/issues"
   },
-  "homepage": "https://github.com/ThatGuySam/vimeo-thumbnail-server#readme",
+  "homepage": "https://github.com/ThatGuySam/vumbnail#readme",
   "dependencies": {
     "@astrojs/vercel": "^0.0.3-beta.1",
     "@ffmpeg/core": "^0.10.0",

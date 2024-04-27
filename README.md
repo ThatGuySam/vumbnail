@@ -13,4 +13,4 @@ Caches for 1 year at CDN and 24 hours at the browser.
 
 Click this button
 
-[![Deploy with Vercel](https://vercel.com/button)](https://vercel.com/new/git/external?repository-url=https://github.com/ThatGuySam/vimeo-thumbnail-server)
+[![Deploy with Vercel](https://vercel.com/button)](https://vercel.com/new/git/external?repository-url=https://github.com/ThatGuySam/vumbnail)

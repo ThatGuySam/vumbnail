@@ -13,3 +13,12 @@ export interface ImageDetails {
         pathOptionName: string | boolean,
     }
 }
+
+export type VideoId = Opaque<string, 'VideoId'>
+
+export type Provider = 'youtube' | 'vimeo'
+
+export interface ParsedVideoUrl {
+    id: VideoId,
+    provider: Provider,
+}

@@ -9,6 +9,7 @@
     "test-prebuild": "ava ./test/prebuild/*",
     "test-postbuild": "ava ./test/postbuild/*",
     "preinstall": "npx only-allow pnpm",
+    "type-check": "tsc",
     "build": "node ./build.js && astro build",
     "dev": "astro dev",
     "start": "astro dev",

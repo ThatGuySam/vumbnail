@@ -11,7 +11,11 @@
                 "distDir": "dist" 
             }
         },
-        { "src": "api/**/*.py", "use": "@vercel/python" },
+        {
+            "src": "api/**/*.py",
+            "use": "@vercel/python",
+            "config": { "maxLambdaSize": "50mb", "runtime": "python3.8" }
+        },
         { "src": "api/**/*.js", "use": "@vercel/node" }
     ],
 

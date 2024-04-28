@@ -1,27 +1,46 @@
 import { expect, test } from 'vitest'
 
 import { parseOptionsFromPath } from '~/helpers/url.js'
+import { MediaExtension } from '~/src/types.js'
+
+function expectedVideo ( videoId: string, extension: MediaExtension | '' = 'jpg' ) {
+    return {
+        videoId,
+        videoPassword: null,
+        extension,
+        filename: `${ videoId }.${ extension }`,
+        filenameWithoutExtension: videoId,
+    } as const
+}
+
+function expectedVimeoVideo ( videoId: string, extension: MediaExtension | '' = 'jpg' ) {
+    return {
+        ...expectedVideo( videoId, extension ),
+        provider: 'vimeo',
+    }
+}
+
+function expectedYouTubeVideo ( videoId: string, extension: MediaExtension | '' = 'jpg' ) {
+    return {
+        ...expectedVideo( videoId, extension ),
+        provider: 'youtube',
+    }
+}
 
 const pathExamples = [
     {
         path: '/358629078',
         expected: {
+            ...expectedVimeoVideo( '358629078', '' ),
             videoId: '358629078',
-            videoPassword: null,
-            provider: 'vimeo',
-            extension: '',
             filename: '358629078',
-            filenameWithoutExtension: '358629078',
         }
     },
     {
         path: '/358629078_medium.mp4',
         expected: {
-            videoId: '358629078',
-            videoPassword: null,
-            provider: 'vimeo',
+            ...expectedVimeoVideo( '358629078', 'mp4' ),
             targetSizeKey: 'thumbnail_medium',
-            extension: 'mp4',
             filename: '358629078_medium.mp4',
             filenameWithoutExtension: '358629078_medium',
         }
@@ -29,11 +48,8 @@ const pathExamples = [
     {
         path: '/358629078_hqdefault.mp4',
         expected: {
-            videoId: '358629078',
-            videoPassword: null,
-            provider: 'vimeo',
+            ...expectedVimeoVideo( '358629078', 'mp4' ),
             targetSizeKey: 'hqdefault',
-            extension: 'mp4',
             filename: '358629078_hqdefault.mp4',
             filenameWithoutExtension: '358629078_hqdefault',
         }
@@ -41,33 +57,20 @@ const pathExamples = [
     {
         path: '/5e7QWV9LB_c.mp4',
         expected: {
-            videoId: '5e7QWV9LB_c',
-            videoPassword: null,
-            provider: 'youtube',
-            extension: 'mp4',
-            filename: '5e7QWV9LB_c.mp4',
-            filenameWithoutExtension: '5e7QWV9LB_c',
+            ...expectedYouTubeVideo( '5e7QWV9LB_c', 'mp4' )
         }
     },
     {
         path: '/V-66rBGAGns.webm',
         expected: {
-            videoId: 'V-66rBGAGns',
-            videoPassword: null,
-            provider: 'youtube',
-            extension: 'webm',
-            filename: 'V-66rBGAGns.webm',
-            filenameWithoutExtension: 'V-66rBGAGns',
+            ...expectedYouTubeVideo( 'V-66rBGAGns', 'webm' )
         }
     },
     {
         path: '/V-66rBGAGns_mqdefault.webm',
         expected: {
-            videoId: 'V-66rBGAGns',
-            videoPassword: null,
-            provider: 'youtube',
+            ...expectedYouTubeVideo( 'V-66rBGAGns', 'webm' ),
             targetSizeKey: 'mqdefault',
-            extension: 'webm',
             filename: 'V-66rBGAGns_mqdefault.webm',
             filenameWithoutExtension: 'V-66rBGAGns_mqdefault',
         }
@@ -75,11 +78,8 @@ const pathExamples = [
     {
         path: '/V-66rBGAGns_large.webm',
         expected: {
-            videoId: 'V-66rBGAGns',
-            videoPassword: null,
-            provider: 'youtube',
+            ...expectedYouTubeVideo( 'V-66rBGAGns', 'webm' ),
             targetSizeKey: 'thumbnail_large',
-            extension: 'webm',
             filename: 'V-66rBGAGns_large.webm',
             filenameWithoutExtension: 'V-66rBGAGns_large',
         }
@@ -87,10 +87,8 @@ const pathExamples = [
     {
         path: '/579958628:c8b4fb043c.jpg',
         expected: {
-            videoId: '579958628',
+            ...expectedVimeoVideo( '579958628', 'jpg' ),
             videoPassword: 'c8b4fb043c',
-            provider: 'vimeo',
-            extension: 'jpg',
             filename: '579958628:c8b4fb043c.jpg',
             filenameWithoutExtension: '579958628:c8b4fb043c',
         }
@@ -100,12 +98,7 @@ const pathExamples = [
     {
         path: '/643816644.jpg?width=900&crop=1%3A1%2Csmart',
         expected: {
-            videoId: '643816644',
-            videoPassword: null,
-            provider: 'vimeo',
-            extension: 'jpg',
-            filename: '643816644.jpg',
-            filenameWithoutExtension: '643816644',
+            ...expectedVimeoVideo( '643816644', 'jpg' )
         }
     },
 
@@ -113,12 +106,7 @@ const pathExamples = [
     {
         path: '/643816644.jpg?path=358629078.jpg',
         expected: {
-            videoId: '643816644',
-            videoPassword: null,
-            provider: 'vimeo',
-            extension: 'jpg',
-            filename: '643816644.jpg',
-            filenameWithoutExtension: '643816644',
+            ...expectedVimeoVideo( '643816644', 'jpg' )
         }
     },
 
@@ -126,12 +114,7 @@ const pathExamples = [
     {
         path: '/639263424.jpg?mw=539.9999856948853&mh=304.199991941452',
         expected: {
-            videoId: '639263424',
-            videoPassword: null,
-            provider: 'vimeo',
-            extension: 'jpg',
-            filename: '639263424.jpg',
-            filenameWithoutExtension: '639263424',
+            ...expectedVimeoVideo( '639263424', 'jpg' )
         }
     },
 
@@ -139,12 +122,7 @@ const pathExamples = [
     {
         path: '/https:/www.youtube.com/watch?v=8t6h3wid0Pg.jpg',
         expected: {
-            videoId: '8t6h3wid0Pg',
-            videoPassword: null,
-            provider: 'youtube',
-            extension: 'jpg',
-            filename: '8t6h3wid0Pg.jpg',
-            filenameWithoutExtension: '8t6h3wid0Pg',
+            ...expectedYouTubeVideo( '8t6h3wid0Pg', 'jpg' ),
         }
     },
 ]

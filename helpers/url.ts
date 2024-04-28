@@ -31,8 +31,7 @@ export function getDomain () {
         return `https://${ import.meta.env.PUBLIC_VERCEL_URL }`
     }
 
-    // @ts-expect-error - window is a global object
-    const location = window?.location || undefined
+    const location = globalThis.location || undefined
 
     if ( typeof location !== 'undefined' && !location.host.includes('localhost') ) {
         return `${ location.protocol }//${ location.host }`

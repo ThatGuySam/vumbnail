@@ -28,7 +28,7 @@ export interface VideoOptions {
     videoId: VideoId,
     provider: Provider,
     extension: MediaExtension
-    filename: string,
+    filename: `${string}.${MediaExtension}`
     filenameWithoutExtension: string,
-    videoPassword: string,
+    videoPassword: string | null,
 }

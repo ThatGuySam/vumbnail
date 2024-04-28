@@ -3,8 +3,8 @@ import path from 'path'
 import urlParser from 'js-video-url-parser'
 import mapValues from 'just-map-values'
 
-import { sizeOptions } from '~/helpers/get-thumbnail-url'
-import { MediaExtension, VideoId, VideoOptions } from '~/src/types'
+import { sizeOptions } from '../helpers/get-thumbnail-url'
+import { VideoId, VideoOptions } from '../src/types'
 
 export function isValidUrl ( url: string ): url is `http${ string }` {
     try {

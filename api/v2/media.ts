@@ -10,14 +10,18 @@ import axios from 'axios'
 import has from 'just-has'
 import type { VercelRequest, VercelResponse } from '@vercel/node'
 
-import { parseOptionsFromPath } from '~/helpers/url'
-import { getClipFromVideoId } from '~/helpers/get-clip-from-video-url.js'
+/**
+ * Vercel serverless functions don't seem to like path aliases
+ * so we'll use the full path here for now
+ */
+import { parseOptionsFromPath } from '../../helpers/url'
+import { getClipFromVideoId } from '../../helpers/get-clip-from-video-url.js'
 import { 
     sendErrorResponseMedia,
     sendSuccessResponseMedia
 } from '../../helpers/send-response.js'
 import { getOutputImage } from '~/helpers/get-thumbnail-url'
-import { ImageExtension, VideoOptions } from '~/src/types.js'
+import { ImageExtension, VideoOptions } from '../../src/types.js'
 
 
 // const ffmpeg = createFFmpeg({ log: true });

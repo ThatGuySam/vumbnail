@@ -6,6 +6,15 @@ import {
 } from '~/helpers/get-thumbnail-url'
 import type { ImageDetails } from '~/src/types'
 
+interface ImageExample {
+    options: {
+        videoId: string,
+        targetSizeKey: string,
+        provider: string,
+    },
+    expected: ImageDetails
+}
+
 test(`Can get Youtube Thumbnail URL`, async () => {
 
     const videoId = 'W2EMHNhyEnQ'
@@ -91,7 +100,7 @@ const youtubeImageDetailExamples = [
             }
         }
     }
-]
+] as const satisfies ImageExample[]
 
 for ( const imageDetails of youtubeImageDetailExamples ) {
 
@@ -102,15 +111,6 @@ for ( const imageDetails of youtubeImageDetailExamples ) {
         expect(details).toEqual(imageDetails.expected)
     })
 
-}
-
-interface ImageExample {
-    options: {
-        videoId: string,
-        targetSizeKey: string,
-        provider: string,
-    },
-    expected: ImageDetails
 }
 
 const vimeoImageDetailExamples = [

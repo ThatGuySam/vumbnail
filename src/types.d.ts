@@ -1,3 +1,4 @@
+import { VideoInfo } from "js-video-url-parser/lib/urlParser"
 
 
 type ImageExtension = 'jpg' | 'jpeg' | 'png'
@@ -21,4 +22,13 @@ export type Provider = 'youtube' | 'vimeo'
 export interface ParsedVideoUrl {
     id: VideoId,
     provider: Provider,
+}
+
+export interface VideoOptions {
+    videoId: VideoId,
+    provider: Provider,
+    extension: MediaExtension
+    filename: string,
+    filenameWithoutExtension: string,
+    videoPassword: string,
 }

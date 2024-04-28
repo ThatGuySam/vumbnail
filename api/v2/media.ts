@@ -17,6 +17,7 @@ import {
     sendSuccessResponseMedia
 } from '../../helpers/send-response.js'
 import { getOutputImage } from '~/helpers/get-thumbnail-url'
+import { ImageExtension, VideoOptions } from '~/src/types.js'
 
 
 // const ffmpeg = createFFmpeg({ log: true });
@@ -26,10 +27,7 @@ export interface VimeoJSONResponse {
     error?: any
 }
 
-interface HandlerOptions {
-    videoId: string
-    provider: string
-    extension: string
+interface HandlerOptions extends Partial<VideoOptions> {
     res: VercelResponse
     req: VercelRequest
 }
@@ -61,19 +59,36 @@ async function videoHandler ( options: HandlerOptions ) {
     return
 }
 
+const imageExtensions = ['jpg', 'jpeg', 'png']
+function isImageExtension ( extension: string ): extension is ImageExtension {
+    return imageExtensions.includes( extension )
+}
+
 async function imageHandler ( options: HandlerOptions ) {
 
     const {
         res,
     } = options
-
+    const { extension, videoId, provider } = options
 
     // console.log('Options at imageHandler', Object.keys(options))
 
+    if ( !extension || !videoId || !provider ) {
+        throw new Error('No extension, videoId, or provider')
+    }
+
+    if ( !isImageExtension( extension ) ) {
+        throw new Error('Invalid extension')
+    }
 
     const { 
         url: thumbnailUrl
-    } = await getOutputImage( options )
+    } = await getOutputImage( {
+        ...options,
+        videoId,
+        provider,
+        extension
+    } )
 
     // Throw on no thumbnail URL
     if ( !thumbnailUrl ) {
@@ -87,7 +102,7 @@ async function imageHandler ( options: HandlerOptions ) {
     // Pipe ffmpeg output to response
     await sendSuccessResponseMedia({
         res,
-        extension: options.extension,
+        extension: extension,
         fileStream: thumbResponse.data
     })
 
@@ -107,11 +122,7 @@ export default async function ( req: MediaRequest, res: MediaResponse ) {
     // Check for display error option here
     const enableErrorMediaResponse = !req.url.includes('disable-error-media')
 
-    const options = parseOptionsFromPath( req.url ) as {
-        videoId: string
-        provider: string
-        extension: MediaExtension
-    }
+    const options = parseOptionsFromPath( req.url )
 
     // Throw on no options
     if ( !options ) {
@@ -134,7 +145,7 @@ export default async function ( req: MediaRequest, res: MediaResponse ) {
             'png': imageHandler,
         }
 
-        if ( has( handlers, options.extension ) ) {
+        if ( options.extension && has( handlers, options.extension ) ) {
             
             const handler = handlers[ options.extension ]
 

@@ -3,11 +3,8 @@ import path from 'path'
 import urlParser from 'js-video-url-parser'
 import mapValues from 'just-map-values'
 
-import { ParsedVideoUrl, VideoId } from '~/src/types.js'
 import { sizeOptions } from '~/helpers/get-thumbnail-url'
-
-
-
+import { MediaExtension, VideoId, VideoOptions } from '~/src/types'
 
 export function isValidUrl ( url: string ): url is `http${ string }` {
     try {
@@ -220,20 +217,20 @@ const pathOptionParsers = {
     }
 } as const
 
-type OptionKey = keyof typeof pathOptionParsers
+type OptionKey = keyof VideoOptions
 
+export function parseOptionsFromPath ( thumbnailPath: string , options: {} = {} ): Partial<VideoOptions> {
+    let optionsFromPath: Partial<VideoOptions> = {}
 
-export function parseOptionsFromPath ( thumbnailPath: string , options: {} = {} ) {
-    let optionsFromPath: Record<string, string | null> = {}
-
+    let optionKey: OptionKey
     // Run through parsers and pull out options
-    for ( const optionKey in pathOptionParsers ) {
-        const optionParser = pathOptionParsers[ optionKey as OptionKey ]
+    for ( optionKey in pathOptionParsers ) {
+        const optionParser = pathOptionParsers[ optionKey ]
 
         try {
             const optionValue = optionParser(thumbnailPath)
 
-            optionsFromPath[ optionKey as OptionKey ] = optionValue
+            optionsFromPath[ optionKey ] = optionValue
         } catch ( error ) {
             // console.log(`Could not parse "${optionKey}" from path: ${thumbnailPath}`)
             // console.log(error)

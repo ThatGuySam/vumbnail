@@ -1,7 +1,7 @@
 import type { Opaque } from 'type-fest'
 import axios, { AxiosResponse } from 'axios'
 import has from 'just-has'
-import { VideoId } from '~/src/types'
+import { ImageExtension, VideoId } from '~/src/types'
 
 
 const youtubeDefaultSize = 'hqdefault'
@@ -252,12 +252,11 @@ async function tryThumbnailUrlMethods ( options: {
     return null
 }
 
-export async function getInputImageDetails ( options:{
+export async function getInputImageDetails ( options: {
     videoId: VideoId,
     videoPassword?: string,
     provider: 'vimeo' | 'youtube',
     targetSizeKey?: SizeKey,
-    targetExtension?: string,
 } ) {
 
     const {
@@ -265,7 +264,6 @@ export async function getInputImageDetails ( options:{
         videoPassword,
         provider,
         targetSizeKey = vimeoDefaultSize,
-        targetExtension = 'jpg',
     } = options
 
 
@@ -348,8 +346,8 @@ export async function getInputImageDetails ( options:{
 export async function getOutputImage ( options: {
     videoId: VideoId,
     provider: 'vimeo' | 'youtube',
+    extension?: ImageExtension,
     targetSizeKey?: SizeKey,
-    targetExtension?: string,
 } ) {
 
     // Get options for provider
@@ -375,7 +373,6 @@ export async function getOutputImage ( options: {
         videoId,
         provider,
         targetSizeKey,
-        // targetExtension: extension,
     })
 
 

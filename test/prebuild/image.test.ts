@@ -3,8 +3,8 @@ import { test, expect } from 'vitest'
 import { getOutputImage } from '~/helpers/get-thumbnail-url.js'
 import { 
     getInputImageDetails
-} from '~/helpers/get-thumbnail-url'
-import type { ImageDetails } from '~/src/types'
+} from '~/helpers/get-thumbnail-url.js'
+import type { ImageDetails } from '~/src/types.js'
 
 interface ImageExample {
     options: {

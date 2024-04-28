@@ -1,6 +1,6 @@
 import axios, { AxiosResponse } from 'axios'
 import has from 'just-has'
-import { ImageExtension, VideoId } from '../src/types'
+import { ImageExtension, VideoId } from '../src/types.js'
 
 
 const youtubeDefaultSize = 'hqdefault'

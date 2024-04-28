@@ -3,8 +3,8 @@ import path from 'path'
 import urlParser from 'js-video-url-parser'
 import mapValues from 'just-map-values'
 
-import { sizeOptions } from '../helpers/get-thumbnail-url'
-import { VideoId, VideoOptions } from '../src/types'
+import { sizeOptions } from '../helpers/get-thumbnail-url.js'
+import { VideoId, VideoOptions } from '../src/types.js'
 
 export function isValidUrl ( url: string ): url is `http${ string }` {
     try {
@@ -31,8 +31,11 @@ export function getDomain () {
         return `https://${ import.meta.env.PUBLIC_VERCEL_URL }`
     }
 
-    if ( typeof window !== 'undefined' && !window.location.host.includes('localhost') ) {
-        return `${ window.location.protocol }//${ window.location.host }`
+    // @ts-expect-error - window is a global object
+    const location = window?.location || undefined
+
+    if ( typeof location !== 'undefined' && !location.host.includes('localhost') ) {
+        return `${ location.protocol }//${ location.host }`
     }
 
     return `https://vumbnail.com`
@@ -58,6 +61,7 @@ export function isSupportedVideoUrl ( maybeUrl: string ): boolean {
     }
 
     // https://github.com/Zod-/jsVideoUrlParser#readme
+    // @ts-expect-error - js-video-url-parser is not fully typed
     const urlDetails = urlParser.parse( maybeUrl )
 
     if ( !urlDetails || !urlDetails.provider ) {

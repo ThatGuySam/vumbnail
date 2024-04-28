@@ -14,13 +14,13 @@ import type { VercelRequest, VercelResponse } from '@vercel/node'
  * Vercel serverless functions don't seem to like path aliases
  * so we'll use the full path here for now
  */
-import { parseOptionsFromPath } from '../../helpers/url'
+import { parseOptionsFromPath } from '../../helpers/url.js'
 import { getClipFromVideoId } from '../../helpers/get-clip-from-video-url.js'
 import { 
     sendErrorResponseMedia,
     sendSuccessResponseMedia
 } from '../../helpers/send-response.js'
-import { getOutputImage } from '../../helpers/get-thumbnail-url'
+import { getOutputImage } from '../../helpers/get-thumbnail-url.js'
 import { ImageExtension, VideoOptions } from '../../src/types.js'
 
 

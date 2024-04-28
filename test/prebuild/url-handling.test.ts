@@ -1,6 +1,6 @@
 import { expect, test } from 'vitest'
 
-import { parseOptionsFromPath } from '~/helpers/url'
+import { parseOptionsFromPath } from '~/helpers/url.js'
 
 
 const pathExamples = [

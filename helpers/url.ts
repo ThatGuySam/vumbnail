@@ -1,10 +1,12 @@
 // import url from 'url'
 import path from 'path'
 import urlParser from 'js-video-url-parser'
+import type { VideoInfo } from 'js-video-url-parser/lib/urlParser.js'
 import mapValues from 'just-map-values'
 
 import { sizeOptions } from '../helpers/get-thumbnail-url.js'
-import { VideoId, VideoOptions } from '../src/types.js'
+import { Provider, VideoId, VideoOptions } from '../src/types.js'
+
 
 export function isValidUrl ( url: string ): url is `http${ string }` {
     try {
@@ -222,7 +224,35 @@ const pathOptionParsers = {
 
 type OptionKey = keyof VideoOptions
 
+function pathHasFullUrl ( thumbnailPath: string ) {
+    return thumbnailPath.startsWith('/http')
+}
+
+function parsePathContainingUrl ( thumbnailPath: string ): VideoOptions {
+    // Clean up any malformed protocol
+    thumbnailPath = thumbnailPath.replace('/http', 'http')
+    thumbnailPath = thumbnailPath.replace('http:/', 'https://')
+    thumbnailPath = thumbnailPath.replace('https:/', 'https://')
+
+    // Parse the new url as a video url
+    // @ts-expect-error - js-video-url-parser is not fully typed
+    const urlDetails: VideoInfo = urlParser.parse( thumbnailPath )
+
+    return {
+        provider: urlDetails.provider as Provider,
+        videoId: urlDetails.id,
+        videoPassword: null,
+        extension: 'jpg',
+        filename: `${ urlDetails.id }.jpg`,
+        filenameWithoutExtension: urlDetails.id,
+    }
+}
+
 export function parseOptionsFromPath ( thumbnailPath: string , options: {} = {} ): Partial<VideoOptions> {
+    if ( pathHasFullUrl( thumbnailPath ) ) {
+        return parsePathContainingUrl( thumbnailPath )
+    }
+
     let optionsFromPath: Partial<VideoOptions> = {}
 
     let optionKey: OptionKey

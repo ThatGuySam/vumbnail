@@ -2,7 +2,6 @@ import { expect, test } from 'vitest'
 
 import { parseOptionsFromPath } from '~/helpers/url.js'
 
-
 const pathExamples = [
     {
         path: '/358629078',
@@ -133,6 +132,19 @@ const pathExamples = [
             extension: 'jpg',
             filename: '639263424.jpg',
             filenameWithoutExtension: '639263424',
+        }
+    },
+
+    // Full YouTube URL
+    {
+        path: '/https:/www.youtube.com/watch?v=8t6h3wid0Pg.jpg',
+        expected: {
+            videoId: '8t6h3wid0Pg',
+            videoPassword: null,
+            provider: 'youtube',
+            extension: 'jpg',
+            filename: '8t6h3wid0Pg.jpg',
+            filenameWithoutExtension: '8t6h3wid0Pg',
         }
     },
 ]

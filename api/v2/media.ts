@@ -20,7 +20,7 @@ import {
     sendErrorResponseMedia,
     sendSuccessResponseMedia
 } from '../../helpers/send-response.js'
-import { getOutputImage } from '~/helpers/get-thumbnail-url'
+import { getOutputImage } from '../../helpers/get-thumbnail-url'
 import { ImageExtension, VideoOptions } from '../../src/types.js'
 
 

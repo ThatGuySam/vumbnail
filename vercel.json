@@ -16,7 +16,7 @@
             "use": "@vercel/python",
             "config": { "maxLambdaSize": "50mb" }
         },
-        { "src": "api/**/*.js", "use": "@vercel/node" }
+        { "src": "api/**/*.ts", "use": "@vercel/node" }
     ],
 
     "headers": [

@@ -54,7 +54,7 @@
 
         {
             "source": "/performance/v1",
-            "destination": "/api/performance/v1/index.js"
+            "destination": "/api/performance/v1/index.ts"
         },
         
         {
@@ -68,7 +68,7 @@
 
         { 
             "source": "/(.*)", 
-            "destination": "/api/v2/media.js" 
+            "destination": "/api/v2/media.ts" 
         }
     ]
 }

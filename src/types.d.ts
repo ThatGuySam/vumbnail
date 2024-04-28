@@ -1,7 +1,7 @@
 import { VideoInfo } from "js-video-url-parser/lib/urlParser"
 
 
-type ImageExtension = 'jpg' | 'jpeg' | 'png'
+type ImageExtension = 'jpg' | 'jpeg' | 'png' | 'webm'
 type VideoExtension = 'mp4'
 type MediaExtension = ImageExtension | VideoExtension
 

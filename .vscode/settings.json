@@ -1,18 +1,26 @@
 {
     "cSpell.words": [
+        "bestaudio",
+        "bestvideo",
         "execa",
+        "fastapi",
         "fbvideos",
         "hqdefault",
         "localforage",
+        "maxage",
         "maxresdefault",
         "mqdefault",
         "Oembed",
         "postbuild",
         "preinstall",
+        "redoc",
         "sddefault",
         "shiki",
+        "starlette",
+        "Starlette",
         "tailwindcss",
         "tsimp",
+        "Vercel",
         "vumbnail",
         "ytdl"
     ]

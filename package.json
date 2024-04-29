@@ -5,6 +5,7 @@
   "description": "",
   "main": "subreddit.js",
   "engines": {
+    "pnpm": "8.*",
     "node": "18.x"
   },
   "scripts": {

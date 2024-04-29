@@ -3,6 +3,7 @@
   "version": "1.0.0",
   "description": "Video Processing APIs for Vumbnail, typically python, ffmpeg, and yt-dlp",
   "engines": {
+    "pnpm": "8.*",
     "node": "18.x"
   },
   "scripts": {
@@ -10,5 +11,8 @@
   },
   "keywords": [],
   "author": "",
-  "license": "ISC"
+  "license": "ISC",
+  "dependencies": {
+    "vercel": "^34.1.3"
+  }
 }

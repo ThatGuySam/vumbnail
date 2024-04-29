@@ -6,7 +6,7 @@
 	"routes": [
 		{
 			"src": "/(.*)",
-			"dest": "api/yt-dlp.py"
+			"dest": "api/v1/yt-dlp.py"
 		}
 	]
 }

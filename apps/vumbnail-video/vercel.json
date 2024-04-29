@@ -2,16 +2,8 @@
 	"version": 2,
 	"routes": [
 		{
-			"src": "/api/download",
-			"dest": "api/download.js"
-		},
-		{
-			"src": "/api/info",
-			"dest": "api/ytdlp.py"
-		},
-		{
-			"src": "/api/version",
-			"dest": "api/ytdlp.py"
+			"src": "/(.*)",
+			"dest": "api/yt-dlp.py"
 		}
 	]
 }

@@ -21,7 +21,7 @@ import {
     sendSuccessResponseMedia
 } from '../../helpers/send-response.js'
 import { getOutputImage } from '../../helpers/get-thumbnail-url.js'
-import { ImageExtension, VideoOptions } from '../../src/types.js'
+import { ImageExtension, MediaExtension, VideoOptions } from '../../src/types.js'
 
 
 // const ffmpeg = createFFmpeg({ log: true });
@@ -142,8 +142,9 @@ export default async function ( req: MediaRequest, res: MediaResponse ) {
             throw new Error('Invalid options')
         }
 
-        const handlers = {
+        const handlers: Record<MediaExtension, ( options: HandlerOptions ) => Promise<void>> = {
             'mp4': videoHandler,
+            'webm': videoHandler,
             'jpg': imageHandler,
             'jpeg': imageHandler,
             'png': imageHandler,

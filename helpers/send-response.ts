@@ -2,6 +2,8 @@ import axios from 'axios'
 import has from 'just-has'
 
 import { vercelUrl } from './get-vercel-url.js'
+import { MediaExtension, PixelMediaExtension } from '~/src/types.js'
+import { VercelRequest, VercelResponse } from '@vercel/node'
 
 
 const ONE_HOUR = 60 * 60
@@ -52,10 +54,11 @@ const mimeTypes = {
     'mp4': 'video/mp4',
     'webm': 'video/webm',
     'jpg': 'image/jpeg',
+    'jpeg': 'image/jpeg',
     'png': 'image/png',
     'svg': 'image/svg+xml',
     // 'gif': 'image/gif',
-}
+} as const satisfies Record<MediaExtension, string>
 
 export const errorMedia = {
     svg: {
@@ -98,7 +101,10 @@ export const errorUrls = Object.fromEntries(Object.entries( errorMedia ).map( ([
     ]
 }))
 
-function getErrorUrl( type ) {
+
+type ResponseType = MediaExtension | 'unknown'
+
+function getErrorUrl( type: ResponseType ) {
     // If we don't have a valid error type, return jpg
     if ( !has( errorUrls, type ) ) {
         return errorUrls.jpg
@@ -107,8 +113,23 @@ function getErrorUrl( type ) {
     return errorUrls[ type ]
 }
 
+interface ResponseMediaOptions {
+    req: VercelRequest
+    res: VercelResponse
+}
 
-export async function sendErrorResponseMedia(options = {}) {
+interface ErrorResponseMediaOptions extends ResponseMediaOptions {
+    responseType?: 'stream' | 'arraybuffer'
+    type: ResponseType
+    error: unknown
+}
+
+interface SuccessMediaOptions extends ResponseMediaOptions {
+    extension: PixelMediaExtension
+    fileStream: NodeJS.ReadableStream | null
+}
+
+export async function sendErrorResponseMedia(options: ErrorResponseMediaOptions) {
     const {
         // req,
         res,
@@ -130,7 +151,8 @@ export async function sendErrorResponseMedia(options = {}) {
     // res.statusCode = 200
 
     // Set Content-Type header
-    res.contentType = mimeType
+    // res.contentType = mimeType
+    res.setHeader('Content-Type', mimeType)
 
     // Set Caching Headers
     for ( const [key, value] of Object.entries(errorCacheHeaders) ) {
@@ -156,7 +178,7 @@ export async function sendErrorResponseMedia(options = {}) {
 }
 
 
-export async function sendSuccessResponseMedia(options = {}) {
+export async function sendSuccessResponseMedia( options: SuccessMediaOptions ) {
     const {
         // req,
         res,
@@ -175,6 +197,10 @@ export async function sendSuccessResponseMedia(options = {}) {
     // Set Headers
     for ( const [key, value] of Object.entries( headers ) ) {
         res.setHeader(key, value)
+    }
+
+    if ( !fileStream ) {
+        throw new Error('No file stream')
     }
 
     fileStream.pipe(res)

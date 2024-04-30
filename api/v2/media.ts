@@ -21,7 +21,7 @@ import {
     sendSuccessResponseMedia
 } from '../../helpers/send-response.js'
 import { getOutputImage } from '../../helpers/get-thumbnail-url.js'
-import { HandlerOptions, ImageExtension, MediaExtension } from '../../src/types.js'
+import { HandlerOptions, ImageExtension, MediaExtension, PixelMediaExtension } from '../../src/types.js'
 
 
 // const ffmpeg = createFFmpeg({ log: true });
@@ -34,8 +34,14 @@ export interface VimeoJSONResponse {
 async function videoHandler ( options: HandlerOptions ) {
 
     const {
+        req,
         res,
+        extension
     } = options
+
+    if ( !extension ) {
+        throw new Error('No extension')
+    }
 
     const {
         fileStream,
@@ -46,8 +52,9 @@ async function videoHandler ( options: HandlerOptions ) {
 
     // Pipe ffmpeg output to response
     await sendSuccessResponseMedia({
+        req,
         res,
-        extension: options.extension,
+        extension,
         fileStream//: ffmpegProcess.stdout
     })
 
@@ -65,6 +72,7 @@ function isImageExtension ( extension: string ): extension is ImageExtension {
 async function imageHandler ( options: HandlerOptions ) {
 
     const {
+        req,
         res,
     } = options
     const { extension, videoId, provider } = options
@@ -99,6 +107,7 @@ async function imageHandler ( options: HandlerOptions ) {
 
     // Pipe ffmpeg output to response
     await sendSuccessResponseMedia({
+        req,
         res,
         extension: extension,
         fileStream: thumbResponse.data
@@ -134,7 +143,7 @@ export default async function ( req: MediaRequest, res: MediaResponse ) {
             throw new Error('Invalid options')
         }
 
-        const handlers: Record<MediaExtension, ( options: HandlerOptions ) => Promise<void>> = {
+        const handlers: Record<PixelMediaExtension, ( options: HandlerOptions ) => Promise<void>> = {
             'mp4': videoHandler,
             'webm': videoHandler,
             'jpg': imageHandler,

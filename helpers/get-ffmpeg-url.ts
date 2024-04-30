@@ -3,6 +3,8 @@ import urlParser from 'js-video-url-parser'
 import axios from 'axios'
 
 import { vercelUrl } from './get-vercel-url.js'
+import { VideoInfo } from 'js-video-url-parser/lib/urlParser.js'
+import { VideoInfoStrict } from '~/src/types.js'
 
 
 const providerDefaultOptions = {
@@ -12,44 +14,25 @@ const providerDefaultOptions = {
     'youtube': {
         extension: 'webm'
     }
-}
+} as const
 
 const deployUrl = vercelUrl
 
-
-// https://github.com/saanuregh/youtube-dl-web/blob/master/components/entry.js#L25
-function reduceFormats ( youtubeDlInfo ) {
-    const targetFormat = youtubeDlInfo.format_id
-
-    return youtubeDlInfo.formats.reduce((a, c) => {
-        let x = {
-          id: c.format_id,
-          label: c.format,
-        };
-        if (youtubeDlInfo.extractor_key.toLowerCase() === "youtube") {
-          const j =
-            c.format.includes("audio") && c.format_id !== targetFormat.split("+")[1];
-          const k =
-            !c.format.includes("audio") &&
-            c.ext === "webm" &&
-            youtubeDlInfo.formats.filter((i) => i.format_note === c.format_note).length >= 2;
-          const l = c.vcodec !== "none" && c.acodec !== "none";
-          if (j || k || l) {
-            return a;
-          }
-          if (c.vcodec !== "none" && c.acodec === "none") {
-            x = {
-              id: `${c.format_id}+${targetFormat.split("+")[1]}`,
-              label: c.format,
-            };
-          }
-        }
-        return [...a, x];
-      }, [])
+interface Format {
+    ext: string,
+    protocol: string,
+    url: string,
+    width: number,
 }
 
+interface FormatOptions {
+    extension: string,
+    protocol?: string,
+    targetFormat?: string,
+    formats: Format[]
+}
 
-function findFormat ( options = {} ) {
+function findFormat ( options: FormatOptions ) {
     const {
       extension,
       protocol = 'https',
@@ -77,17 +60,30 @@ function findFormat ( options = {} ) {
             foundFormat = format
         }
     }
+    
+    if ( foundFormat ) {
+      return foundFormat
+    }
 
-    return foundFormat
+    throw new Error(`Could not find format for extension ${ extension }`)
 }
 
+interface GetFfmpegUrlOptions {
+    videoUrl: string
+    extension?: string
+}
 
-export async function getFfmpegUrl ( options = {} ) {
+export async function getFfmpegUrl ( options: GetFfmpegUrlOptions ) {
     // https://github.com/Zod-/jsVideoUrlParser#readme
-    const { provider } = urlParser.parse(options.videoUrl)
+    // @ts-expect-error - urlParser is not typed
+    const { provider }: VideoInfoStrict = urlParser.parse(options.videoUrl)
+
+    if ( !provider ) {
+        throw new Error(`Could not find provider for video ${ options.videoUrl }`)
+    }
 
     // Get options for provider
-    const defaultOptions = providerDefaultOptions[provider]
+    const defaultOptions = providerDefaultOptions[ provider ]
 
     const {
         videoUrl,
@@ -98,7 +94,7 @@ export async function getFfmpegUrl ( options = {} ) {
     }
 
 
-    // Prefered format list separated by slashes
+    // Preferred format list separated by slashes
     //
     // Vimeo Example: http-240p/http-360p/worstvideo[ext=mp4]/mp4
     // https://github.com/ytdl-org/youtube-dl/blob/master/README.md#format-selection
@@ -126,10 +122,15 @@ export async function getFfmpegUrl ( options = {} ) {
         },
     }
 
+    interface YouTubeDLResponse {
+      formats: Format[]
+    }
+
     // Get the video data
-    const { data: youtubeDlInfo } = await axios.get( ytdlUrl.href, requestOptions )
+    const { data: youtubeDlInfo } = await axios.get<YouTubeDLResponse>( ytdlUrl.href, requestOptions )
         .catch(error => {
             console.warn(`Error fetching video ${videoUrl}`, error)
+            throw error
         })
 
     // const formats = youtubeDlInfo.formats.map( format => {

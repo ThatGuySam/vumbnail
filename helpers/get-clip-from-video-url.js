@@ -39,7 +39,7 @@ export async function getClipFromVideoUrl ( videoUrl, options = {} ) {
     const urlFetchMarkerName = 'url-fetch'
     performance.mark( urlFetchMarkerName )
 
-    const ffpemgUrl = await getFfmpegUrl({
+    const ffmpegUrl = await getFfmpegUrl({
         videoUrl,
         extension,
     })
@@ -51,7 +51,7 @@ export async function getClipFromVideoUrl ( videoUrl, options = {} ) {
     // // An FFmpeg Solution: https://video.stackexchange.com/a/25389
     // // Youtube-dl MPD Handling: https://github.com/ytdl-org/youtube-dl/blob/1980ff4550a3f040fbc1e054d6b91013e9d8cb96/youtube_dl/extractor/common.py#L2074
     // // Vimeo Handling: https://github.com/ytdl-org/youtube-dl/blob/1980ff4550a3f040fbc1e054d6b91013e9d8cb96/youtube_dl/extractor/vimeo.py
-    // if ( ffpemgUrl.includes('mpd') ) {
+    // if ( ffmpegUrl.includes('mpd') ) {
     // }
 
     // Only download 5 seconds
@@ -66,7 +66,7 @@ export async function getClipFromVideoUrl ( videoUrl, options = {} ) {
 
         // Set input
         '-i', 
-            ffpemgUrl, 
+            ffmpegUrl, 
 
         // Filter out audio
         '-an',

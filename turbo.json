@@ -4,6 +4,8 @@
       "build": {
         "outputs": ["dist/**"]
       },
-      "type-check": {}
+      "type-check": {
+        "cache": false
+      }
     }
 }

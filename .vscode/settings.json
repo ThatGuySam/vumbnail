@@ -1,14 +1,18 @@
 {
     "cSpell.words": [
+        "acodec",
         "bestaudio",
         "bestvideo",
         "execa",
         "fastapi",
         "fbvideos",
         "hqdefault",
+        "libx",
         "localforage",
         "maxage",
         "maxresdefault",
+        "moov",
+        "movflags",
         "mqdefault",
         "Oembed",
         "postbuild",
@@ -20,6 +24,7 @@
         "Starlette",
         "tailwindcss",
         "tsimp",
+        "ultrafast",
         "Vercel",
         "vumbnail",
         "ytdl"

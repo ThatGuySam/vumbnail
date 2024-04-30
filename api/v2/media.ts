@@ -21,7 +21,7 @@ import {
     sendSuccessResponseMedia
 } from '../../helpers/send-response.js'
 import { getOutputImage } from '../../helpers/get-thumbnail-url.js'
-import { ImageExtension, MediaExtension, VideoOptions } from '../../src/types.js'
+import { HandlerOptions, ImageExtension, MediaExtension } from '../../src/types.js'
 
 
 // const ffmpeg = createFFmpeg({ log: true });
@@ -29,11 +29,6 @@ import { ImageExtension, MediaExtension, VideoOptions } from '../../src/types.js
 export interface VimeoJSONResponse {
     videoData?: any
     error?: any
-}
-
-interface HandlerOptions extends Partial<VideoOptions> {
-    res: VercelResponse
-    req: VercelRequest
 }
 
 async function videoHandler ( options: HandlerOptions ) {
@@ -46,8 +41,7 @@ async function videoHandler ( options: HandlerOptions ) {
         fileStream,
         videoProcess
     } = await getClipFromVideoId( options.videoId, {
-        provider: options.provider, 
-        res,
+        ...options
     })
 
     // Pipe ffmpeg output to response
@@ -128,17 +122,15 @@ export default async function ( req: MediaRequest, res: MediaResponse ) {
 
     const options = parseOptionsFromPath( req.url )
 
-    // Throw on no options
-    if ( !options ) {
-        throw new Error('No options provided')
-    }
-
     try {
-
+        const { provider } = options
         // console.log('url', req.url)
 
         // Check that options is an object
-        if ( Object( options ) !== options ) {
+        if (
+            Object( options ) !== options
+            || !provider
+        ) {
             throw new Error('Invalid options')
         }
 
@@ -158,6 +150,7 @@ export default async function ( req: MediaRequest, res: MediaResponse ) {
                 ...options,
                 req,
                 res,
+                provider
             } )
         
             return

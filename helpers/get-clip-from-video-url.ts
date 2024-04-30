@@ -1,22 +1,22 @@
+import { HandlerOptions, Provider, VideoId } from '~/src/types.js'
 import { getFfmpegUrl } from './get-ffmpeg-url.js'
 import { performance } from './performance.js'
 
-function makeVideoUrlFromId ( videoId, provider ) {
+function makeVideoUrlFromId ( videoId: VideoId, provider: Provider ) {
 
     if ( provider === 'youtube' ) {
-        return `https://${ provider }.com/watch?v=${ videoId }`
+        return `https://${ provider }.com/watch?v=${ videoId }` as const
     }
 
     if ( provider === 'vimeo' ) {
-        return `https://${ provider }.com/${ videoId }`
+        return `https://${ provider }.com/${ videoId }` as const
     }
 
 
     throw new Error(`Unknown url provider ${ provider }`)
 }
 
-
-export async function getClipFromVideoId ( videoId, options = {} ) {
+export async function getClipFromVideoId ( videoId: VideoId, options: HandlerOptions ) {
     const {
         provider
     } = options
@@ -29,7 +29,7 @@ export async function getClipFromVideoId ( videoId, options = {} ) {
 }
 
 
-export async function getClipFromVideoUrl ( videoUrl, options = {} ) {
+export async function getClipFromVideoUrl ( videoUrl: `https://${ string }`, options: HandlerOptions ) {
 
     const {
         res = null,

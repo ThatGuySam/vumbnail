@@ -32,3 +32,9 @@ export interface VideoOptions {
     filenameWithoutExtension: string,
     videoPassword: string | null,
 }
+
+export interface HandlerOptions extends Partial<VideoOptions> {
+    res: VercelResponse
+    req: VercelRequest
+    provider: Provider
+}

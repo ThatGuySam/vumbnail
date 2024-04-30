@@ -5,7 +5,11 @@
     },
 	"routes": [
 		{
-			"src": "/(.*)",
+			"src": "/api/info",
+			"dest": "api/v1/yt-dlp.py"
+		},
+		{
+			"src": "/api/version",
 			"dest": "api/v1/yt-dlp.py"
 		}
 	]

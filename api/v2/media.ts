@@ -5,6 +5,7 @@
 
 // 50 MB Vercel Limit: https://vercel.com/docs/concepts/limits/overview#serverless-function-size
 
+import '../../helpers/sentry-init.js'
 import 'dotenv/config'
 import axios from 'axios'
 import has from 'just-has'

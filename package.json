@@ -14,7 +14,7 @@
     "test-postbuild": "vitest ./test/postbuild/*",
     "preinstall": "npx only-allow pnpm",
     "type-check": "tsc",
-    "build": "node ./build.js && astro build",
+    "build": "tsx ./build.ts && astro build",
     "dev": "astro dev",
     "start": "astro dev",
     "preview": "astro preview",

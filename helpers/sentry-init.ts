@@ -1,8 +1,14 @@
 import * as Sentry from "@sentry/node"
 import { nodeProfilingIntegration } from "@sentry/profiling-node"
+import { z } from "zod"
+
+const Env = z.object({
+  SENTRY_DSN: z.string(),
+})
+  .parse(process.env)
 
 Sentry.init({
-  dsn: "https://b3f7e2b1ff7ffab0c894f27a2aa267fd@o50272.ingest.us.sentry.io/4507173319344129",
+  dsn: Env.SENTRY_DSN,
   integrations: [
     nodeProfilingIntegration(),
   ],

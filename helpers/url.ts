@@ -17,7 +17,9 @@ export function isValidUrl(url: string): url is `http${string}` {
 }
 
 export function getAnyHost(maybeUrl: string) {
-    if (!isValidUrl (maybeUrl)) { return '' }
+    if (!isValidUrl (maybeUrl)) {
+        return ''
+    }
 
     const url = new URL(maybeUrl)
 
@@ -52,16 +54,22 @@ export function isValidId(maybeId: string): maybeId is VideoId {
 }
 
 export function isSupportedVideoUrl(maybeUrl: string): boolean {
-    if (!isValidUrl(maybeUrl)) { return false }
+    if (!isValidUrl(maybeUrl)) {
+        return false
+    }
 
     // https://github.com/Zod-/jsVideoUrlParser#readme
     // @ts-expect-error - js-video-url-parser is not fully typed
     const urlDetails = urlParser.parse(maybeUrl)
 
-    if (!urlDetails || !urlDetails.provider) { return false }
+    if (!urlDetails || !urlDetails.provider) {
+        return false
+    }
 
     // Reject URls with unsupported video IDs
-    if (!isValidId(urlDetails.id)) { return false }
+    if (!isValidId(urlDetails.id)) {
+        return false
+    }
 
     const supportedProviders = [
         'youtube',
@@ -230,7 +238,9 @@ function parsePathContainingUrl(thumbnailPath: string): VideoOptions {
 }
 
 export function parseOptionsFromPath(thumbnailPath: string): Partial<VideoOptions> {
-    if (pathHasFullUrl(thumbnailPath)) { return parsePathContainingUrl(thumbnailPath) }
+    if (pathHasFullUrl(thumbnailPath)) {
+        return parsePathContainingUrl(thumbnailPath)
+    }
 
     let optionsFromPath: Partial<VideoOptions> = {}
 

@@ -23,7 +23,7 @@ import {
     sendSuccessResponseMedia
 } from '../../helpers/send-response.js'
 import { getOutputImage } from '../../helpers/get-thumbnail-url.js'
-import { HandlerOptions, ImageExtension, MediaExtension, PixelMediaExtension } from '../../src/types.js'
+import { HandlerOptions, ImageExtension, PixelMediaExtension } from '../../src/types.js'
 
 
 // const ffmpeg = createFFmpeg({ log: true });

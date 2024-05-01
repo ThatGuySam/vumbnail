@@ -6,6 +6,9 @@ import mapValues from 'just-map-values'
 
 import { sizeOptions } from '../helpers/get-thumbnail-url.js'
 import type { Provider, VideoId, VideoOptions } from '../src/types.js'
+import type { Global } from './env.js'
+
+declare const globalThis: Global
 
 export function isValidUrl(url: string): url is `http${string}` {
     try {

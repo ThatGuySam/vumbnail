@@ -1,7 +1,9 @@
 import antfu from '@antfu/eslint-config'
 
 export default antfu({
-    astro: true,
+    astro: false,
+    vue: false,
+
     stylistic: {
         indent: 4,
     },

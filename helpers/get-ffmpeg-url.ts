@@ -6,13 +6,13 @@ import { z } from 'zod'
 
 import type { VideoInfoStrict } from '~/src/types.js'
 
-const Env = z.object({
+const Env = z.object( {
     // URL that is https and does not end in a slash
     PRIVATE_VIDEO_API_HOST: z.string()
-        .startsWith('https')
-        .refine(value => !value.endsWith('/')),
-})
-    .parse(process.env)
+        .startsWith( 'https' )
+        .refine( value => !value.endsWith( '/' ) ),
+} )
+    .parse( process.env )
 
 const providerDefaultOptions = {
     vimeo: {
@@ -39,7 +39,7 @@ interface FormatOptions {
     formats: Format[]
 }
 
-function findFormat(options: FormatOptions) {
+function findFormat ( options: FormatOptions ) {
     const {
         extension,
         protocol = 'https',
@@ -49,28 +49,28 @@ function findFormat(options: FormatOptions) {
     let foundFormat = null
     let smallestSize = Number.POSITIVE_INFINITY
 
-    for (const format of formats) {
+    for ( const format of formats ) {
         // Skip different extensions
-        if (format.ext !== extension) {
+        if ( format.ext !== extension ) {
             continue
         }
 
         // Skip different protocols
-        if (format.protocol !== protocol) {
+        if ( format.protocol !== protocol ) {
             continue
         }
 
-        if (format.width < smallestSize) {
+        if ( format.width < smallestSize ) {
             smallestSize = format.width
             foundFormat = format
         }
     }
 
-    if (foundFormat) {
+    if ( foundFormat ) {
         return foundFormat
     }
 
-    throw new Error(`Could not find format for extension ${extension}`)
+    throw new Error( `Could not find format for extension ${ extension }` )
 }
 
 interface GetFfmpegUrlOptions {
@@ -78,17 +78,17 @@ interface GetFfmpegUrlOptions {
     extension?: string
 }
 
-export async function getFfmpegUrl(options: GetFfmpegUrlOptions) {
+export async function getFfmpegUrl ( options: GetFfmpegUrlOptions ) {
     // https://github.com/Zod-/jsVideoUrlParser#readme
     // @ts-expect-error - urlParser is not typed
-    const { provider }: VideoInfoStrict = urlParser.parse(options.videoUrl)
+    const { provider }: VideoInfoStrict = urlParser.parse( options.videoUrl )
 
-    if (!provider) {
-        throw new Error(`Could not find provider for video ${options.videoUrl}`)
+    if ( !provider ) {
+        throw new Error( `Could not find provider for video ${ options.videoUrl }` )
     }
 
     // Get options for provider
-    const defaultOptions = providerDefaultOptions[provider]
+    const defaultOptions = providerDefaultOptions[ provider ]
 
     const {
         videoUrl,
@@ -111,9 +111,9 @@ export async function getFfmpegUrl(options: GetFfmpegUrlOptions) {
         // Generic
         'worstvideo[ext=mp4]',
         'mp4',
-    ].join('/')
+    ].join( '/' )
 
-    const ytdlUrl = new URL(`${videoApiHost}/api/info?q=${videoUrl}&f=${formatOptions}`)
+    const ytdlUrl = new URL( `${ videoApiHost }/api/info?q=${ videoUrl }&f=${ formatOptions }` )
 
     // console.log('ytdlUrl', ytdlUrl)
 
@@ -131,11 +131,11 @@ export async function getFfmpegUrl(options: GetFfmpegUrlOptions) {
     }
 
     // Get the video data
-    const { data: youtubeDlInfo } = await axios.get<YouTubeDLResponse>(ytdlUrl.href, requestOptions)
-        .catch((error) => {
-            console.warn(`Error fetching video ${videoUrl}`, error)
+    const { data: youtubeDlInfo } = await axios.get<YouTubeDLResponse>( ytdlUrl.href, requestOptions )
+        .catch( ( error ) => {
+            console.warn( `Error fetching video ${ videoUrl }`, error )
             throw error
-        })
+        } )
 
     // const formats = youtubeDlInfo.formats.map( format => {
     //   delete format.url
@@ -148,10 +148,10 @@ export async function getFfmpegUrl(options: GetFfmpegUrlOptions) {
 
     // console.log('formats', formats)
 
-    const foundFormat = findFormat({
+    const foundFormat = findFormat( {
         extension,
         formats: youtubeDlInfo.formats,
-    })
+    } )
 
     // console.log('foundFormat', foundFormat)
     // console.log('url', youtubeDlInfo.url)

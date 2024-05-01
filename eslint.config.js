@@ -19,11 +19,11 @@ export default antfu(
     // Misc
     // If this section gets too big, consider moving to a separate config group
     {
-        files: ['**/*.ts', '**/*.tsx', '**/*.js', '**/*.jsx'],
+        files: [ '**/*.ts', '**/*.tsx', '**/*.js', '**/*.jsx' ],
         rules: {
             'test/prefer-lowercase-title': 'off',
-            'curly': ['error', 'all'],
-            'quotes': ['error', 'single'],
+            'curly': [ 'error', 'all' ],
+            'quotes': [ 'error', 'single' ],
         },
     },
 )

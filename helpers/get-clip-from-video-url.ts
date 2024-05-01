@@ -4,44 +4,44 @@ import { getFfmpegUrl } from './get-ffmpeg-url.js'
 import { performance } from './performance.js'
 import type { HandlerOptions, Provider, VideoId } from '~/src/types.js'
 
-function makeVideoUrlFromId(videoId: VideoId, provider: Provider) {
-    if (provider === 'youtube') {
-        return `https://${provider}.com/watch?v=${videoId}` as const
+function makeVideoUrlFromId ( videoId: VideoId, provider: Provider ) {
+    if ( provider === 'youtube' ) {
+        return `https://${ provider }.com/watch?v=${ videoId }` as const
     }
 
-    if (provider === 'vimeo') {
-        return `https://${provider}.com/${videoId}` as const
+    if ( provider === 'vimeo' ) {
+        return `https://${ provider }.com/${ videoId }` as const
     }
 
-    throw new Error(`Unknown url provider ${provider}`)
+    throw new Error( `Unknown url provider ${ provider }` )
 }
 
-export async function getClipFromVideoId(videoId: VideoId, options: HandlerOptions) {
+export async function getClipFromVideoId ( videoId: VideoId, options: HandlerOptions ) {
     const {
         provider,
     } = options
 
-    const videoUrl = makeVideoUrlFromId(videoId, provider)
+    const videoUrl = makeVideoUrlFromId( videoId, provider )
 
     // console.log('videoUrl', videoUrl)
 
-    return await getClipFromVideoUrl(videoUrl, options)
+    return await getClipFromVideoUrl( videoUrl, options )
 }
 
-export async function getClipFromVideoUrl(videoUrl: `https://${string}`, options: HandlerOptions) {
+export async function getClipFromVideoUrl ( videoUrl: `https://${ string }`, options: HandlerOptions ) {
     const {
         extension = 'mp4',
     } = options
 
     const urlFetchMarkerName = 'url-fetch'
-    performance.mark(urlFetchMarkerName)
+    performance.mark( urlFetchMarkerName )
 
-    const ffmpegUrl = await getFfmpegUrl({
+    const ffmpegUrl = await getFfmpegUrl( {
         videoUrl,
         extension,
-    })
+    } )
 
-    performance.measure('URL Fetch time', urlFetchMarkerName)
+    performance.measure( 'URL Fetch time', urlFetchMarkerName )
 
     // // Process MPD manifest (dash)
     // // An FFmpeg Solution: https://video.stackexchange.com/a/25389
@@ -93,9 +93,9 @@ export async function getClipFromVideoUrl(videoUrl: `https://${string}`, options
     ]
 
     const ffmpegMarkerName = 'ffmpeg-process'
-    performance.mark(ffmpegMarkerName)
+    performance.mark( ffmpegMarkerName )
 
-    performance.measure('FFmpeg time', ffmpegMarkerName)
+    performance.measure( 'FFmpeg time', ffmpegMarkerName )
 
     // return {
     //     fileStream: null,
@@ -103,17 +103,17 @@ export async function getClipFromVideoUrl(videoUrl: `https://${string}`, options
     // }
 
     // // Run command
-    const ffmpegProcess = execa(String(pathToFfmpeg), ffmpegArgs)
+    const ffmpegProcess = execa( String( pathToFfmpeg ), ffmpegArgs )
 
-    if (!ffmpegProcess.stdout) {
-        throw new Error('ffmpegProcess.stdout is null')
+    if ( !ffmpegProcess.stdout ) {
+        throw new Error( 'ffmpegProcess.stdout is null' )
     }
 
     // On pipe end
-    ffmpegProcess.stdout.on('end', () => {
+    ffmpegProcess.stdout.on( 'end', () => {
         // console.log('ffmpegProcess.stdout.on( \'end\' )')
-        performance.measure('FFmpeg time', ffmpegMarkerName)
-    })
+        performance.measure( 'FFmpeg time', ffmpegMarkerName )
+    } )
 
     return {
         fileStream: ffmpegProcess.stdout,

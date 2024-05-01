@@ -7,7 +7,7 @@ import { expect, it } from 'vitest'
 import type { MediaRequest, MediaResponse } from '~/api/v2/media.js'
 import videoFunction from '~/api/v2/media.js'
 
-it('can get non-media error response URL', async () => {
+it( 'can get non-media error response URL', async () => {
     let responseData = null
 
     try {
@@ -18,20 +18,20 @@ it('can get non-media error response URL', async () => {
             } as MediaRequest,
             // Response
             {
-                send: (data) => {
+                send: ( data ) => {
                     responseData = data
                     // t.pass()
                 },
             } as MediaResponse,
         )
     }
-    catch (error) {
+    catch ( error ) {
         // eslint-disable-next-line no-console
-        console.log('error', error)
+        console.log( 'error', error )
 
         // Assert that the error is a non-media error
         // t.assert( !!error.message, 'Has error message' )
     }
 
-    expect(responseData).toBeTruthy()
-})
+    expect( responseData ).toBeTruthy()
+} )

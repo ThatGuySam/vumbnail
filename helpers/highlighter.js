@@ -4,20 +4,20 @@ import { getHighlighter, setCDN, setWasm } from 'shiki'
 // https://github.com/shikijs/shiki-playground/blob/main/src/preload.ts
 // import { preloadedThemes, preloadedLangs } from './preload'
 
-setWasm('/shiki/dist/onigasm.wasm')
-setCDN('/shiki/')
+setWasm( '/shiki/dist/onigasm.wasm' )
+setCDN( '/shiki/' )
 
 let highlighter
 
-export async function initHighlighter() {
-    if (highlighter) {
-        throw new Error('Highlighter already initialized')
+export async function initHighlighter () {
+    if ( highlighter ) {
+        throw new Error( 'Highlighter already initialized' )
     }
 
-    highlighter = await getHighlighter({
-        themes: ['github-dark'],
-        langs: ['html'],
-    })
+    highlighter = await getHighlighter( {
+        themes: [ 'github-dark' ],
+        langs: [ 'html' ],
+    } )
 
     return highlighter
 }

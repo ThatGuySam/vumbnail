@@ -7,7 +7,7 @@ export const title = 'React Native'
 export const description = 'Vumbnail example for embedding iamge in React Native'
 
 export class ReactNativeExample {
-    constructor(options = {}) {
+    constructor ( options = {} ) {
         this.videoId = options.videoId
     }
 
@@ -15,7 +15,7 @@ export class ReactNativeExample {
 
     description = description
 
-    template() {
+    template () {
         return `
 import * as React from 'react';
 import { Image } from 'react-native'
@@ -23,23 +23,23 @@ import { Image } from 'react-native'
 <Image 
     style={{ width: 320, height: 180 }}
     source={{
-        uri: 'https://vumbnail.com/${this.videoId}.jpg',
+        uri: 'https://vumbnail.com/${ this.videoId }.jpg',
     }}
 />
         `
     }
 
-    embedHtml() {
-        const encodeTitle = encodeURIComponent(this.title)
-        const encodeDescription = encodeURIComponent(this.description)
-        const encodedExampleCode = encodeURIComponent(this.template())
+    embedHtml () {
+        const encodeTitle = encodeURIComponent( this.title )
+        const encodeDescription = encodeURIComponent( this.description )
+        const encodedExampleCode = encodeURIComponent( this.template() )
 
         return /* html */`
         <div
-            data-snack-code="${encodedExampleCode}"
+            data-snack-code="${ encodedExampleCode }"
             data-snack-dependencies="expo-constants%2Clodash%404"
-            data-snack-name="${encodeTitle}"
-            data-snack-description="${encodeDescription}"
+            data-snack-name="${ encodeTitle }"
+            data-snack-description="${ encodeDescription }"
             data-snack-preview="true"
             data-snack-platform="web"
             style="overflow:hidden;background:#fafafa;border:1px solid rgba(0,0,0,.08);border-radius:4px;height:505px;width:100%">
@@ -47,7 +47,7 @@ import { Image } from 'react-native'
         `
     }
 
-    embedScript() {
+    embedScript () {
         return {
             async: true,
             src = 'https://snack.expo.dev/embed.js',

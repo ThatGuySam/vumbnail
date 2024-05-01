@@ -32,42 +32,42 @@ export interface VimeoJSONResponse {
     error?: any
 }
 
-async function videoHandler(options: HandlerOptions) {
+async function videoHandler ( options: HandlerOptions ) {
     const {
         req,
         res,
         extension,
     } = options
 
-    if (!extension) {
-        throw new Error('No extension')
+    if ( !extension ) {
+        throw new Error( 'No extension' )
     }
 
     const {
         fileStream,
         videoProcess,
-    } = await getClipFromVideoId(options.videoId, {
+    } = await getClipFromVideoId( options.videoId, {
         ...options,
-    })
+    } )
 
     // Pipe ffmpeg output to response
-    await sendSuccessResponseMedia({
+    await sendSuccessResponseMedia( {
         req,
         res,
         extension,
         fileStream, // : ffmpegProcess.stdout
-    })
+    } )
 
     // Wait for ffmpeg to finish
     await videoProcess
 }
 
-const imageExtensions = ['jpg', 'jpeg', 'png']
-function isImageExtension(extension: string): extension is ImageExtension {
-    return imageExtensions.includes(extension)
+const imageExtensions = [ 'jpg', 'jpeg', 'png' ]
+function isImageExtension ( extension: string ): extension is ImageExtension {
+    return imageExtensions.includes( extension )
 }
 
-async function imageHandler(options: HandlerOptions) {
+async function imageHandler ( options: HandlerOptions ) {
     const {
         req,
         res,
@@ -76,55 +76,55 @@ async function imageHandler(options: HandlerOptions) {
 
     // console.log('Options at imageHandler', Object.keys(options))
 
-    if (!extension || !videoId || !provider) {
-        throw new Error('No extension, videoId, or provider')
+    if ( !extension || !videoId || !provider ) {
+        throw new Error( 'No extension, videoId, or provider' )
     }
 
-    if (!isImageExtension(extension)) {
-        throw new Error('Invalid extension')
+    if ( !isImageExtension( extension ) ) {
+        throw new Error( 'Invalid extension' )
     }
 
     const {
         url: thumbnailUrl,
-    } = await getOutputImage({
+    } = await getOutputImage( {
         ...options,
         videoId,
         provider,
         extension,
-    })
+    } )
 
     // Throw on no thumbnail URL
-    if (!thumbnailUrl) {
-        throw new Error('No thumbnail URL')
+    if ( !thumbnailUrl ) {
+        throw new Error( 'No thumbnail URL' )
     }
 
-    const thumbResponse = await axios.get(thumbnailUrl, {
+    const thumbResponse = await axios.get( thumbnailUrl, {
         responseType: 'stream',
-    })
+    } )
 
     // Pipe ffmpeg output to response
-    await sendSuccessResponseMedia({
+    await sendSuccessResponseMedia( {
         req,
         res,
         extension,
         fileStream: thumbResponse.data,
-    })
+    } )
 }
 
 export interface MediaRequest extends VercelRequest {}
 
 export interface MediaResponse extends VercelResponse {}
 
-export default async function (req: MediaRequest, res: MediaResponse) {
+export default async function ( req: MediaRequest, res: MediaResponse ) {
     // Throw on no URL
-    if (!req.url) {
-        throw new Error('No URL provided')
+    if ( !req.url ) {
+        throw new Error( 'No URL provided' )
     }
 
     // Check for display error option here
-    const enableErrorMediaResponse = !req.url.includes('disable-error-media')
+    const enableErrorMediaResponse = !req.url.includes( 'disable-error-media' )
 
-    const options = parseOptionsFromPath(req.url)
+    const options = parseOptionsFromPath( req.url )
 
     try {
         const { provider } = options
@@ -132,11 +132,11 @@ export default async function (req: MediaRequest, res: MediaResponse) {
 
         // Check that options is an object
         if (
-            Object(options) !== options
+            Object( options ) !== options
             || !provider
-        ) { throw new Error('Invalid options') }
+        ) { throw new Error( 'Invalid options' ) }
 
-        const handlers: Record<PixelMediaExtension, (options: HandlerOptions) => Promise<void>> = {
+        const handlers: Record<PixelMediaExtension, ( options: HandlerOptions ) => Promise<void>> = {
             mp4: videoHandler,
             webm: videoHandler,
             jpg: imageHandler,
@@ -144,15 +144,15 @@ export default async function (req: MediaRequest, res: MediaResponse) {
             png: imageHandler,
         }
 
-        if (options.extension && has(handlers, options.extension)) {
-            const handler = handlers[options.extension]
+        if ( options.extension && has( handlers, options.extension ) ) {
+            const handler = handlers[ options.extension ]
 
-            await handler({
+            await handler( {
                 ...options,
                 req,
                 res,
                 provider,
-            })
+            } )
 
             return
         }
@@ -162,31 +162,31 @@ export default async function (req: MediaRequest, res: MediaResponse) {
 
         // res.json(options)
 
-        throw new Error('Not implemented')
+        throw new Error( 'Not implemented' )
     }
-    catch (error) {
-        Sentry.captureException(error, {
+    catch ( error ) {
+        Sentry.captureException( error, {
             extra: {
                 url: req.url,
                 options,
             },
-        })
+        } )
 
-        if (enableErrorMediaResponse === false) {
+        if ( enableErrorMediaResponse === false ) {
             // throw
 
             res.statusCode = 500
 
-            res.send('Error')
+            res.send( 'Error' )
 
             return
         }
 
-        await sendErrorResponseMedia({
+        await sendErrorResponseMedia( {
             req,
             res,
             error,
             type: options?.extension || 'unknown',
-        })
+        } )
     }
 }

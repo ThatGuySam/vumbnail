@@ -21,10 +21,10 @@ export const errorCacheHeaders = {
 }
 
 export const successCacheHeaders = {
-    'Cache-Control': `public, max-age=${ONE_MONTH}, s-maxage=${ONE_YEAR}`,
+    'Cache-Control': `public, max-age=${ ONE_MONTH }, s-maxage=${ ONE_YEAR }`,
 }
 
-export function svgTemplate() {
+export function svgTemplate () {
     return `
     <svg
         xmlns="http://www.w3.org/2000/svg"
@@ -85,27 +85,27 @@ export const errorMedia = {
     // TODO: Webm
 }
 
-export const errorUrls = Object.fromEntries(Object.entries(errorMedia).map(([key, fileDetails]) => {
-    const urlPath = fileDetails.path.replace('./public', '')
+export const errorUrls = Object.fromEntries( Object.entries( errorMedia ).map( ( [ key, fileDetails ] ) => {
+    const urlPath = fileDetails.path.replace( './public', '' )
 
     return [
         key,
         {
             ...fileDetails,
-            url: `${vercelUrl}${urlPath}`,
+            url: `${ vercelUrl }${ urlPath }`,
         },
     ]
-}))
+} ) )
 
 type ResponseType = MediaExtension | 'unknown'
 
-function getErrorUrl(type: ResponseType) {
+function getErrorUrl ( type: ResponseType ) {
     // If we don't have a valid error type, return jpg
-    if (!has(errorUrls, type)) {
+    if ( !has( errorUrls, type ) ) {
         return errorUrls.jpg
     }
 
-    return errorUrls[type]
+    return errorUrls[ type ]
 }
 
 interface ResponseMediaOptions {
@@ -124,7 +124,7 @@ interface SuccessMediaOptions extends ResponseMediaOptions {
     fileStream: NodeJS.ReadableStream | null
 }
 
-export async function sendErrorResponseMedia(options: ErrorResponseMediaOptions) {
+export async function sendErrorResponseMedia ( options: ErrorResponseMediaOptions ) {
     const {
         // req,
         res,
@@ -138,38 +138,38 @@ export async function sendErrorResponseMedia(options: ErrorResponseMediaOptions)
     const {
         url,
         mimeType,
-    } = getErrorUrl(type)
+    } = getErrorUrl( type )
 
     // eslint-disable-next-line no-console
-    console.log('Streaming media error: ', type, error)
+    console.log( 'Streaming media error: ', type, error )
 
     // res.statusCode = 200
 
     // Set Content-Type header
-    res.setHeader('Content-Type', mimeType)
+    res.setHeader( 'Content-Type', mimeType )
 
     // Set Caching Headers
-    for (const [key, value] of Object.entries(errorCacheHeaders)) {
-        res.setHeader(key, value)
+    for ( const [ key, value ] of Object.entries( errorCacheHeaders ) ) {
+        res.setHeader( key, value )
     }
 
     // https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Content-Disposition#syntax
     res.setHeader(
         'Content-Disposition',
-        `inline; filename="error.${type}"`,
+        `inline; filename="error.${ type }"`,
         // contentDisposition(`${info.title}.${audioOnly ? "mp3" : "mp4"}`)
     )
 
-    const thumbResponse = await axios.get(url, {
+    const thumbResponse = await axios.get( url, {
         responseType,
-    })
+    } )
 
-    thumbResponse.data.pipe(res)
+    thumbResponse.data.pipe( res )
 
     // Stop function
 }
 
-export async function sendSuccessResponseMedia(options: SuccessMediaOptions) {
+export async function sendSuccessResponseMedia ( options: SuccessMediaOptions ) {
     const {
         // req,
         res,
@@ -177,24 +177,24 @@ export async function sendSuccessResponseMedia(options: SuccessMediaOptions) {
         fileStream,
     } = options
 
-    const mimeType = mimeTypes[extension]
+    const mimeType = mimeTypes[ extension ]
 
     const headers = {
         ...successCacheHeaders,
-        'Content-Disposition': `inline; filename="vumbnail.${extension}"`,
+        'Content-Disposition': `inline; filename="vumbnail.${ extension }"`,
         'Content-Type': mimeType,
     }
 
     // Set Headers
-    for (const [key, value] of Object.entries(headers)) {
-        res.setHeader(key, value)
+    for ( const [ key, value ] of Object.entries( headers ) ) {
+        res.setHeader( key, value )
     }
 
-    if (!fileStream) {
-        throw new Error('No file stream')
+    if ( !fileStream ) {
+        throw new Error( 'No file stream' )
     }
 
-    fileStream.pipe(res)
+    fileStream.pipe( res )
 
     // Stop function
 }

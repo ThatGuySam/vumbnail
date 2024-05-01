@@ -4,25 +4,25 @@ import { isValidUrl } from '../helpers/url.js'
 import { getFfmpegUrl } from '../helpers/get-ffmpeg-url.js'
 // import { getClipFromVideoUrl } from '../../helpers/get-clip-from-video-url.js'
 
-test('Can test', (t) => {
+test( 'Can test', ( t ) => {
     t.pass()
-})
+} )
 
-test('Can get Youtube URL', async (t) => {
-    const ffmpegUrl = await getFfmpegUrl({
+test( 'Can get Youtube URL', async ( t ) => {
+    const ffmpegUrl = await getFfmpegUrl( {
         videoUrl: 'https://www.youtube.com/watch?v=dQw4w9WgXcQ',
-    })
+    } )
 
-    t.assert(isValidUrl(ffmpegUrl))
-})
+    t.assert( isValidUrl( ffmpegUrl ) )
+} )
 
-test('Can get Vimeo URL', async (t) => {
-    const ffmpegUrl = await getFfmpegUrl({
+test( 'Can get Vimeo URL', async ( t ) => {
+    const ffmpegUrl = await getFfmpegUrl( {
         videoUrl: 'https://vimeo.com/358629078',
-    })
+    } )
 
-    t.assert(isValidUrl(ffmpegUrl))
-})
+    t.assert( isValidUrl( ffmpegUrl ) )
+} )
 
 // test(`Can get Twitch URL`, async t => {
 

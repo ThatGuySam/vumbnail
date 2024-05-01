@@ -3,7 +3,6 @@ import path from 'path'
 import urlParser from 'js-video-url-parser'
 import type { VideoInfo } from 'js-video-url-parser/lib/urlParser.js'
 import mapValues from 'just-map-values'
-import * as Sentry from '@sentry/node'
 
 import { sizeOptions } from '../helpers/get-thumbnail-url.js'
 import { Provider, VideoId, VideoOptions } from '../src/types.js'
@@ -291,11 +290,6 @@ export function parseOptionsFromPath ( thumbnailPath: string , options: {} = {} 
             }
         }
     } catch ( error ) {
-        Sentry.captureException( error, {
-            extra: {
-                thumbnailPath
-            }
-        })
         console.log(`Could not parse options from filename: ${thumbnailPath}`)
     }
 

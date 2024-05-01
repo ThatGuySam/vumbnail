@@ -16,6 +16,21 @@ export default antfu(
             'pnpm-workspace.yaml',
         ],
     },
+
+    // Spacing
+    {
+        files: [ '**/*.ts', '**/*.tsx', '**/*.js', '**/*.yaml' ],
+        rules: {
+            'style/space-in-parens': [ 'error', 'always' ],
+            'style/space-before-function-paren': [ 'error', 'always' ],
+            'style/object-curly-spacing': [ 'error', 'always' ],
+            'style/array-bracket-spacing': [ 'error', 'always' ],
+            'style/computed-property-spacing': [ 'error', 'always' ],
+            'style/template-curly-spacing': [ 'error', 'always' ],
+            'style/jsx-curly-spacing': [ 'error', 'always' ],
+        },
+    },
+
     // Misc
     // If this section gets too big, consider moving to a separate config group
     {

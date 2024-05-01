@@ -5,9 +5,13 @@ import { performance } from './performance.js'
 import type { HandlerOptions, Provider, VideoId } from '~/src/types.js'
 
 function makeVideoUrlFromId(videoId: VideoId, provider: Provider) {
-    if (provider === 'youtube') { return `https://${provider}.com/watch?v=${videoId}` as const }
+    if (provider === 'youtube') {
+        return `https://${provider}.com/watch?v=${videoId}` as const
+    }
 
-    if (provider === 'vimeo') { return `https://${provider}.com/${videoId}` as const }
+    if (provider === 'vimeo') {
+        return `https://${provider}.com/${videoId}` as const
+    }
 
     throw new Error(`Unknown url provider ${provider}`)
 }

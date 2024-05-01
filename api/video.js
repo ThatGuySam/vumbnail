@@ -42,7 +42,9 @@ export default async function (req, res) {
     }
 
     // if there's no video data the stop
-    if (videoData === null) { return } // Stop function
+    if (videoData === null) {
+        return // Stop function
+    }
 
     if (key) {
         const thumbResponse = await axios.get(videoData[key], {

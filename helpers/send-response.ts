@@ -101,7 +101,9 @@ type ResponseType = MediaExtension | 'unknown'
 
 function getErrorUrl(type: ResponseType) {
     // If we don't have a valid error type, return jpg
-    if (!has(errorUrls, type)) { return errorUrls.jpg }
+    if (!has(errorUrls, type)) {
+        return errorUrls.jpg
+    }
 
     return errorUrls[type]
 }
@@ -144,11 +146,12 @@ export async function sendErrorResponseMedia(options: ErrorResponseMediaOptions)
     // res.statusCode = 200
 
     // Set Content-Type header
-    // res.contentType = mimeType
     res.setHeader('Content-Type', mimeType)
 
     // Set Caching Headers
-    for (const [key, value] of Object.entries(errorCacheHeaders)) { res.setHeader(key, value) }
+    for (const [key, value] of Object.entries(errorCacheHeaders)) {
+        res.setHeader(key, value)
+    }
 
     // https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Content-Disposition#syntax
     res.setHeader(
@@ -183,9 +186,13 @@ export async function sendSuccessResponseMedia(options: SuccessMediaOptions) {
     }
 
     // Set Headers
-    for (const [key, value] of Object.entries(headers)) { res.setHeader(key, value) }
+    for (const [key, value] of Object.entries(headers)) {
+        res.setHeader(key, value)
+    }
 
-    if (!fileStream) { throw new Error('No file stream') }
+    if (!fileStream) {
+        throw new Error('No file stream')
+    }
 
     fileStream.pipe(res)
 

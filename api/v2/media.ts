@@ -10,6 +10,7 @@ import 'dotenv/config'
 import axios from 'axios'
 import has from 'just-has'
 import type { VercelRequest, VercelResponse } from '@vercel/node'
+import * as Sentry from '@sentry/node'
 
 /**
  * Vercel serverless functions don't seem to like path aliases
@@ -175,8 +176,12 @@ export default async function ( req: MediaRequest, res: MediaResponse ) {
         throw new Error('Not implemented')
 
     } catch ( error ) {
-
-        // console.log('options', options)
+        Sentry.captureException( error, {
+            extra: {
+                url: req.url,
+                options
+            }
+        })
 
         if ( enableErrorMediaResponse === false ) {
             // throw 

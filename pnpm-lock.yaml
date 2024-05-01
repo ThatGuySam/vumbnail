@@ -129,6 +129,9 @@ importers:
       '@astrojs/vue':
         specifier: ^4.1.0
         version: 4.1.0(astro@4.7.0)(vite@5.2.10)(vue@3.2.31)
+      '@types/eslint':
+        specifier: ~8.56.10
+        version: 8.56.10
       '@types/fs-extra':
         specifier: ~11.0.4
         version: 11.0.4

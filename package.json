@@ -76,6 +76,7 @@
         "@antfu/eslint-config": "^2.16.1",
         "@astrojs/tailwind": "^5.1.0",
         "@astrojs/vue": "^4.1.0",
+        "@types/eslint": "~8.56.10",
         "@types/fs-extra": "~11.0.4",
         "@types/markdown-it": "~13.0.7",
         "@types/react": "~17.0.80",

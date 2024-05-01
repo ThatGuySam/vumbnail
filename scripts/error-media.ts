@@ -1,7 +1,6 @@
 import process from 'node:process'
 import fs from 'fs-extra'
 import sharp from 'sharp'
-// @ts-expect-error - No types yet
 import pathToFfmpeg from 'ffmpeg-static'
 import { execa } from 'execa'
 
@@ -55,11 +54,12 @@ const {
 
     console.log('Generating mp4 from png')
     // Delete mp4 file if it exists
-    if (fs.existsSync(mp4.path))
+    if (fs.existsSync(mp4.path)) {
         fs.unlinkSync(mp4.path)
+    }
 
     // Generate mp4 from png
-    await execa(pathToFfmpeg, ffmpegArgs)
+    await execa(String(pathToFfmpeg), ffmpegArgs)
 
     console.log('Files generated successfully!')
 

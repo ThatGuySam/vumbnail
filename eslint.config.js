@@ -7,4 +7,8 @@ export default antfu({
     stylistic: {
         indent: 4,
     },
+
+    ignores: [
+        'pnpm-workspace.yaml',
+    ],
 })

@@ -9,8 +9,7 @@ import type { Provider, VideoId, VideoOptions } from '../src/types.js'
 
 export function isValidUrl(url: string): url is `http${string}` {
     try {
-        new URL(url)
-        return true
+        return !!(new URL(url))
     }
     catch (e) {
         return false
@@ -232,7 +231,7 @@ function parsePathContainingUrl(thumbnailPath: string): VideoOptions {
     }
 }
 
-export function parseOptionsFromPath(thumbnailPath: string, options: {} = {}): Partial<VideoOptions> {
+export function parseOptionsFromPath(thumbnailPath: string): Partial<VideoOptions> {
     if (pathHasFullUrl(thumbnailPath))
         return parsePathContainingUrl(thumbnailPath)
 
@@ -274,6 +273,7 @@ export function parseOptionsFromPath(thumbnailPath: string, options: {} = {}): P
         }
     }
     catch (error) {
+        // eslint-disable-next-line no-console
         console.log(`Could not parse options from filename: ${thumbnailPath}`)
     }
 

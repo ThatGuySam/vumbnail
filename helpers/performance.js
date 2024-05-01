@@ -7,6 +7,7 @@ export const observePerformance = new PerformanceObserver((items) => {
         const entryDurationSeconds = (entry.duration).toFixed(2)
         // const durationPerFile = ( entry.duration / fileCount ).toFixed(2)
 
+        // eslint-disable-next-line no-console
         console.log(`${entry.name}: ${entryDurationSeconds}ms`)
 
         // countEntryFiles()

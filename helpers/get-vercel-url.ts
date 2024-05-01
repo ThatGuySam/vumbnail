@@ -1,3 +1,5 @@
+import process from 'node:process'
+
 export function getVercelUrl() {
     return process.env?.VERCEL_BETA_URL || `https://${process.env.VERCEL_URL}`
 }

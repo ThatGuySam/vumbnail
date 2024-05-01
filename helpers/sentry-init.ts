@@ -1,3 +1,4 @@
+import process from 'node:process'
 import * as Sentry from '@sentry/node'
 import { nodeProfilingIntegration } from '@sentry/profiling-node'
 import { z } from 'zod'

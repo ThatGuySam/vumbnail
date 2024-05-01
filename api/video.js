@@ -1,7 +1,7 @@
 // URL utility
-import url from 'node:url'
+import Url from 'node:url'
 import axios from 'axios'
-import { default as microRedirect } from 'micro-redirect'
+import microRedirect from 'micro-redirect'
 
 // const microRedirect = require("micro-redirect")
 
@@ -12,7 +12,7 @@ const tempRedirectCode = 307
 
 export default async function (req, res) {
     // Break out the id param from our request's query string
-    const { query: { id, redirect = false, key = null } } = url.parse(req.url, true)
+    const { query: { id, redirect = false, key = null } } = new Url(req.url, true)
     // const perPage = 50
 
     // const videoUrl = `https://www.facebook.com/${id}`
@@ -42,9 +42,7 @@ export default async function (req, res) {
     }
 
     // if there's no video data the stop
-    if (videoData === null)
-
-        return // Stop function
+    if (videoData === null) { return } // Stop function
 
     if (key) {
         const thumbResponse = await axios.get(videoData[key], {
@@ -54,6 +52,7 @@ export default async function (req, res) {
         // Set a header for jpg
         res.setHeader('Content-Type', 'image/jpeg')
 
+        // eslint-disable-next-line no-console
         console.log('Streamed image', key)
         thumbResponse.data.pipe(res)
 
@@ -64,6 +63,7 @@ export default async function (req, res) {
     }
 
     if (redirect) {
+        // eslint-disable-next-line no-console
         console.log('Redirected image', key)
 
         microRedirect(res, tempRedirectCode, videoData.url)
@@ -76,8 +76,9 @@ export default async function (req, res) {
     res.setHeader('Access-Control-Allow-Origin', '*')
     res.setHeader('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept')
 
+    // eslint-disable-next-line no-console
     console.log(`Fetched video data from https://vimeo.com/${id}`)
 
-    // Repond with Video JSON Data
+    // Respond with Video JSON Data
     res.json(videoData)
 }

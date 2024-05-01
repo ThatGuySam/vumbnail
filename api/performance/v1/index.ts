@@ -9,8 +9,7 @@ export default async function (req: VercelRequest, res: VercelResponse) {
     const urlString = req.url
 
     // Throw an error if the URL is not provided
-    if (!urlString)
-        throw new Error('No URL provided')
+    if (!urlString) { throw new Error('No URL provided') }
 
     // Break out the id param from our request's query string
     // const { query: { id, redirect = false, key = null } } = req

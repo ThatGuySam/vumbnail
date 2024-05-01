@@ -12,7 +12,7 @@ interface ImageExample {
     expected: ImageDetails
 }
 
-it(`can get Youtube Thumbnail URL`, async () => {
+it('can get Youtube Thumbnail URL', async () => {
     const videoId = 'W2EMHNhyEnQ'
 
     const { url } = await getOutputImage({
@@ -27,7 +27,7 @@ it(`can get Youtube Thumbnail URL`, async () => {
     expect(url?.includes(videoId))
 })
 
-it(`can get Vimeo Thumbnail URL`, async () => {
+it('can get Vimeo Thumbnail URL', async () => {
     const { url } = await getOutputImage({
         videoId: '376454747',
         provider: 'vimeo',
@@ -38,7 +38,7 @@ it(`can get Vimeo Thumbnail URL`, async () => {
     expect(url?.includes('https://i.vimeocdn.com/video/'))
 })
 
-it(`can get Vimeo Thumbnail URL without size`, async () => {
+it('can get Vimeo Thumbnail URL without size', async () => {
     const { url } = await getOutputImage({
         videoId: '376454747',
         provider: 'vimeo',
@@ -94,7 +94,7 @@ const youtubeImageDetailExamples = [
 ] as const satisfies ImageExample[]
 
 for (const imageDetails of youtubeImageDetailExamples) {
-    it(`can get valid input Youtube image: `, async () => {
+    it('can get valid input Youtube image: ', async () => {
         const details = await getInputImageDetails(imageDetails.options)
 
         // t.deepEqual(details, imageDetails.expected)
@@ -156,7 +156,7 @@ const vimeoImageDetailExamples = [
 ] as const satisfies ImageExample[]
 
 for (const imageDetails of vimeoImageDetailExamples) {
-    it(`can get valid input Vimeo image: `, async () => {
+    it('can get valid input Vimeo image: ', async () => {
         const details = await getInputImageDetails(imageDetails.options) as ImageDetails
 
         // We check the url starts with the vimeo cdn

@@ -10,8 +10,9 @@ setCDN('/shiki/')
 let highlighter
 
 export async function initHighlighter() {
-    if (highlighter)
+    if (highlighter) {
         throw new Error('Highlighter already initialized')
+    }
 
     highlighter = await getHighlighter({
         themes: ['github-dark'],

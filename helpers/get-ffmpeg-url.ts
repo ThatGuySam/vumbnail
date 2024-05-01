@@ -1,3 +1,4 @@
+import process from 'node:process'
 // import youtubedl from 'youtube-dl-exec'
 import urlParser from 'js-video-url-parser'
 import axios from 'axios'
@@ -42,7 +43,6 @@ function findFormat(options: FormatOptions) {
     const {
         extension,
         protocol = 'https',
-        targetFormat = 'worstvideo',
         formats,
     } = options
 
@@ -51,12 +51,10 @@ function findFormat(options: FormatOptions) {
 
     for (const format of formats) {
         // Skip different extensions
-        if (format.ext !== extension)
-            continue
+        if (format.ext !== extension) { continue }
 
         // Skip different protocols
-        if (format.protocol !== protocol)
-            continue
+        if (format.protocol !== protocol) { continue }
 
         if (format.width < smallestSize) {
             smallestSize = format.width
@@ -64,8 +62,7 @@ function findFormat(options: FormatOptions) {
         }
     }
 
-    if (foundFormat)
-        return foundFormat
+    if (foundFormat) { return foundFormat }
 
     throw new Error(`Could not find format for extension ${extension}`)
 }
@@ -80,8 +77,7 @@ export async function getFfmpegUrl(options: GetFfmpegUrlOptions) {
     // @ts-expect-error - urlParser is not typed
     const { provider }: VideoInfoStrict = urlParser.parse(options.videoUrl)
 
-    if (!provider)
-        throw new Error(`Could not find provider for video ${options.videoUrl}`)
+    if (!provider) { throw new Error(`Could not find provider for video ${options.videoUrl}`) }
 
     // Get options for provider
     const defaultOptions = providerDefaultOptions[provider]

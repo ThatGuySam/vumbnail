@@ -39,8 +39,7 @@ async function videoHandler(options: HandlerOptions) {
         extension,
     } = options
 
-    if (!extension)
-        throw new Error('No extension')
+    if (!extension) { throw new Error('No extension') }
 
     const {
         fileStream,
@@ -75,11 +74,9 @@ async function imageHandler(options: HandlerOptions) {
 
     // console.log('Options at imageHandler', Object.keys(options))
 
-    if (!extension || !videoId || !provider)
-        throw new Error('No extension, videoId, or provider')
+    if (!extension || !videoId || !provider) { throw new Error('No extension, videoId, or provider') }
 
-    if (!isImageExtension(extension))
-        throw new Error('Invalid extension')
+    if (!isImageExtension(extension)) { throw new Error('Invalid extension') }
 
     const {
         url: thumbnailUrl,
@@ -91,8 +88,7 @@ async function imageHandler(options: HandlerOptions) {
     })
 
     // Throw on no thumbnail URL
-    if (!thumbnailUrl)
-        throw new Error('No thumbnail URL')
+    if (!thumbnailUrl) { throw new Error('No thumbnail URL') }
 
     const thumbResponse = await axios.get(thumbnailUrl, {
         responseType: 'stream',
@@ -113,8 +109,7 @@ export interface MediaResponse extends VercelResponse {}
 
 export default async function (req: MediaRequest, res: MediaResponse) {
     // Throw on no URL
-    if (!req.url)
-        throw new Error('No URL provided')
+    if (!req.url) { throw new Error('No URL provided') }
 
     // Check for display error option here
     const enableErrorMediaResponse = !req.url.includes('disable-error-media')
@@ -129,8 +124,7 @@ export default async function (req: MediaRequest, res: MediaResponse) {
         if (
             Object(options) !== options
             || !provider
-        )
-            throw new Error('Invalid options')
+        ) { throw new Error('Invalid options') }
 
         const handlers: Record<PixelMediaExtension, (options: HandlerOptions) => Promise<void>> = {
             mp4: videoHandler,

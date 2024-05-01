@@ -7,7 +7,7 @@ import type { MediaExtension, PixelMediaExtension } from '~/src/types.js'
 
 const ONE_HOUR = 60 * 60
 const ONE_DAY = ONE_HOUR * 24
-const ONE_WEEK = ONE_DAY * 7
+// const ONE_WEEK = ONE_DAY * 7
 const ONE_MONTH = ONE_DAY * 30
 const ONE_YEAR = ONE_DAY * 365
 
@@ -17,7 +17,7 @@ const ONE_YEAR = ONE_DAY * 365
 // s-maxage === Vercel / Cloudflare Cache
 // Cache Control Header Examples - https://developers.cloudflare.com/cache/about/cache-control#examples
 export const errorCacheHeaders = {
-    'Cache-Control': `no-cache, public, must-revalidate`,
+    'Cache-Control': 'no-cache, public, must-revalidate',
 }
 
 export const successCacheHeaders = {
@@ -101,8 +101,7 @@ type ResponseType = MediaExtension | 'unknown'
 
 function getErrorUrl(type: ResponseType) {
     // If we don't have a valid error type, return jpg
-    if (!has(errorUrls, type))
-        return errorUrls.jpg
+    if (!has(errorUrls, type)) { return errorUrls.jpg }
 
     return errorUrls[type]
 }
@@ -139,6 +138,7 @@ export async function sendErrorResponseMedia(options: ErrorResponseMediaOptions)
         mimeType,
     } = getErrorUrl(type)
 
+    // eslint-disable-next-line no-console
     console.log('Streaming media error: ', type, error)
 
     // res.statusCode = 200
@@ -148,8 +148,7 @@ export async function sendErrorResponseMedia(options: ErrorResponseMediaOptions)
     res.setHeader('Content-Type', mimeType)
 
     // Set Caching Headers
-    for (const [key, value] of Object.entries(errorCacheHeaders))
-        res.setHeader(key, value)
+    for (const [key, value] of Object.entries(errorCacheHeaders)) { res.setHeader(key, value) }
 
     // https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Content-Disposition#syntax
     res.setHeader(
@@ -184,11 +183,9 @@ export async function sendSuccessResponseMedia(options: SuccessMediaOptions) {
     }
 
     // Set Headers
-    for (const [key, value] of Object.entries(headers))
-        res.setHeader(key, value)
+    for (const [key, value] of Object.entries(headers)) { res.setHeader(key, value) }
 
-    if (!fileStream)
-        throw new Error('No file stream')
+    if (!fileStream) { throw new Error('No file stream') }
 
     fileStream.pipe(res)
 

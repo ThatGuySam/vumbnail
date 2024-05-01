@@ -17,10 +17,11 @@ export async function getVideoReferences() {
     const videoReferences = await localForage.getItem(storageKey)
 
     // Return the stored list
-    if (videoReferences)
+    if (videoReferences) {
         return videoReferences
+    }
 
-    // Intialize the reference list
+    // Initialize the reference list
     await localForage.setItem(storageKey, initialValue)
 
     // Return initial value

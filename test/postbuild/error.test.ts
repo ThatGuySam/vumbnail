@@ -7,7 +7,7 @@ import { expect, it } from 'vitest'
 import type { MediaRequest, MediaResponse } from '~/api/v2/media.js'
 import videoFunction from '~/api/v2/media.js'
 
-it(`can get non-media error response URL`, async () => {
+it('can get non-media error response URL', async () => {
     let responseData = null
 
     try {

@@ -197,8 +197,7 @@ interface VimeoOembedResponse {
 async function getVimeoThumbnailFromOembed(videoId: VideoId, videoPassword?: string) {
     let videoJsonUrl = `https://vimeo.com/api/oembed.json?url=https://vimeo.com/${videoId}`
 
-    if (videoPassword && videoPassword.length > 0)
-        videoJsonUrl += `/${videoPassword}`
+    if (videoPassword && videoPassword.length > 0) { videoJsonUrl += `/${videoPassword}` }
 
     // Fetch thumbnail url from vimeo
     const {
@@ -228,17 +227,15 @@ async function tryThumbnailUrlMethods(options: {
             thumbnailUrl = await method(videoId)
         }
         catch (error) {
-            console.log(`Thumbnails method ${method.name} failed. Trying next method.`)
+            console.error(`Thumbnails method ${method.name} failed. Trying next method.`)
             continue
         }
 
         // Skip if type is not string
-        if (typeof thumbnailUrl !== 'string')
-            continue
+        if (typeof thumbnailUrl !== 'string') { continue }
 
         // Skip if url is empty
-        if (thumbnailUrl.length === 0)
-            continue
+        if (thumbnailUrl.length === 0) { continue }
 
         return thumbnailUrl
     }
@@ -272,8 +269,7 @@ export async function getInputImageDetails(options: {
         // console.log('options', options)
 
         // Check that size is valid
-        if (!size)
-            throw new Error(`Invalid size: ${targetSizeKey}`)
+        if (!size) { throw new Error(`Invalid size: ${targetSizeKey}`) }
 
         if (videoPassword) {
             inputUrl = await getVimeoThumbnailFromOembed(videoId, videoPassword)
@@ -290,8 +286,7 @@ export async function getInputImageDetails(options: {
             })
         }
 
-        if (!inputUrl)
-            throw new Error(`Could not get thumbnail URL for vimeo video: ${videoId}`)
+        if (!inputUrl) { throw new Error(`Could not get thumbnail URL for vimeo video: ${videoId}`) }
 
         // console.log( 'inputUrl', inputUrl, targetSizeKey, size, options )
 
@@ -377,8 +372,7 @@ function mapAllSizesToOptions(allSizes: ThumbnailSizes) {
         // console.log('sizeDetails', key, sizeDetails)
 
         // Skip falsy pathOptionNames
-        if (!sizeDetails.pathOptionName)
-            continue
+        if (!sizeDetails.pathOptionName) { continue }
 
         const optionName = sizeDetails.pathOptionName === true ? key : sizeDetails.pathOptionName
 

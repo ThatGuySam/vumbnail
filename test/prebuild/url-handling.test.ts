@@ -128,7 +128,7 @@ const pathExamples = [
 ]
 
 for (const pathExample of pathExamples) {
-    it(`can parse options from path: `, () => {
+    it('can parse options from path: ', () => {
         const options = parseOptionsFromPath(pathExample.path)
 
         // t.log('options', options)
@@ -136,7 +136,7 @@ for (const pathExample of pathExamples) {
         expect(options).toEqual(pathExample.expected)
     })
 
-    it(`can handler key from path: `, () => {
+    it('can handler key from path: ', () => {
         const options = parseOptionsFromPath(pathExample.path)
 
         expect(options).toEqual(pathExample.expected)

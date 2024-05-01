@@ -1,16 +1,8 @@
+import process from 'node:process'
 import fs from 'fs-extra'
 
-import {
-    errorMedia,
-} from './helpers/send-response.js'
+;
 
-const {
-    svg,
-    png,
-    mp4,
-} = errorMedia
-
-'Magic happens here';
 (async () => {
     const shikiFolder = './public/shiki'
 
@@ -34,6 +26,7 @@ const {
         )
     }
 
+    // eslint-disable-next-line no-console
     console.log('Files generated successfully!')
 
     process.exit()

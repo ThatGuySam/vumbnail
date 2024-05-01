@@ -1,5 +1,6 @@
 import antfu from '@antfu/eslint-config'
 
+// antfu lint - https://github.com/antfu/eslint-config
 export default antfu(
     {
         astro: false,

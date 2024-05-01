@@ -1,10 +1,18 @@
 // import youtubedl from 'youtube-dl-exec'
 import urlParser from 'js-video-url-parser'
 import axios from 'axios'
+import { z } from 'zod'
 
-import { vercelUrl } from './get-vercel-url.js'
 import { VideoInfo } from 'js-video-url-parser/lib/urlParser.js'
 import { VideoInfoStrict } from '~/src/types.js'
+
+const Env = z.object({
+    // URL that is https and does not end in a slash
+    PRIVATE_VIDEO_API_HOST: z.string()
+        .startsWith('https')
+        .refine(value => !value.endsWith('/')),
+})
+    .parse(process.env)
 
 
 const providerDefaultOptions = {
@@ -16,7 +24,7 @@ const providerDefaultOptions = {
     }
 } as const
 
-const deployUrl = vercelUrl
+const videoApiHost = Env.PRIVATE_VIDEO_API_HOST
 
 interface Format {
     ext: string,
@@ -109,7 +117,7 @@ export async function getFfmpegUrl ( options: GetFfmpegUrlOptions ) {
       'mp4'
     ].join('/')
 
-    const ytdlUrl = new URL(`${ deployUrl }/api/info?q=${ videoUrl }&f=${ formatOptions }`)
+    const ytdlUrl = new URL(`${ videoApiHost }/api/info?q=${ videoUrl }&f=${ formatOptions }`)
 
     // console.log('ytdlUrl', ytdlUrl)
 

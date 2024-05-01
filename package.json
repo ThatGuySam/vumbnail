@@ -46,6 +46,7 @@
         "execa": "^6.0.0",
         "fast-glob": "^3.2.11",
         "fbvideos": "^1.0.2",
+        "ffmpeg-static": "^5.2.0",
         "fs-extra": "^10.0.0",
         "googleapis": "^47.0.0",
         "got": "^10.6.0",

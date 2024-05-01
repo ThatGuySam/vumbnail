@@ -18,13 +18,12 @@ import * as Sentry from '@sentry/node'
  */
 import { parseOptionsFromPath } from '../../helpers/url.js'
 import { getClipFromVideoId } from '../../helpers/get-clip-from-video-url.js'
-import { 
+import {
     sendErrorResponseMedia,
-    sendSuccessResponseMedia
+    sendSuccessResponseMedia,
 } from '../../helpers/send-response.js'
 import { getOutputImage } from '../../helpers/get-thumbnail-url.js'
-import { HandlerOptions, ImageExtension, PixelMediaExtension } from '../../src/types.js'
-
+import type { HandlerOptions, ImageExtension, PixelMediaExtension } from '../../src/types.js'
 
 // const ffmpeg = createFFmpeg({ log: true });
 
@@ -33,23 +32,21 @@ export interface VimeoJSONResponse {
     error?: any
 }
 
-async function videoHandler ( options: HandlerOptions ) {
-
+async function videoHandler(options: HandlerOptions) {
     const {
         req,
         res,
-        extension
+        extension,
     } = options
 
-    if ( !extension ) {
+    if (!extension)
         throw new Error('No extension')
-    }
 
     const {
         fileStream,
-        videoProcess
-    } = await getClipFromVideoId( options.videoId, {
-        ...options
+        videoProcess,
+    } = await getClipFromVideoId(options.videoId, {
+        ...options,
     })
 
     // Pipe ffmpeg output to response
@@ -57,22 +54,19 @@ async function videoHandler ( options: HandlerOptions ) {
         req,
         res,
         extension,
-        fileStream//: ffmpegProcess.stdout
+        fileStream, // : ffmpegProcess.stdout
     })
 
     // Wait for ffmpeg to finish
     await videoProcess
-
-    return
 }
 
 const imageExtensions = ['jpg', 'jpeg', 'png']
-function isImageExtension ( extension: string ): extension is ImageExtension {
-    return imageExtensions.includes( extension )
+function isImageExtension(extension: string): extension is ImageExtension {
+    return imageExtensions.includes(extension)
 }
 
-async function imageHandler ( options: HandlerOptions ) {
-
+async function imageHandler(options: HandlerOptions) {
     const {
         req,
         res,
@@ -81,57 +75,51 @@ async function imageHandler ( options: HandlerOptions ) {
 
     // console.log('Options at imageHandler', Object.keys(options))
 
-    if ( !extension || !videoId || !provider ) {
+    if (!extension || !videoId || !provider)
         throw new Error('No extension, videoId, or provider')
-    }
 
-    if ( !isImageExtension( extension ) ) {
+    if (!isImageExtension(extension))
         throw new Error('Invalid extension')
-    }
 
-    const { 
-        url: thumbnailUrl
-    } = await getOutputImage( {
+    const {
+        url: thumbnailUrl,
+    } = await getOutputImage({
         ...options,
         videoId,
         provider,
-        extension
-    } )
+        extension,
+    })
 
     // Throw on no thumbnail URL
-    if ( !thumbnailUrl ) {
+    if (!thumbnailUrl)
         throw new Error('No thumbnail URL')
-    }
 
-    const thumbResponse = await axios.get( thumbnailUrl, {
-        responseType: 'stream'
+    const thumbResponse = await axios.get(thumbnailUrl, {
+        responseType: 'stream',
     })
 
     // Pipe ffmpeg output to response
     await sendSuccessResponseMedia({
         req,
         res,
-        extension: extension,
-        fileStream: thumbResponse.data
+        extension,
+        fileStream: thumbResponse.data,
     })
-
-    return
 }
 
 export interface MediaRequest extends VercelRequest {}
 
 export interface MediaResponse extends VercelResponse {}
 
-export default async function ( req: MediaRequest, res: MediaResponse ) {
+export default async function (req: MediaRequest, res: MediaResponse) {
     // Throw on no URL
-    if ( !req.url ) {
+    if (!req.url)
         throw new Error('No URL provided')
-    }
 
     // Check for display error option here
     const enableErrorMediaResponse = !req.url.includes('disable-error-media')
 
-    const options = parseOptionsFromPath( req.url )
+    const options = parseOptionsFromPath(req.url)
 
     try {
         const { provider } = options
@@ -139,55 +127,52 @@ export default async function ( req: MediaRequest, res: MediaResponse ) {
 
         // Check that options is an object
         if (
-            Object( options ) !== options
+            Object(options) !== options
             || !provider
-        ) {
+        )
             throw new Error('Invalid options')
+
+        const handlers: Record<PixelMediaExtension, (options: HandlerOptions) => Promise<void>> = {
+            mp4: videoHandler,
+            webm: videoHandler,
+            jpg: imageHandler,
+            jpeg: imageHandler,
+            png: imageHandler,
         }
 
-        const handlers: Record<PixelMediaExtension, ( options: HandlerOptions ) => Promise<void>> = {
-            'mp4': videoHandler,
-            'webm': videoHandler,
-            'jpg': imageHandler,
-            'jpeg': imageHandler,
-            'png': imageHandler,
-        }
+        if (options.extension && has(handlers, options.extension)) {
+            const handler = handlers[options.extension]
 
-        if ( options.extension && has( handlers, options.extension ) ) {
-            
-            const handler = handlers[ options.extension ]
-
-            await handler( {
+            await handler({
                 ...options,
                 req,
                 res,
-                provider
-            } )
-        
+                provider,
+            })
+
             return
         }
 
-
         // Default handler
         // await defaultHandler( options )
-    
+
         // res.json(options)
 
         throw new Error('Not implemented')
-
-    } catch ( error ) {
-        Sentry.captureException( error, {
+    }
+    catch (error) {
+        Sentry.captureException(error, {
             extra: {
                 url: req.url,
-                options
-            }
+                options,
+            },
         })
 
-        if ( enableErrorMediaResponse === false ) {
-            // throw 
+        if (enableErrorMediaResponse === false) {
+            // throw
 
             res.statusCode = 500
-            
+
             res.send('Error')
 
             return
@@ -197,7 +182,7 @@ export default async function ( req: MediaRequest, res: MediaResponse ) {
             req,
             res,
             error,
-            type: options?.extension || 'unknown'
+            type: options?.extension || 'unknown',
         })
     }
 }

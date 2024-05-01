@@ -1,28 +1,28 @@
 {
-  "compilerOptions": {
-    "strict": true,
-    "target": "ESNext",
-    "lib": ["ESNext"],
-    "module": "NodeNext",
-    "moduleResolution": "NodeNext",
-    "resolveJsonModule": true,
-    "strictNullChecks": true,
-    "esModuleInterop": true,
-    "skipDefaultLibCheck": true,
-    "skipLibCheck": true,
-    "baseUrl": ".",
-    "types": ["node", "vite/client"],
-    "paths": {
-      "~/*": ["./*"],
-      "@/*": ["./src/*"],
-      "@/public/*": ["./public/*"]
+    "compilerOptions": {
+        "target": "ESNext",
+        "lib": ["ESNext"],
+        "baseUrl": ".",
+        "module": "NodeNext",
+        "moduleResolution": "NodeNext",
+        "paths": {
+            "~/*": ["./*"],
+            "@/*": ["./src/*"],
+            "@/public/*": ["./public/*"]
+        },
+        "resolveJsonModule": true,
+        "types": ["node", "vite/client"],
+        "allowJs": true,
+        "strict": true,
+        "strictNullChecks": true,
+        "outDir": "./dist",
+        "esModuleInterop": true,
+        "skipDefaultLibCheck": true,
+        "skipLibCheck": true
     },
-    "outDir": "./dist",
-    "allowJs": true,
-  },
-  "exclude": [
-    "./node_modules/**/*",
-    "./dist/**/*",
-    "./examples/**/*",
-  ]
+    "exclude": [
+        "./node_modules/**/*",
+        "./dist/**/*",
+        "./examples/**/*"
+    ]
 }

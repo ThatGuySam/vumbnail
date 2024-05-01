@@ -1,16 +1,16 @@
 {
-	"version": "2.0.0",
-	"tasks": [
-		{
-			"type": "npm",
-			"script": "vercel-dev",
-			"problemMatcher": [],
-			"label": "npm: vercel-dev",
-			"detail": "vercel dev",
-			"group": {
-				"kind": "build",
-				"isDefault": true
-			}
-		}
-	]
+    "version": "2.0.0",
+    "tasks": [
+        {
+            "type": "npm",
+            "script": "vercel-dev",
+            "problemMatcher": [],
+            "label": "npm: vercel-dev",
+            "detail": "vercel dev",
+            "group": {
+                "kind": "build",
+                "isDefault": true
+            }
+        }
+    ]
 }

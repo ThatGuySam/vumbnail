@@ -7,11 +7,11 @@ import { mapExamplesToPages } from '../../../helpers/map-examples-to-page.js'
 export async function getStaticPaths() {
     const allExamples = await Astro.glob('../../../examples/**/*.md')
 
-    return await mapExamplesToPages( allExamples )
+    return await mapExamplesToPages(allExamples)
 }
 
 const {
-  slug
+  slug,
 } = Astro.params
 
 const {
@@ -25,8 +25,8 @@ const {
 
 ---
 <Layout
-  headTitle={ title }
-  headDescription={``}
+    headTitle={title}
+    headDescription=""
 >
     <div class="max-w-8xl mx-auto px-4 sm:px-6 md:px-8">
         <div class="hidden lg:block fixed z-20 inset-0 top-[3.8125rem] left-[max(0px,calc(50%-45rem))] right-auto w-[16.5rem] pb-10 px-8 overflow-y-auto">
@@ -74,16 +74,16 @@ const {
                     <li class="mt-12 lg:mt-8">
                         <h5
                             class="mb-8 lg:mb-3 font-semibold text-slate-900 dark:text-slate-200"
-                            >Examples</h5>
+                        >Examples</h5>
                         <ul class="space-y-6 lg:space-y-2 border-l border-slate-100 dark:border-slate-800">
-                            { nav.map( navItem => (
+                            { nav.map(navItem => (
                                 <li>
                                     <a
                                         class={[
                                             'block border-l pl-4 -ml-px border-current font-semibold',
                                             navItem.slug === slug ? 'text-sky-500 dark:text-sky-400' : 'text-slate-700 hover:text-slate-900 dark:text-slate-400 dark:hover:text-slate-300',
                                         ].join(' ')}
-                                        href={ navItem.href }
+                                        href={navItem.href}
                                     >{ navItem.label }</a>
                                 </li>
                             )) }
@@ -114,7 +114,7 @@ const {
                     </div>
 
                     <a
-                        href={ gitHubEditUrl }
+                        href={gitHubEditUrl}
                         class="underline"
                     >Edit on GitHub</a>
                 </section>

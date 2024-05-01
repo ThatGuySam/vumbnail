@@ -1,16 +1,16 @@
 {
-	"version": 2,
+    "version": 2,
     "github": {
         "silent": true
     },
-	"routes": [
-		{
-			"src": "/api/info",
-			"dest": "api/v1/yt-dlp.py"
-		},
-		{
-			"src": "/api/version",
-			"dest": "api/v1/yt-dlp.py"
-		}
-	]
+    "routes": [
+        {
+            "src": "/api/info",
+            "dest": "api/v1/yt-dlp.py"
+        },
+        {
+            "src": "/api/version",
+            "dest": "api/v1/yt-dlp.py"
+        }
+    ]
 }

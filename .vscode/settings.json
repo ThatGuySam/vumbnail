@@ -47,7 +47,6 @@
     "eslint.rules.customizations": [
         { "rule": "style/*", "severity": "off" },
         { "rule": "format/*", "severity": "off" },
-        { "rule": "*-indent", "severity": "off" },
         { "rule": "*-spacing", "severity": "off" },
         { "rule": "*-spaces", "severity": "off" },
         { "rule": "*-order", "severity": "off" },

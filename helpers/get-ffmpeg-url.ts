@@ -3,8 +3,7 @@ import urlParser from 'js-video-url-parser'
 import axios from 'axios'
 import { z } from 'zod'
 
-import { VideoInfo } from 'js-video-url-parser/lib/urlParser.js'
-import { VideoInfoStrict } from '~/src/types.js'
+import type { VideoInfoStrict } from '~/src/types.js'
 
 const Env = z.object({
     // URL that is https and does not end in a slash
@@ -14,66 +13,61 @@ const Env = z.object({
 })
     .parse(process.env)
 
-
 const providerDefaultOptions = {
-    'vimeo': {
+    vimeo: {
         extension: 'mp4',
     },
-    'youtube': {
-        extension: 'webm'
-    }
+    youtube: {
+        extension: 'webm',
+    },
 } as const
 
 const videoApiHost = Env.PRIVATE_VIDEO_API_HOST
 
 interface Format {
-    ext: string,
-    protocol: string,
-    url: string,
-    width: number,
+    ext: string
+    protocol: string
+    url: string
+    width: number
 }
 
 interface FormatOptions {
-    extension: string,
-    protocol?: string,
-    targetFormat?: string,
+    extension: string
+    protocol?: string
+    targetFormat?: string
     formats: Format[]
 }
 
-function findFormat ( options: FormatOptions ) {
+function findFormat(options: FormatOptions) {
     const {
-      extension,
-      protocol = 'https',
-      targetFormat = 'worstvideo',
-      formats
+        extension,
+        protocol = 'https',
+        targetFormat = 'worstvideo',
+        formats,
     } = options
 
     let foundFormat = null
-    let smallestSize = Infinity
+    let smallestSize = Number.POSITIVE_INFINITY
 
-    for ( const format of formats ) {
-
+    for (const format of formats) {
         // Skip different extensions
-        if ( format.ext !== extension ) {
+        if (format.ext !== extension)
             continue
-        }
 
         // Skip different protocols
-        if ( format.protocol !== protocol ) {
+        if (format.protocol !== protocol)
             continue
-        }
 
-        if ( format.width < smallestSize ) {
+        if (format.width < smallestSize) {
             smallestSize = format.width
             foundFormat = format
         }
     }
-    
-    if ( foundFormat ) {
-      return foundFormat
-    }
 
-    throw new Error(`Could not find format for extension ${ extension }`)
+    if (foundFormat)
+        return foundFormat
+
+    throw new Error(`Could not find format for extension ${extension}`)
 }
 
 interface GetFfmpegUrlOptions {
@@ -81,43 +75,41 @@ interface GetFfmpegUrlOptions {
     extension?: string
 }
 
-export async function getFfmpegUrl ( options: GetFfmpegUrlOptions ) {
+export async function getFfmpegUrl(options: GetFfmpegUrlOptions) {
     // https://github.com/Zod-/jsVideoUrlParser#readme
     // @ts-expect-error - urlParser is not typed
     const { provider }: VideoInfoStrict = urlParser.parse(options.videoUrl)
 
-    if ( !provider ) {
-        throw new Error(`Could not find provider for video ${ options.videoUrl }`)
-    }
+    if (!provider)
+        throw new Error(`Could not find provider for video ${options.videoUrl}`)
 
     // Get options for provider
-    const defaultOptions = providerDefaultOptions[ provider ]
+    const defaultOptions = providerDefaultOptions[provider]
 
     const {
         videoUrl,
-        extension
+        extension,
     } = {
         ...defaultOptions,
-        ...options
+        ...options,
     }
-
 
     // Preferred format list separated by slashes
     //
     // Vimeo Example: http-240p/http-360p/worstvideo[ext=mp4]/mp4
     // https://github.com/ytdl-org/youtube-dl/blob/master/README.md#format-selection
     const formatOptions = [
-      // Vimeo Formats
-      'http-240p',
-      'http-360p',
-      'http-480p',
+        // Vimeo Formats
+        'http-240p',
+        'http-360p',
+        'http-480p',
 
-      // Generic
-      'worstvideo[ext=mp4]',
-      'mp4'
+        // Generic
+        'worstvideo[ext=mp4]',
+        'mp4',
     ].join('/')
 
-    const ytdlUrl = new URL(`${ videoApiHost }/api/info?q=${ videoUrl }&f=${ formatOptions }`)
+    const ytdlUrl = new URL(`${videoApiHost}/api/info?q=${videoUrl}&f=${formatOptions}`)
 
     // console.log('ytdlUrl', ytdlUrl)
 
@@ -131,12 +123,12 @@ export async function getFfmpegUrl ( options: GetFfmpegUrlOptions ) {
     }
 
     interface YouTubeDLResponse {
-      formats: Format[]
+        formats: Format[]
     }
 
     // Get the video data
-    const { data: youtubeDlInfo } = await axios.get<YouTubeDLResponse>( ytdlUrl.href, requestOptions )
-        .catch(error => {
+    const { data: youtubeDlInfo } = await axios.get<YouTubeDLResponse>(ytdlUrl.href, requestOptions)
+        .catch((error) => {
             console.warn(`Error fetching video ${videoUrl}`, error)
             throw error
         })
@@ -146,7 +138,6 @@ export async function getFfmpegUrl ( options: GetFfmpegUrlOptions ) {
     //   delete format.fragments
     //   delete format.manifest_url
     //   delete format.http_headers
-
 
     //   return format
     // })

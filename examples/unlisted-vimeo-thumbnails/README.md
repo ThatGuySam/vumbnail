@@ -18,14 +18,14 @@ https://vumbnail.com/692839122:3144c3edfc.jpg
 
 ```html
 <!-- Unlisted Thumbnails Reference - https://vumbnail.com/examples/unlisted-vimeo-thumbnails -->
-<img 
+<img
     srcset="
-        https://vumbnail.com/692839122:3144c3edfc_large.jpg 640w, 
-        https://vumbnail.com/692839122:3144c3edfc_medium.jpg 200w, 
+        https://vumbnail.com/692839122:3144c3edfc_large.jpg 640w,
+        https://vumbnail.com/692839122:3144c3edfc_medium.jpg 200w,
         https://vumbnail.com/692839122:3144c3edfc_small.jpg 100w
-    " 
-    sizes="(max-width: 640px) 100vw, 640px" 
-    src="https://vumbnail.com/692839122:3144c3edfc.jpg" 
+    "
+    sizes="(max-width: 640px) 100vw, 640px"
+    src="https://vumbnail.com/692839122:3144c3edfc.jpg"
 />
 ```
 
@@ -34,16 +34,16 @@ https://vumbnail.com/692839122:3144c3edfc.jpg
     <summary>React</summary>
 
 ```jsx
-{/* Unlisted Thumbnails Reference - https://vumbnail.com/examples/unlisted-vimeo-thumbnails --> */}
-<img 
-    srcSet={`
-        https://vumbnail.com/692839122:3144c3edfc_large.jpg 640w, 
-        https://vumbnail.com/692839122:3144c3edfc_medium.jpg 200w, 
+{ /* Unlisted Thumbnails Reference - https://vumbnail.com/examples/unlisted-vimeo-thumbnails --> */ }
+    <img
+        srcSet={`
+        https://vumbnail.com/692839122:3144c3edfc_large.jpg 640w,
+        https://vumbnail.com/692839122:3144c3edfc_medium.jpg 200w,
         https://vumbnail.com/692839122:3144c3edfc_small.jpg 100w
-    `} 
-    sizes='(max-width: 640px) 100vw, 640px' 
-    src='https://vumbnail.com/692839122:3144c3edfc.jpg' 
-/>
+    `}
+        sizes="(max-width: 640px) 100vw, 640px"
+        src="https://vumbnail.com/692839122:3144c3edfc.jpg"
+    />
 ```
 
 </details>
@@ -56,7 +56,7 @@ import * as React from 'react'
 import { Image } from 'react-native'
 
 export default () => (
-    <Image 
+    <Image
         style={{ width: 320, height: 180 }}
         source={{
             uri: 'https://vumbnail.com/692839122:3144c3edfc.jpg',

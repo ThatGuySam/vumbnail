@@ -1,29 +1,27 @@
-import axios, { AxiosResponse } from 'axios'
+import type { AxiosResponse } from 'axios'
+import axios from 'axios'
 import has from 'just-has'
-import { ImageExtension, VideoId } from '../src/types.js'
-
+import type { ImageExtension, VideoId } from '../src/types.js'
 
 const youtubeDefaultSize = 'hqdefault'
 
 const vimeoDefaultSize = 'thumbnail_large'
 
-
 const providerDefaultOptions = {
-    'vimeo': {
+    vimeo: {
         extension: 'jpg',
     },
-    'youtube': {
-        extension: 'jpg'
-    }
+    youtube: {
+        extension: 'jpg',
+    },
 }
 
 // const deployUrl = vercelUrl
 
-
 interface ThumbnailSize {
-    width: number,
-    height: number,
-    pathOptionName: string | boolean,
+    width: number
+    height: number
+    pathOptionName: string | boolean
 }
 
 type ThumbnailSizes = Record<string, ThumbnailSize>
@@ -32,67 +30,67 @@ type ThumbnailSizes = Record<string, ThumbnailSize>
 const youtubeThumbnailSizes = {
 
     // Default size
-    'mqdefault': {
+    mqdefault: {
         width: 320,
         height: 180,
         pathOptionName: true,
     },
 
-    'default': {
+    default: {
         width: 120,
         height: 90,
         pathOptionName: false,
     },
 
-    'hqdefault': {
+    hqdefault: {
         width: 480,
         height: 360,
         pathOptionName: true,
     },
 
-    'maxresdefault': {
+    maxresdefault: {
         width: 1280,
         height: 720,
         pathOptionName: true,
     },
 
-    '0': {
+    0: {
         width: 480,
         height: 360,
         pathOptionName: false,
     },
 
-    '1': {
+    1: {
         width: 120,
         height: 90,
         pathOptionName: false,
     },
 
-    '2': {
+    2: {
         width: 120,
         height: 90,
         pathOptionName: false,
     },
 
-    '3': {
+    3: {
         width: 120,
         height: 90,
         pathOptionName: false,
     },
 
-    'mq1': {
+    mq1: {
         width: 320,
         height: 180,
         pathOptionName: true,
     },
 
-    'mq2': {
+    mq2: {
         width: 320,
         height: 180,
         pathOptionName: true,
     },
 
-    'mq3': {
+    mq3: {
         width: 320,
         height: 180,
         pathOptionName: true,
@@ -119,19 +117,19 @@ const youtubeThumbnailSizes = {
 const vimeoThumbnailSizes = {
 
     // Default size
-    'thumbnail_large': {
+    thumbnail_large: {
         width: 640,
         height: 360,
         pathOptionName: 'large',
     },
 
-    'thumbnail_medium': {
+    thumbnail_medium: {
         width: 200,
         height: 150,
         pathOptionName: 'medium',
     },
 
-    'thumbnail_small': {
+    thumbnail_small: {
         width: 100,
         height: 75,
         pathOptionName: 'small',
@@ -141,9 +139,8 @@ const vimeoThumbnailSizes = {
 
 export const allSizes = {
     ...youtubeThumbnailSizes,
-    ...vimeoThumbnailSizes
+    ...vimeoThumbnailSizes,
 } satisfies ThumbnailSizes
-
 
 type SizeKey = keyof typeof allSizes
 
@@ -151,15 +148,15 @@ interface VimeoThumbnailEntry {
     thumbnail_small: string
 }
 
-async function getPublicVimeoThumbnail ( videoId: VideoId ) {
-    const videoJsonUrl = `https://vimeo.com/api/v2/video/${ videoId }.json`
+async function getPublicVimeoThumbnail(videoId: VideoId) {
+    const videoJsonUrl = `https://vimeo.com/api/v2/video/${videoId}.json`
 
     // Fetch thumbnail url from vimeo
     const {
-        data: [ videoInfo ]
-    } = await axios.get<any, AxiosResponse<VimeoThumbnailEntry[]>>( videoJsonUrl )
-        .catch( error => {
-            console.error(`Error fetching thumbnail url from vimeo: ${ error }`)
+        data: [videoInfo],
+    } = await axios.get<any, AxiosResponse<VimeoThumbnailEntry[]>>(videoJsonUrl)
+        .catch((error) => {
+            console.error(`Error fetching thumbnail url from vimeo: ${error}`)
             throw error
         })
 
@@ -171,79 +168,77 @@ async function getPublicVimeoThumbnail ( videoId: VideoId ) {
 }
 
 // Example: https://player.vimeo.com/video/358629078/config
-async function getVimeoThumbnailFromEmbedConfig ( videoId: VideoId ) {
-    const videoJsonUrl = `https://player.vimeo.com/video/${ videoId }/config`
+async function getVimeoThumbnailFromEmbedConfig(videoId: VideoId) {
+    const videoJsonUrl = `https://player.vimeo.com/video/${videoId}/config`
 
     // Fetch thumbnail url from vimeo
     const {
         video: {
             thumbs: {
-                base
-            }
-        }
-    } = await axios.get( videoJsonUrl )
-        .then( response => response.data )
-        .catch( error => {
-            console.error(`Error fetching thumbnail url from vimeo: ${ error }`)
+                base,
+            },
+        },
+    } = await axios.get(videoJsonUrl)
+        .then(response => response.data)
+        .catch((error) => {
+            console.error(`Error fetching thumbnail url from vimeo: ${error}`)
             throw error
         })
 
     // console.log('base', base)
 
-    return base + '_640'
+    return `${base}_640`
 }
 
 interface VimeoOembedResponse {
     thumbnail_url: string
 }
 
-async function getVimeoThumbnailFromOembed ( videoId: VideoId, videoPassword?: string ) {
-    let videoJsonUrl = `https://vimeo.com/api/oembed.json?url=https://vimeo.com/${ videoId }`
+async function getVimeoThumbnailFromOembed(videoId: VideoId, videoPassword?: string) {
+    let videoJsonUrl = `https://vimeo.com/api/oembed.json?url=https://vimeo.com/${videoId}`
 
-    if ( videoPassword && videoPassword.length > 0 ) {
-        videoJsonUrl += `/${ videoPassword }`
-    }
+    if (videoPassword && videoPassword.length > 0)
+        videoJsonUrl += `/${videoPassword}`
 
     // Fetch thumbnail url from vimeo
     const {
-        data: { thumbnail_url }
-    } = await axios.get<any, AxiosResponse<VimeoOembedResponse>>( videoJsonUrl )
-        .catch( error => {
-            console.error(`Error fetching thumbnail url from vimeo: ${ error }`)
+        data: { thumbnail_url },
+    } = await axios.get<any, AxiosResponse<VimeoOembedResponse>>(videoJsonUrl)
+        .catch((error) => {
+            console.error(`Error fetching thumbnail url from vimeo: ${error}`)
             throw error
         })
 
     return thumbnail_url
 }
 
-async function tryThumbnailUrlMethods ( options: {
-    methods: (( videoId: VideoId ) => Promise<string>)[],
-    videoId: VideoId,
-} ) {
+async function tryThumbnailUrlMethods(options: {
+    methods: ((videoId: VideoId) => Promise<string>)[]
+    videoId: VideoId
+}) {
     const {
         methods,
         videoId,
     } = options
 
-    for ( const method of methods ) {
+    for (const method of methods) {
         let thumbnailUrl
 
         try {
-            thumbnailUrl = await method( videoId )
-        } catch ( error ) {
-            console.log(`Thumbnails method ${ method.name } failed. Trying next method.`)
+            thumbnailUrl = await method(videoId)
+        }
+        catch (error) {
+            console.log(`Thumbnails method ${method.name} failed. Trying next method.`)
             continue
         }
 
         // Skip if type is not string
-        if ( typeof thumbnailUrl !== 'string' ) {
+        if (typeof thumbnailUrl !== 'string')
             continue
-        }
 
         // Skip if url is empty
-        if ( thumbnailUrl.length === 0 ) {
+        if (thumbnailUrl.length === 0)
             continue
-        }
 
         return thumbnailUrl
     }
@@ -251,13 +246,12 @@ async function tryThumbnailUrlMethods ( options: {
     return null
 }
 
-export async function getInputImageDetails ( options: {
-    videoId: VideoId,
-    videoPassword?: string,
-    provider: 'vimeo' | 'youtube',
-    targetSizeKey?: SizeKey,
-} ) {
-
+export async function getInputImageDetails(options: {
+    videoId: VideoId
+    videoPassword?: string
+    provider: 'vimeo' | 'youtube'
+    targetSizeKey?: SizeKey
+}) {
     const {
         videoId,
         videoPassword,
@@ -265,27 +259,26 @@ export async function getInputImageDetails ( options: {
         targetSizeKey = vimeoDefaultSize,
     } = options
 
-
     let inputUrl
     let size
     let extension
 
     // Get thumbnail url
-    if ( provider === 'vimeo' ) {
+    if (provider === 'vimeo') {
         // Get size details
 
-        size = allSizes[ targetSizeKey ]
+        size = allSizes[targetSizeKey]
 
         // console.log('options', options)
 
         // Check that size is valid
-        if ( !size ) {
-            throw new Error(`Invalid size: ${ targetSizeKey }`)
-        }
+        if (!size)
+            throw new Error(`Invalid size: ${targetSizeKey}`)
 
-        if ( !!videoPassword ) {
-            inputUrl = await getVimeoThumbnailFromOembed( videoId, videoPassword )
-        } else {
+        if (videoPassword) {
+            inputUrl = await getVimeoThumbnailFromOembed(videoId, videoPassword)
+        }
+        else {
             inputUrl = await tryThumbnailUrlMethods({
                 methods: [
                     getPublicVimeoThumbnail,
@@ -293,45 +286,42 @@ export async function getInputImageDetails ( options: {
                     getVimeoThumbnailFromEmbedConfig,
                     // Maybe a YoutubeDL method?
                 ],
-                videoId
+                videoId,
             })
         }
 
-        if ( !inputUrl ) {
-            throw new Error(`Could not get thumbnail URL for vimeo video: ${ videoId }`)
-        }
+        if (!inputUrl)
+            throw new Error(`Could not get thumbnail URL for vimeo video: ${videoId}`)
 
         // console.log( 'inputUrl', inputUrl, targetSizeKey, size, options )
 
         // Vimeo can convert to any size
         // by just updating the url
         const separator = '_'
-        const newSize = `${ size.width }x${ size.height }`
+        const newSize = `${size.width}x${size.height}`
 
-        const lastIndexOfUnderscore = inputUrl.lastIndexOf( separator )
+        const lastIndexOfUnderscore = inputUrl.lastIndexOf(separator)
         const inputUrlPrefix = inputUrl.substr(0, lastIndexOfUnderscore)
 
         inputUrl = ([
             inputUrlPrefix,
-            newSize
-        ]).join( separator )
+            newSize,
+        ]).join(separator)
 
         extension = 'jpg'
     }
 
-
-    if ( provider === 'youtube' ) {
-        const youtubeSizeKey = has( youtubeThumbnailSizes, [ targetSizeKey ]) ? targetSizeKey : youtubeDefaultSize
-        size = allSizes[ youtubeSizeKey ]
+    if (provider === 'youtube') {
+        const youtubeSizeKey = has(youtubeThumbnailSizes, [targetSizeKey]) ? targetSizeKey : youtubeDefaultSize
+        size = allSizes[youtubeSizeKey]
 
         // Webp url
         // `https://i.ytimg.com/vi_webp/${videoId}/mqdefault.${extension}`
         // extension = 'webm'
 
-        inputUrl = `https://i.ytimg.com/vi/${ videoId }/${ youtubeSizeKey }.jpg`
+        inputUrl = `https://i.ytimg.com/vi/${videoId}/${youtubeSizeKey}.jpg`
         extension = 'jpg'
     }
-
 
     return {
         inputUrl,
@@ -340,17 +330,14 @@ export async function getInputImageDetails ( options: {
     }
 }
 
-
-
-export async function getOutputImage ( options: {
-    videoId: VideoId,
-    provider: 'vimeo' | 'youtube',
-    extension?: ImageExtension,
-    targetSizeKey?: SizeKey,
-} ) {
-
+export async function getOutputImage(options: {
+    videoId: VideoId
+    provider: 'vimeo' | 'youtube'
+    extension?: ImageExtension
+    targetSizeKey?: SizeKey
+}) {
     // Get options for provider
-    const defaultOptions = providerDefaultOptions[ options.provider ]
+    const defaultOptions = providerDefaultOptions[options.provider]
 
     const {
         videoId,
@@ -359,7 +346,7 @@ export async function getOutputImage ( options: {
         targetSizeKey,
     } = {
         ...defaultOptions,
-        ...options
+        ...options,
     }
 
     const {
@@ -374,9 +361,7 @@ export async function getOutputImage ( options: {
         targetSizeKey,
     })
 
-
     // Resize and convert images here
-
 
     return {
         url: inputUrl,
@@ -385,22 +370,19 @@ export async function getOutputImage ( options: {
     }
 }
 
-
-
-function mapAllSizesToOptions ( allSizes: ThumbnailSizes ) {
+function mapAllSizesToOptions(allSizes: ThumbnailSizes) {
     const sizeOptions: Record<string, ThumbnailSize & { key: string }> = {}
 
-    for ( const [ key, sizeDetails ] of Object.entries( allSizes ) ) {
+    for (const [key, sizeDetails] of Object.entries(allSizes)) {
         // console.log('sizeDetails', key, sizeDetails)
 
         // Skip falsy pathOptionNames
-        if ( !sizeDetails.pathOptionName ) {
+        if (!sizeDetails.pathOptionName)
             continue
-        }
 
         const optionName = sizeDetails.pathOptionName === true ? key : sizeDetails.pathOptionName
 
-        sizeOptions[ optionName ] = {
+        sizeOptions[optionName] = {
             ...sizeDetails,
             key,
         }
@@ -409,7 +391,6 @@ function mapAllSizesToOptions ( allSizes: ThumbnailSizes ) {
     return sizeOptions
 }
 
-
-export const sizeOptions = mapAllSizesToOptions( allSizes )
+export const sizeOptions = mapAllSizesToOptions(allSizes)
 
 // console.log('sizeOptions', sizeOptions)

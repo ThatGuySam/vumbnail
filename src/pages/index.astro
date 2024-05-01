@@ -1,6 +1,6 @@
 ---
 // Style Imports
-import '../styles/home.css';
+import '../styles/home.css'
 
 // Component Imports
 import Layout from '../layouts/default.astro'
@@ -22,22 +22,21 @@ const description = 'A quick way to get Vimeo thumbnails by the video\'s ID'
 // https://docs.astro.build/core-concepts/astro-components/
 ---
 <Layout
-	headTitle={ title }
-	headDescription={ description }
+    headTitle={title}
+    headDescription={description}
 >
-	<HomeExamples 
-		client:visible
+	<HomeExamples
+    client:visible
 	/>
 
 	<!--
 
 	You can also use imported framework components directly in your markup!
-	
+
 	Note: by default, these components are NOT interactive on the client.
 	The `:visible` directive tells Astro to make it interactive.
-	
-	See https://docs.astro.build/core-concepts/component-hydration/ 
+
+	See https://docs.astro.build/core-concepts/component-hydration/
 
 	-->
-
 </Layout>

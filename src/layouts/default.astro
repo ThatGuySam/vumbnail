@@ -8,12 +8,12 @@ const {
     headTitle,
     headDescription,
     contained = true,
-    maxWidthClass = 'max-w-8xl'
+    maxWidthClass = 'max-w-8xl',
 } = Astro.props
 
 const mainClasses = [
     'main',
-    contained ? `container w-full ${ maxWidthClass }` : '',
+    contained ? `container w-full ${maxWidthClass}` : '',
 ].join(' ')
 
 ---
@@ -23,7 +23,7 @@ const mainClasses = [
 	<meta name="viewport" content="width=device-width">
 	<title>{ headTitle }</title>
 
-	<meta name="Description" content={ headDescription }>
+	<meta name="Description" content={headDescription}>
 
 	<link rel="icon" type="image/x-icon" href="/favicon.ico" />
 
@@ -32,7 +32,7 @@ const mainClasses = [
 <body>
     <Navbar />
 
-	<div class={ mainClasses }>
+	<div class={mainClasses}>
 		<slot />
 	</div>
 
@@ -48,7 +48,7 @@ const mainClasses = [
 
 	gtag('config', 'UA-28434239-20');
 </script>
-        
+
 <script type="text/javascript">
     window.$crisp=[];window.CRISP_WEBSITE_ID="c4f6667e-68f9-4fdc-92d8-a42364e0d252";(function(){d=document;s=d.createElement("script");s.src="https://client.crisp.chat/l.js";s.async=1;d.getElementsByTagName("head")[0].appendChild(s);})();
 </script>

@@ -1,18 +1,18 @@
 {
-  "name": "vumbnail-video",
-  "version": "1.0.0",
-  "description": "Video Processing APIs for Vumbnail, typically python, ffmpeg, and yt-dlp",
-  "engines": {
-    "pnpm": "8.*",
-    "node": "18.x"
-  },
-  "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
-  },
-  "keywords": [],
-  "author": "",
-  "license": "ISC",
-  "dependencies": {
-    "vercel": "^34.1.3"
-  }
+    "name": "vumbnail-video",
+    "version": "1.0.0",
+    "description": "Video Processing APIs for Vumbnail, typically python, ffmpeg, and yt-dlp",
+    "author": "",
+    "license": "ISC",
+    "keywords": [],
+    "engines": {
+        "pnpm": "8.*",
+        "node": "18.x"
+    },
+    "scripts": {
+        "test": "echo \"Error: no test specified\" && exit 1"
+    },
+    "dependencies": {
+        "vercel": "^34.1.3"
+    }
 }

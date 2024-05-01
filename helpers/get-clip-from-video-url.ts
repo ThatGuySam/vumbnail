@@ -1,51 +1,44 @@
-import { HandlerOptions, Provider, VideoId } from '~/src/types.js'
 import { getFfmpegUrl } from './get-ffmpeg-url.js'
 import { performance } from './performance.js'
+import type { HandlerOptions, Provider, VideoId } from '~/src/types.js'
 
-function makeVideoUrlFromId ( videoId: VideoId, provider: Provider ) {
+function makeVideoUrlFromId(videoId: VideoId, provider: Provider) {
+    if (provider === 'youtube')
+        return `https://${provider}.com/watch?v=${videoId}` as const
 
-    if ( provider === 'youtube' ) {
-        return `https://${ provider }.com/watch?v=${ videoId }` as const
-    }
+    if (provider === 'vimeo')
+        return `https://${provider}.com/${videoId}` as const
 
-    if ( provider === 'vimeo' ) {
-        return `https://${ provider }.com/${ videoId }` as const
-    }
-
-
-    throw new Error(`Unknown url provider ${ provider }`)
+    throw new Error(`Unknown url provider ${provider}`)
 }
 
-export async function getClipFromVideoId ( videoId: VideoId, options: HandlerOptions ) {
+export async function getClipFromVideoId(videoId: VideoId, options: HandlerOptions) {
     const {
-        provider
+        provider,
     } = options
 
-    const videoUrl = makeVideoUrlFromId( videoId, provider )
+    const videoUrl = makeVideoUrlFromId(videoId, provider)
 
     // console.log('videoUrl', videoUrl)
 
-    return await getClipFromVideoUrl( videoUrl, options )
+    return await getClipFromVideoUrl(videoUrl, options)
 }
 
-
-export async function getClipFromVideoUrl ( videoUrl: `https://${ string }`, options: HandlerOptions ) {
-
+export async function getClipFromVideoUrl(videoUrl: `https://${string}`, options: HandlerOptions) {
     const {
         res = null,
         extension = 'mp4',
     } = options
 
     const urlFetchMarkerName = 'url-fetch'
-    performance.mark( urlFetchMarkerName )
+    performance.mark(urlFetchMarkerName)
 
     const ffmpegUrl = await getFfmpegUrl({
         videoUrl,
         extension,
     })
 
-    performance.measure( 'URL Fetch time', urlFetchMarkerName )
-    
+    performance.measure('URL Fetch time', urlFetchMarkerName)
 
     // // Process MPD manifest (dash)
     // // An FFmpeg Solution: https://video.stackexchange.com/a/25389
@@ -58,59 +51,58 @@ export async function getClipFromVideoUrl ( videoUrl: `https://${ string }`, opt
     // https://unix.stackexchange.com/a/282413/255649
     // `ffmpeg -ss 00:00:15.00 -i "URL" -t 00:00:05.00 -c copy ./file.mp4`
     // https://ffmpeg.org/ffmpeg.html
-    const ffmpegArgs = [ 
+    const ffmpegArgs = [
 
         // Set read to start at 15 seconds
-        '-ss', 
-            '00:00:15.00', 
+        '-ss',
+        '00:00:15.00',
 
         // Set input
-        '-i', 
-            ffmpegUrl, 
+        '-i',
+        ffmpegUrl,
 
         // Filter out audio
         '-an',
 
         // Set read duration to 5 seconds
-        '-t', 
-            '00:00:05.00',
+        '-t',
+        '00:00:05.00',
 
         // Video Codec
         '-codec:v',
-            'libx264',
+        'libx264',
 
         // https://trac.ffmpeg.org/wiki/Encode/H.264
-        // '-preset', 
-        //     'ultrafast', 
+        // '-preset',
+        //     'ultrafast',
 
         // Audio Codec
         // '-acodec',
-            // 'aac',
+        // 'aac',
 
         '-movflags',
-            'frag_keyframe+empty_moov',
+        'frag_keyframe+empty_moov',
 
         // Set format
         '-f',
-            extension,
-        '-'
+        extension,
+        '-',
     ]
 
-
     const ffmpegMarkerName = 'ffmpeg-process'
-    performance.mark( ffmpegMarkerName )
+    performance.mark(ffmpegMarkerName)
 
-    performance.measure( 'FFmpeg time', ffmpegMarkerName )
+    performance.measure('FFmpeg time', ffmpegMarkerName)
 
     return {
         fileStream: null,
-        videoProcess: null
+        videoProcess: null,
     }
 
     // // Run command
     // const ffmpegProcess = execa( pathToFfmpeg, ffmpegArgs )
 
-    // // On pipe end 
+    // // On pipe end
     // ffmpegProcess.stdout.on( 'end', () => {
     //     // console.log('ffmpegProcess.stdout.on( \'end\' )')
     //     performance.measure( 'FFmpeg time', ffmpegMarkerName )

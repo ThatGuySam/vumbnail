@@ -7,8 +7,8 @@
         {
             "src": "package.json",
             "use": "@vercel/static-build",
-            "config": { 
-                "distDir": "dist" 
+            "config": {
+                "distDir": "dist"
             }
         },
         {
@@ -29,7 +29,7 @@
                 }
             ]
         },
-    
+
         {
             "source": "/api/info",
             "headers": [
@@ -56,7 +56,7 @@
             "source": "/performance/v1",
             "destination": "/api/performance/v1/index.ts"
         },
-        
+
         {
             "source": "/api/info",
             "destination": "/api/v2/ytdl.py"
@@ -66,9 +66,9 @@
             "destination": "/api/v2/ytdl.py"
         },
 
-        { 
-            "source": "/(.*)", 
-            "destination": "/api/v2/media.ts" 
+        {
+            "source": "/(.*)",
+            "destination": "/api/v2/media.ts"
         }
     ]
 }

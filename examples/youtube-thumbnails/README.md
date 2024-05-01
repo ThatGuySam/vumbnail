@@ -18,14 +18,14 @@ For the Youtube URL https://www.youtube.com/watch?v=W2EMHNhyEnQ
 
 ```html
 <!-- Youtube Thumbnails Reference - https://vumbnail.com/examples/youtube-thumbnails -->
-<img 
+<img
     srcset="
-        https://vumbnail.com/W2EMHNhyEnQ_large.jpg 640w, 
-        https://vumbnail.com/W2EMHNhyEnQ_medium.jpg 200w, 
+        https://vumbnail.com/W2EMHNhyEnQ_large.jpg 640w,
+        https://vumbnail.com/W2EMHNhyEnQ_medium.jpg 200w,
         https://vumbnail.com/W2EMHNhyEnQ_small.jpg 100w
-    " 
-    sizes="(max-width: 640px) 100vw, 640px" 
-    src="https://vumbnail.com/W2EMHNhyEnQ.jpg" 
+    "
+    sizes="(max-width: 640px) 100vw, 640px"
+    src="https://vumbnail.com/W2EMHNhyEnQ.jpg"
 />
 ```
 
@@ -34,16 +34,16 @@ For the Youtube URL https://www.youtube.com/watch?v=W2EMHNhyEnQ
     <summary>React</summary>
 
 ```jsx
-{/* Youtube Thumbnails Reference - https://vumbnail.com/examples/youtube-thumbnails --> */}
-<img 
-    srcSet={`
-        https://vumbnail.com/W2EMHNhyEnQ_large.jpg 640w, 
-        https://vumbnail.com/W2EMHNhyEnQ_medium.jpg 200w, 
+{ /* Youtube Thumbnails Reference - https://vumbnail.com/examples/youtube-thumbnails --> */ }
+    <img
+        srcSet={`
+        https://vumbnail.com/W2EMHNhyEnQ_large.jpg 640w,
+        https://vumbnail.com/W2EMHNhyEnQ_medium.jpg 200w,
         https://vumbnail.com/W2EMHNhyEnQ_small.jpg 100w
-    `} 
-    sizes='(max-width: 640px) 100vw, 640px' 
-    src='https://vumbnail.com/W2EMHNhyEnQ.jpg' 
-/>
+    `}
+        sizes="(max-width: 640px) 100vw, 640px"
+        src="https://vumbnail.com/W2EMHNhyEnQ.jpg"
+    />
 ```
 
 </details>
@@ -56,7 +56,7 @@ import * as React from 'react'
 import { Image } from 'react-native'
 
 export default () => (
-    <Image 
+    <Image
         style={{ width: 320, height: 180 }}
         source={{
             uri: 'https://vumbnail.com/W2EMHNhyEnQ.jpg',

@@ -1,10 +1,9 @@
 import axios from 'axios'
 import has from 'just-has'
 
+import type { VercelRequest, VercelResponse } from '@vercel/node'
 import { vercelUrl } from './get-vercel-url.js'
-import { MediaExtension, PixelMediaExtension } from '~/src/types.js'
-import { VercelRequest, VercelResponse } from '@vercel/node'
-
+import type { MediaExtension, PixelMediaExtension } from '~/src/types.js'
 
 const ONE_HOUR = 60 * 60
 const ONE_DAY = ONE_HOUR * 24
@@ -21,15 +20,12 @@ export const errorCacheHeaders = {
     'Cache-Control': `no-cache, public, must-revalidate`,
 }
 
-
-
 export const successCacheHeaders = {
-    'Cache-Control': `public, max-age=${ ONE_MONTH }, s-maxage=${ ONE_YEAR }`,
+    'Cache-Control': `public, max-age=${ONE_MONTH}, s-maxage=${ONE_YEAR}`,
 }
 
-
-
-export const svgTemplate = () => `
+export function svgTemplate() {
+    return `
     <svg
         xmlns="http://www.w3.org/2000/svg"
         fill="none"
@@ -46,17 +42,18 @@ export const svgTemplate = () => `
         />
     </svg>
 `
+}
 
 const defaultWidth = 640
 const defaultHeight = 360
 
 const mimeTypes = {
-    'mp4': 'video/mp4',
-    'webm': 'video/webm',
-    'jpg': 'image/jpeg',
-    'jpeg': 'image/jpeg',
-    'png': 'image/png',
-    'svg': 'image/svg+xml',
+    mp4: 'video/mp4',
+    webm: 'video/webm',
+    jpg: 'image/jpeg',
+    jpeg: 'image/jpeg',
+    png: 'image/png',
+    svg: 'image/svg+xml',
     // 'gif': 'image/gif',
 } as const satisfies Record<MediaExtension, string>
 
@@ -84,33 +81,30 @@ export const errorMedia = {
         width: defaultWidth,
         height: defaultHeight,
         mimeType: mimeTypes.mp4,
-    }
+    },
     // TODO: Webm
 }
 
-
-export const errorUrls = Object.fromEntries(Object.entries( errorMedia ).map( ([key, fileDetails]) => {
+export const errorUrls = Object.fromEntries(Object.entries(errorMedia).map(([key, fileDetails]) => {
     const urlPath = fileDetails.path.replace('./public', '')
 
     return [
         key,
         {
             ...fileDetails,
-            url: `${ vercelUrl }${ urlPath }`
-        }
+            url: `${vercelUrl}${urlPath}`,
+        },
     ]
 }))
 
-
 type ResponseType = MediaExtension | 'unknown'
 
-function getErrorUrl( type: ResponseType ) {
+function getErrorUrl(type: ResponseType) {
     // If we don't have a valid error type, return jpg
-    if ( !has( errorUrls, type ) ) {
+    if (!has(errorUrls, type))
         return errorUrls.jpg
-    }
 
-    return errorUrls[ type ]
+    return errorUrls[type]
 }
 
 interface ResponseMediaOptions {
@@ -142,9 +136,8 @@ export async function sendErrorResponseMedia(options: ErrorResponseMediaOptions)
 
     const {
         url,
-        mimeType
-    } = getErrorUrl( type )
-
+        mimeType,
+    } = getErrorUrl(type)
 
     console.log('Streaming media error: ', type, error)
 
@@ -155,56 +148,49 @@ export async function sendErrorResponseMedia(options: ErrorResponseMediaOptions)
     res.setHeader('Content-Type', mimeType)
 
     // Set Caching Headers
-    for ( const [key, value] of Object.entries(errorCacheHeaders) ) {
+    for (const [key, value] of Object.entries(errorCacheHeaders))
         res.setHeader(key, value)
-    }
-
 
     // https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Content-Disposition#syntax
     res.setHeader(
         'Content-Disposition',
-        `inline; filename="error.${ type }"`
+        `inline; filename="error.${type}"`,
         // contentDisposition(`${info.title}.${audioOnly ? "mp3" : "mp4"}`)
     )
 
-    const thumbResponse = await axios.get( url, {
-        responseType
+    const thumbResponse = await axios.get(url, {
+        responseType,
     })
 
     thumbResponse.data.pipe(res)
 
     // Stop function
-    return
 }
 
-
-export async function sendSuccessResponseMedia( options: SuccessMediaOptions ) {
+export async function sendSuccessResponseMedia(options: SuccessMediaOptions) {
     const {
         // req,
         res,
         extension,
-        fileStream
+        fileStream,
     } = options
 
     const mimeType = mimeTypes[extension]
 
     const headers = {
         ...successCacheHeaders,
-        'Content-Disposition': `inline; filename="vumbnail.${ extension }"`,
-        'Content-Type': mimeType
+        'Content-Disposition': `inline; filename="vumbnail.${extension}"`,
+        'Content-Type': mimeType,
     }
 
     // Set Headers
-    for ( const [key, value] of Object.entries( headers ) ) {
+    for (const [key, value] of Object.entries(headers))
         res.setHeader(key, value)
-    }
 
-    if ( !fileStream ) {
+    if (!fileStream)
         throw new Error('No file stream')
-    }
 
     fileStream.pipe(res)
 
     // Stop function
-    return
 }

@@ -20,3 +20,13 @@ export function trimNonAlpha ( str: string ): string {
     // Return the substring that excludes alpha characters from both ends
     return str.slice( start, end + 1 )
 }
+
+export function onlyDigits ( maybeDigits: string ): boolean {
+    for ( let i = maybeDigits.length - 1; i >= 0; i-- ) {
+        const d = maybeDigits.charCodeAt( i )
+        if ( d < 48 || d > 57 ) {
+            return false
+        }
+    }
+    return true
+}

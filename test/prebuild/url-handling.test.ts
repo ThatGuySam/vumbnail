@@ -32,6 +32,10 @@ const jpgPathExamples = [
         videoId: '854559829',
         filename: '854559829',
     } ],
+    [ '/669789497?h=cab18d1879&_large.jpg=', {
+        videoId: '669789497',
+        filename: '669789497',
+    } ],
     [ '/579958628:c8b4fb043c.jpg', {
         videoId: '579958628',
         videoPassword: 'c8b4fb043c',

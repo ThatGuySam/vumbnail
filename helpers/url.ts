@@ -8,6 +8,7 @@ import { sizeOptions } from '../helpers/get-thumbnail-url.js'
 import type { MediaExtension, Provider, VideoId, VideoOptions } from '../src/types.js'
 import type { Global } from './env.js'
 import { mediaExtensions } from './constants.js'
+import { trimNonAlpha } from './utils.js'
 
 declare const globalThis: Global
 
@@ -168,7 +169,7 @@ const pathOptionParsers = {
         const partsFromEnd = thumbnailPath.split( '.' ).reverse()
 
         for ( const part of partsFromEnd ) {
-            const trimmedPart = part.trim().toLowerCase()
+            const trimmedPart = trimNonAlpha( part ).toLowerCase()
 
             // If it's a valid extension, return it
             if ( isMediaExtension( trimmedPart ) ) {

@@ -24,6 +24,7 @@ import {
 } from '../../helpers/send-response.js'
 import { getOutputImage } from '../../helpers/get-thumbnail-url.js'
 import type { HandlerOptions, ImageExtension, PixelMediaExtension } from '../../src/types.js'
+import { imageExtensions } from '~/helpers/constants.js'
 
 // const ffmpeg = createFFmpeg({ log: true });
 
@@ -62,8 +63,7 @@ async function videoHandler ( options: HandlerOptions ) {
     await videoProcess
 }
 
-const imageExtensions = [ 'jpg', 'jpeg', 'png' ]
-function isImageExtension ( extension: string ): extension is ImageExtension {
+function isImageExtension ( extension: any ): extension is ImageExtension {
     return imageExtensions.includes( extension )
 }
 
@@ -166,6 +166,7 @@ export default async function ( req: MediaRequest, res: MediaResponse ) {
     }
     catch ( error ) {
         Sentry.captureException( error, {
+            url: req.url,
             extra: {
                 url: req.url,
                 options,

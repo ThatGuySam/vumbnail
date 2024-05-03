@@ -166,7 +166,6 @@ export default async function ( req: MediaRequest, res: MediaResponse ) {
     }
     catch ( error ) {
         Sentry.captureException( error, {
-            url: req.url,
             extra: {
                 url: req.url,
                 options,

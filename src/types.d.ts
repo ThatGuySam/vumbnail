@@ -1,8 +1,13 @@
 import type { VideoInfo } from 'js-video-url-parser/lib/urlParser'
+import type {
+    imageExtensions,
+    vectorExtensions,
+    videoExtensions,
+} from '~/helpers/constants.ts'
 
-type VectorExtension = 'svg'
-type ImageExtension = 'jpg' | 'jpeg' | 'png'
-type VideoExtension = 'mp4' | 'webm'
+type VectorExtension = typeof vectorExtensions[number]
+type ImageExtension = typeof imageExtensions[number]
+type VideoExtension = typeof videoExtensions[number]
 type PixelMediaExtension = ImageExtension | VideoExtension
 type MediaExtension = ImageExtension | VideoExtension | VectorExtension
 

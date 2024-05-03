@@ -27,6 +27,24 @@ function expectedYouTubeVideo ( videoId: string, extension: MediaExtension | '' 
     }
 }
 
+const jpgPathExamples = [
+    [ '/854559829?share=copy_small.jpg', {
+        videoId: '854559829',
+        filename: '854559829',
+    } ],
+] as const
+
+for ( const [ path, videoOptions ] of jpgPathExamples ) {
+    it( `Can parse jpg path ${ path }`, () => {
+        const options = parseOptionsFromPath( path )
+
+        expect( options ).toEqual( {
+            ...expectedVimeoVideo( videoOptions.videoId, 'jpg' ),
+            ...videoOptions,
+        } )
+    } )
+}
+
 const pathExamples = [
     {
         path: '/358629078',
@@ -128,7 +146,7 @@ const pathExamples = [
 ]
 
 for ( const pathExample of pathExamples ) {
-    it( 'can parse options from path: ', () => {
+    it( `Can parse options from path: ${ pathExample.path }`, () => {
         const options = parseOptionsFromPath( pathExample.path )
 
         // t.log('options', options)

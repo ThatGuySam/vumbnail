@@ -5,8 +5,9 @@ import type { VideoInfo } from 'js-video-url-parser/lib/urlParser.js'
 import mapValues from 'just-map-values'
 
 import { sizeOptions } from '../helpers/get-thumbnail-url.js'
-import type { Provider, VideoId, VideoOptions } from '../src/types.js'
+import type { MediaExtension, Provider, VideoId, VideoOptions } from '../src/types.js'
 import type { Global } from './env.js'
+import { mediaExtensions } from './constants.js'
 
 declare const globalThis: Global
 
@@ -44,7 +45,7 @@ export function getDomain () {
 }
 
 export const optionSets = {
-    ...mapValues( sizeOptions, value => ( { targetSizeKey: value.key } ) ),
+    ...mapValues( sizeOptions, size => ( { targetSizeKey: size.key } ) ),
 }
 
 const optionKeys = Object.keys( optionSets )
@@ -150,16 +151,32 @@ function parsePathPartsFromUrl ( thumbnailPath: string ) {
     return path.parse( urlPath )
 }
 
+function isMediaExtension ( maybeExtension: string ): maybeExtension is MediaExtension {
+    return mediaExtensions.includes( maybeExtension as any )
+}
+
 const pathOptionParsers = {
     extension: ( thumbnailPath: string ) => {
         const { ext } = parsePathPartsFromUrl( thumbnailPath )
+        const extension = ext.substring( 1 ).toLowerCase()
 
-        // console.log('ext', ext)
+        if ( isMediaExtension( extension ) ) {
+            return extension
+        }
 
-        // Trim dot from extension
-        const extension = ext.substring( 1 )
+        // Split the url by . and get the last non-empty string
+        const partsFromEnd = thumbnailPath.split( '.' ).reverse()
 
-        return extension
+        for ( const part of partsFromEnd ) {
+            const trimmedPart = part.trim().toLowerCase()
+
+            // If it's a valid extension, return it
+            if ( isMediaExtension( trimmedPart ) ) {
+                return trimmedPart
+            }
+        }
+
+        return ''
     },
 
     filename: ( thumbnailPath: string ) => {
@@ -266,7 +283,7 @@ export function parseOptionsFromPath ( thumbnailPath: string ): Partial<VideoOpt
     try {
         const {
             name: filenameWithoutExtension,
-        } = path.parse( thumbnailPath )
+        } = parsePathPartsFromUrl( thumbnailPath )
 
         // Get options from filename
         // Allowed url path characters (https://stackoverflow.com/a/4669755/1397641)

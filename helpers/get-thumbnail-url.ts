@@ -154,22 +154,23 @@ type PathKey = OnlyStrings<AllSizes[AllSizeKey]['pathOptionName']>
 type SizeKey = AllSizeKey | PathKey
 type SizeOption = AllSizes[AllSizeKey]
 
-function getSizeForPathKey ( sizeOption: PathKey ): AllSizeKey {
+function getSizeForPathKey ( key: PathKey ): AllSizeKey {
     for ( const [ sizeKey, { pathOptionName } ] of allSizeEntries ) {
-        if ( pathOptionName === sizeOption ) {
+        if ( pathOptionName === key ) {
             return sizeKey
         }
     }
 
-    throw new Error( `No size option found for path: ${ sizeOption }` )
+    throw new Error( `No size option found for path: ${ key }` )
 }
 
 function isPathKey ( key: AllSizeKey | PathKey ): key is PathKey {
-    return Object.prototype.hasOwnProperty.call( allSizes, key )
+    return Object.prototype.hasOwnProperty.call( allSizes, key ) === false
 }
 
 function getSizeForKey ( key: AllSizeKey | PathKey ): SizeOption {
-    if ( !isPathKey( key ) ) {
+    const isAllKey = !isPathKey( key )
+    if ( isAllKey ) {
         return allSizes[ key ]
     }
 

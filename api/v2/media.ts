@@ -24,7 +24,7 @@ import {
 } from '../../helpers/send-response.js'
 import { getOutputImage } from '../../helpers/get-thumbnail-url.js'
 import type { HandlerOptions, ImageExtension, PixelMediaExtension } from '../../src/types.js'
-import { imageExtensions } from '~/helpers/constants.js'
+import { imageExtensions } from '../../helpers/constants.js'
 
 // const ffmpeg = createFFmpeg({ log: true });
 

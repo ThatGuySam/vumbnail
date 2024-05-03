@@ -1,7 +1,7 @@
 import type { AxiosResponse } from 'axios'
 import axios from 'axios'
 import has from 'just-has'
-import type { ImageExtension, VideoId } from '../src/types.js'
+import type { ImageExtension, MediaExtension, VideoId } from '../src/types.js'
 
 const youtubeDefaultSize = 'hqdefault'
 
@@ -142,7 +142,9 @@ export const allSizes = {
     ...vimeoThumbnailSizes,
 } satisfies ThumbnailSizes
 
-type SizeKey = keyof typeof allSizes
+type AllSizes = typeof allSizes
+type SizeKey = keyof AllSizes
+type SizeOption = AllSizes[SizeKey]
 
 interface VimeoThumbnailEntry {
     thumbnail_small: string
@@ -262,9 +264,9 @@ export async function getInputImageDetails ( options: {
         targetSizeKey = vimeoDefaultSize,
     } = options
 
-    let inputUrl
-    let size
-    let extension
+    let inputUrl: string | null
+    let size: SizeOption
+    let extension: MediaExtension
 
     // Get thumbnail url
     if ( provider === 'vimeo' ) {
@@ -314,6 +316,12 @@ export async function getInputImageDetails ( options: {
         ] ).join( separator )
 
         extension = 'jpg'
+
+        return {
+            inputUrl,
+            size,
+            extension,
+        }
     }
 
     if ( provider === 'youtube' ) {
@@ -326,13 +334,15 @@ export async function getInputImageDetails ( options: {
 
         inputUrl = `https://i.ytimg.com/vi/${ videoId }/${ youtubeSizeKey }.jpg`
         extension = 'jpg'
+
+        return {
+            inputUrl,
+            size,
+            extension,
+        }
     }
 
-    return {
-        inputUrl,
-        size,
-        extension,
-    }
+    throw new Error( 'Unsupported provider' )
 }
 
 export async function getOutputImage ( options: {

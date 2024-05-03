@@ -2,8 +2,8 @@ import axios from 'axios'
 import has from 'just-has'
 
 import type { VercelRequest, VercelResponse } from '@vercel/node'
+import type { MediaExtension, PixelMediaExtension } from '../src/types.js'
 import { vercelUrl } from './get-vercel-url.js'
-import type { MediaExtension, PixelMediaExtension } from '~/src/types.js'
 
 const ONE_HOUR = 60 * 60
 const ONE_DAY = ONE_HOUR * 24

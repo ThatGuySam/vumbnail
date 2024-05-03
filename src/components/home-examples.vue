@@ -7,7 +7,7 @@ import VideosForInput from './videos-for-input.vue'
 import {
     getAnyHost,
     getDomain,
-} from '~/helpers/url'
+} from '../../helpers/url'
 
 function imageTemplate(srcset, src) {
     return `<!-- Reference Docs: https://vumbnail.com -->

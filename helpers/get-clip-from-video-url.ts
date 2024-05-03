@@ -1,8 +1,8 @@
 import { execa } from 'execa'
 import pathToFfmpeg from 'ffmpeg-static'
+import type { HandlerOptions, Provider, VideoId } from '../src/types.js'
 import { getFfmpegUrl } from './get-ffmpeg-url.js'
 import { performance } from './performance.js'
-import type { HandlerOptions, Provider, VideoId } from '~/src/types.js'
 
 function makeVideoUrlFromId ( videoId: VideoId, provider: Provider ) {
     if ( provider === 'youtube' ) {

@@ -1,7 +1,7 @@
 import { expect, it } from 'vitest'
 
-import { parseOptionsFromPath } from '~/helpers/url.js'
-import type { MediaExtension, VideoOptions } from '~/src/types.js'
+import { parseOptionsFromPath } from '../../helpers/url.js'
+import type { MediaExtension, VideoOptions } from '../../src/types.js'
 
 function expectedVideo ( videoId: string, extension: MediaExtension | '' = 'jpg' ) {
     return {

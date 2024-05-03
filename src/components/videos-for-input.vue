@@ -5,7 +5,7 @@ import urlParser from 'js-video-url-parser'
 // import {
 //     getProviderAndIdFromFilename,
 //     isValidUrl
-// } from '~/helpers/url'
+// } from '../../helpers/url'
 
 const exampleVideos = [
     {

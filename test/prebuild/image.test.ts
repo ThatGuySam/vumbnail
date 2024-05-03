@@ -1,7 +1,7 @@
 import { expect, it } from 'vitest'
 
-import { getInputImageDetails, getOutputImage } from '~/helpers/get-thumbnail-url.js'
-import type { ImageDetails } from '~/src/types.js'
+import { getInputImageDetails, getOutputImage } from '../../helpers/get-thumbnail-url.js'
+import type { ImageDetails } from '../../src/types.js'
 
 interface ImageExample {
     options: {

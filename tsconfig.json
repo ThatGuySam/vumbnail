@@ -5,11 +5,6 @@
         "baseUrl": ".",
         "module": "NodeNext",
         "moduleResolution": "NodeNext",
-        "paths": {
-            "~/*": ["./*"],
-            "@/*": ["./src/*"],
-            "@/public/*": ["./public/*"]
-        },
         "resolveJsonModule": true,
         "types": ["node", "vite/client"],
         "allowJs": true,

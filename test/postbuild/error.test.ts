@@ -4,8 +4,8 @@ import { expect, it } from 'vitest'
 // import { getFfmpegUrl } from '../helpers/get-ffmpeg-url.js'
 // import { getClipFromVideoUrl } from '../../helpers/get-clip-from-video-url.js'
 
-import type { MediaRequest, MediaResponse } from '~/api/v2/media.js'
-import videoFunction from '~/api/v2/media.js'
+import type { MediaRequest, MediaResponse } from '../../api/v2/media.js'
+import videoFunction from '../../api/v2/media.js'
 
 it( 'can get non-media error response URL', async () => {
     let responseData = null

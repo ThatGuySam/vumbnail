@@ -3,7 +3,7 @@ import type {
     imageExtensions,
     vectorExtensions,
     videoExtensions,
-} from '~/helpers/constants.ts'
+} from '../helpers/constants.ts'
 
 type VectorExtension = typeof vectorExtensions[number]
 type ImageExtension = typeof imageExtensions[number]

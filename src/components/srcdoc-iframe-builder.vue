@@ -6,7 +6,7 @@ import VideoReferenceInput from './video-reference-input.vue'
 import VideosForInput from './videos-for-input.vue'
 import {
     getAnyHost,
-} from '~/helpers/url'
+} from '../../helpers/url'
 
 function embedTemplate({
     embedUrl,

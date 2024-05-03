@@ -6,7 +6,7 @@ import {
     getProviderAndIdFromFilename,
     isSupportedVideoUrl,
     isValidId,
-} from '~/helpers/url'
+} from '../../helpers/url'
 
 let videoReferences
 

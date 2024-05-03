@@ -4,7 +4,7 @@ import urlParser from 'js-video-url-parser'
 import axios from 'axios'
 import { z } from 'zod'
 
-import type { VideoInfoStrict } from '~/src/types.js'
+import type { VideoInfoStrict } from '../src/types.js'
 
 const Env = z.object( {
     // URL that is https and does not end in a slash

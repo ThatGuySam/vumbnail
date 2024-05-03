@@ -1,4 +1,5 @@
 import { expect, it } from 'vitest'
+import { provide } from 'vue'
 
 import { parseOptionsFromPath } from '~/helpers/url.js'
 import type { MediaExtension } from '~/src/types.js'
@@ -31,6 +32,23 @@ const jpgPathExamples = [
     [ '/854559829?share=copy_small.jpg', {
         videoId: '854559829',
         filename: '854559829',
+    } ],
+    [ '/579958628:c8b4fb043c.jpg', {
+        videoId: '579958628',
+        videoPassword: 'c8b4fb043c',
+        filename: '579958628:c8b4fb043c.jpg',
+        filenameWithoutExtension: '579958628:c8b4fb043c',
+    } ],
+    // With Query String
+    [ '/643816644.jpg?width=900&crop=1%3A1%2Csmart', { videoId: '643816644' } ],
+    // With Period in Query String
+    [ '/643816644.jpg?path=358629078.jpg', { videoId: '643816644' } ],
+    // With Period in Query String Alt
+    [ '/639263424.jpg?mw=539.9999856948853&mh=304.199991941452', { videoId: '639263424' } ],
+    // Full YouTube URL
+    [ '/https:/www.youtube.com/watch?v=8t6h3wid0Pg.jpg', {
+        videoId: '8t6h3wid0Pg',
+        provider: 'youtube',
     } ],
 ] as const
 
@@ -102,47 +120,6 @@ const pathExamples = [
             filenameWithoutExtension: 'V-66rBGAGns_large',
         },
     },
-    {
-        path: '/579958628:c8b4fb043c.jpg',
-        expected: {
-            ...expectedVimeoVideo( '579958628', 'jpg' ),
-            videoPassword: 'c8b4fb043c',
-            filename: '579958628:c8b4fb043c.jpg',
-            filenameWithoutExtension: '579958628:c8b4fb043c',
-        },
-    },
-
-    // With Query String
-    {
-        path: '/643816644.jpg?width=900&crop=1%3A1%2Csmart',
-        expected: {
-            ...expectedVimeoVideo( '643816644', 'jpg' ),
-        },
-    },
-
-    // With Period in Query String
-    {
-        path: '/643816644.jpg?path=358629078.jpg',
-        expected: {
-            ...expectedVimeoVideo( '643816644', 'jpg' ),
-        },
-    },
-
-    // With Period in Query String Alt
-    {
-        path: '/639263424.jpg?mw=539.9999856948853&mh=304.199991941452',
-        expected: {
-            ...expectedVimeoVideo( '639263424', 'jpg' ),
-        },
-    },
-
-    // Full YouTube URL
-    {
-        path: '/https:/www.youtube.com/watch?v=8t6h3wid0Pg.jpg',
-        expected: {
-            ...expectedYouTubeVideo( '8t6h3wid0Pg', 'jpg' ),
-        },
-    },
 ]
 
 for ( const pathExample of pathExamples ) {
@@ -150,12 +127,6 @@ for ( const pathExample of pathExamples ) {
         const options = parseOptionsFromPath( pathExample.path )
 
         // t.log('options', options)
-
-        expect( options ).toEqual( pathExample.expected )
-    } )
-
-    it( 'can handler key from path: ', () => {
-        const options = parseOptionsFromPath( pathExample.path )
 
         expect( options ).toEqual( pathExample.expected )
     } )

@@ -2,7 +2,7 @@ import { expect, it } from 'vitest'
 import { provide } from 'vue'
 
 import { parseOptionsFromPath } from '~/helpers/url.js'
-import type { MediaExtension } from '~/src/types.js'
+import type { MediaExtension, VideoOptions } from '~/src/types.js'
 
 function expectedVideo ( videoId: string, extension: MediaExtension | '' = 'jpg' ) {
     return {
@@ -50,7 +50,7 @@ const jpgPathExamples = [
         videoId: '8t6h3wid0Pg',
         provider: 'youtube',
     } ],
-] as const
+] as const satisfies [string, Partial<VideoOptions>][]
 
 for ( const [ path, videoOptions ] of jpgPathExamples ) {
     it( `Can parse jpg path ${ path }`, () => {

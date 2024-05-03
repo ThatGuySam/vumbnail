@@ -34,7 +34,7 @@ export interface VideoOptions {
     videoId: VideoId
     provider: Provider
     extension: PixelMediaExtension
-    filename: `${ string }.${ MediaExtension }`
+    filename: string// `${ string }.${ MediaExtension }`
     filenameWithoutExtension: string
     videoPassword: string | null
 }

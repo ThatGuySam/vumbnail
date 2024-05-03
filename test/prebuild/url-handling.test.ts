@@ -1,5 +1,4 @@
 import { expect, it } from 'vitest'
-import { provide } from 'vue'
 
 import { parseOptionsFromPath } from '~/helpers/url.js'
 import type { MediaExtension, VideoOptions } from '~/src/types.js'

@@ -1,6 +1,8 @@
 import type { AxiosResponse } from 'axios'
 import axios from 'axios'
 import has from 'just-has'
+import type { Entries, IsStringLiteral } from 'type-fest'
+
 import type { ImageExtension, MediaExtension, VideoId } from '../src/types.js'
 
 const youtubeDefaultSize = 'hqdefault'
@@ -142,9 +144,37 @@ export const allSizes = {
     ...vimeoThumbnailSizes,
 } satisfies ThumbnailSizes
 
+const allSizeEntries = Object.entries( allSizes ) as Entries<AllSizes>
+
+type OnlyStrings<T> = T extends string ? T : never
+
 type AllSizes = typeof allSizes
-type SizeKey = keyof AllSizes
-type SizeOption = AllSizes[SizeKey]
+type AllSizeKey = keyof AllSizes
+type PathKey = OnlyStrings<AllSizes[AllSizeKey]['pathOptionName']>
+type SizeKey = AllSizeKey | PathKey
+type SizeOption = AllSizes[AllSizeKey]
+
+function getSizeForPathKey ( sizeOption: PathKey ): AllSizeKey {
+    for ( const [ sizeKey, { pathOptionName } ] of allSizeEntries ) {
+        if ( pathOptionName === sizeOption ) {
+            return sizeKey
+        }
+    }
+
+    throw new Error( `No size option found for path: ${ sizeOption }` )
+}
+
+function isPathKey ( key: AllSizeKey | PathKey ): key is PathKey {
+    return Object.prototype.hasOwnProperty.call( allSizes, key )
+}
+
+function getSizeForKey ( key: AllSizeKey | PathKey ): SizeOption {
+    if ( !isPathKey( key ) ) {
+        return allSizes[ key ]
+    }
+
+    return allSizes[ getSizeForPathKey( key ) ]
+}
 
 interface VimeoThumbnailEntry {
     thumbnail_small: string
@@ -272,7 +302,7 @@ export async function getInputImageDetails ( options: {
     if ( provider === 'vimeo' ) {
         // Get size details
 
-        size = allSizes[ targetSizeKey ]
+        size = getSizeForKey( targetSizeKey )
 
         // console.log('options', options)
 
@@ -326,7 +356,7 @@ export async function getInputImageDetails ( options: {
 
     if ( provider === 'youtube' ) {
         const youtubeSizeKey = has( youtubeThumbnailSizes, [ targetSizeKey ] ) ? targetSizeKey : youtubeDefaultSize
-        size = allSizes[ youtubeSizeKey ]
+        size = getSizeForKey( youtubeSizeKey )
 
         // Webp url
         // `https://i.ytimg.com/vi_webp/${videoId}/mqdefault.${extension}`
@@ -385,10 +415,16 @@ export async function getOutputImage ( options: {
     }
 }
 
-function mapAllSizesToOptions ( allSizes: ThumbnailSizes ) {
-    const sizeOptions: Record<string, ThumbnailSize & { key: string }> = {}
+type SizeOptionWithKey = SizeOption & {
+    key: SizeKey
+}
 
-    for ( const [ key, sizeDetails ] of Object.entries( allSizes ) ) {
+function mapAllSizesToOptions ( allSizes: AllSizes ) {
+    const sizeOptions = {} as Record<SizeKey, SizeOptionWithKey>
+
+    const sizeEntries = Object.entries( allSizes ) as Entries<AllSizes>
+
+    for ( const [ key, sizeDetails ] of sizeEntries ) {
         // console.log('sizeDetails', key, sizeDetails)
 
         // Skip falsy pathOptionNames
@@ -396,7 +432,10 @@ function mapAllSizesToOptions ( allSizes: ThumbnailSizes ) {
             continue
         }
 
-        const optionName = sizeDetails.pathOptionName === true ? key : sizeDetails.pathOptionName
+        const shouldUseKeyAsPathOption = sizeDetails.pathOptionName === true
+        const optionName = shouldUseKeyAsPathOption
+            ? key
+            : sizeDetails.pathOptionName
 
         sizeOptions[ optionName ] = {
             ...sizeDetails,

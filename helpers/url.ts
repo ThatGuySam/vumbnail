@@ -8,7 +8,7 @@ import { sizeOptions } from '../helpers/get-thumbnail-url.js'
 import type { MediaExtension, Provider, VideoId, VideoOptions } from '../src/types.js'
 import type { Global } from './env.js'
 import { mediaExtensions } from './constants.js'
-import { trimNonAlpha } from './utils.js'
+import { onlyDigits, trimNonAlpha } from './utils.js'
 
 declare const globalThis: Global
 
@@ -89,6 +89,26 @@ export function isSupportedVideoUrl ( maybeUrl: string ): boolean {
     }
 }
 
+function isValidVimeoId ( filenameWithoutExtension: string ) {
+    // Check if the first 8 characters of the filename
+    // are digits. If so, assume it's a Vimeo ID
+    // since it's not very likely a Youtube ID will start
+    // with 8 digits(but not impossible).
+    const numericFirst8Chars = /^\d{8,}$/.test( filenameWithoutExtension.substring( 0, 8 ) )
+
+    if ( numericFirst8Chars ) {
+        return true
+    }
+
+    // Next we'll check if the first 3
+    const isNumericFilename = onlyDigits( filenameWithoutExtension.split( '_' )[ 0 ] )
+    if ( isNumericFilename ) {
+        return true
+    }
+
+    return false
+}
+
 export function getProviderAndIdFromFilename ( filenameWithoutExtension: string ) {
     // Assumptions
     // Youtube ID = 11 alphanumeric characters
@@ -101,13 +121,8 @@ export function getProviderAndIdFromFilename ( filenameWithoutExtension: string 
         videoPassword: null,
     }
 
-    // Check if the first 8 characters of the filename
-    // are digits. If so, assume it's a Vimeo ID
-    // since it's not very likely a Youtube ID will start
-    // with 8 digits(but not impossible).
-    const numericFirst8Chars = /^\d{8,}$/.test( filenameWithoutExtension.substring( 0, 8 ) )
-    if ( numericFirst8Chars ) {
-        // May contain a password seperated by a colon
+    if ( isValidVimeoId( filenameWithoutExtension ) ) {
+        // May contain a password separated by a colon
         const [ vumbnailIdentifier ] = filenameWithoutExtension.split( '_' )
 
         const [

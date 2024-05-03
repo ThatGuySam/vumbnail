@@ -48,6 +48,12 @@ const jpgPathExamples = [
     [ '/643816644.jpg?path=358629078.jpg', { videoId: '643816644' } ],
     // With Period in Query String Alt
     [ '/639263424.jpg?mw=539.9999856948853&mh=304.199991941452', { videoId: '639263424' } ],
+    // Short Vimeo
+    [ '/8612', {
+        videoId: '8612',
+        filename: '8612',
+        extension: '',
+    } ],
     // Full YouTube URL
     [ '/https:/www.youtube.com/watch?v=8t6h3wid0Pg.jpg', {
         videoId: '8t6h3wid0Pg',

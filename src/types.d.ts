@@ -33,7 +33,7 @@ export interface ParsedVideoUrl {
 export interface VideoOptions {
     videoId: VideoId
     provider: Provider
-    extension: PixelMediaExtension
+    extension: PixelMediaExtension | ''
     filename: string// `${ string }.${ MediaExtension }`
     filenameWithoutExtension: string
     videoPassword: string | null

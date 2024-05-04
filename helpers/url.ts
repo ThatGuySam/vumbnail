@@ -143,6 +143,7 @@ export function getProviderAndIdFromFilename ( filenameWithoutExtension: string 
     // Twitch might go here since it can be up to 25 characters
     // https://stackoverflow.com/a/60724686/1397641
 
+    // YouTube IDs are always 11 characters since Me at the Zoo - jNQXAC9IVRw
     // Check if the first 11 characters of the filename
     // are alphanumeric. If so, assume it's a Youtube ID.
     const alphanumericFirst11Chars = /^[A-Za-z0-9_\-]{11}$/.test( filenameWithoutExtension.substring( 0, 11 ) )

@@ -21,16 +21,6 @@
 
     "headers": [
         {
-            "source": "/api/performance/v1",
-            "headers": [
-                {
-                    "key": "cache-control",
-                    "value": "no-cache"
-                }
-            ]
-        },
-
-        {
             "source": "/api/info",
             "headers": [
                 {
@@ -51,12 +41,6 @@
     ],
 
     "rewrites": [
-
-        {
-            "source": "/performance/v1",
-            "destination": "/api/performance/v1/index.ts"
-        },
-
         {
             "source": "/api/info",
             "destination": "/api/v2/ytdl.py"

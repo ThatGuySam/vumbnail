@@ -35,7 +35,7 @@ interface FormatOptions {
 function findFormat ( options: FormatOptions ) {
     const {
         extension,
-        protocol = 'https',
+        // protocol = 'https',
         formats,
     } = options
 
@@ -49,9 +49,9 @@ function findFormat ( options: FormatOptions ) {
         }
 
         // Skip different protocols
-        if ( format.protocol !== protocol ) {
-            continue
-        }
+        // if ( format.protocol !== protocol ) {
+        //     continue
+        // }
 
         if ( format.width && format.width < smallestSize ) {
             smallestSize = format.width

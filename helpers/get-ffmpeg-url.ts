@@ -113,7 +113,7 @@ export async function getFfmpegUrl ( options: GetFfmpegUrlOptions ) {
         'mp4',
     ].join( '/' )
 
-    const ytdlUrl = new URL( `${ videoApiHost }/api/info?q=${ videoUrl }&f=${ formatOptions }` )
+    const ytdlUrl = new URL( `${ videoApiHost }/api/info?query=${ videoUrl }&f=${ formatOptions }` )
 
     // console.log('ytdlUrl', ytdlUrl)
 

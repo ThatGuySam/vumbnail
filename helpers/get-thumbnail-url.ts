@@ -194,7 +194,17 @@ function getSizeForKey ( key: BaseSizeKey | PathKey ): SizeOption {
  * @returns Filename without options
  */
 export function removeFilenameOptions ( filename: string ) {
+    // Return early if we can't find any underscores
+    if ( !filename.includes( '_' ) ) {
+        return filename
+    }
+
     for ( const sizeKey of sizeKeys ) {
+        // Break if we can't find any more underscores
+        if ( !filename.includes( '_' ) ) {
+            break
+        }
+
         // Skip if the key is not in the filename
         const segment = `_${ sizeKey }`
 

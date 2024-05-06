@@ -4,7 +4,7 @@ import urlParser from 'js-video-url-parser'
 import type { VideoInfo } from 'js-video-url-parser/lib/urlParser.js'
 import mapValues from 'just-map-values'
 
-import { sizeOptions } from '../helpers/get-thumbnail-url.js'
+import { removeFilenameOptions, sizeOptions } from '../helpers/get-thumbnail-url.js'
 import type { MediaExtension, Provider, VideoId, VideoOptions } from '../src/types.js'
 import type { Global } from './env.js'
 import { mediaExtensions } from './constants.js'
@@ -90,18 +90,21 @@ export function isSupportedVideoUrl ( maybeUrl: string ): boolean {
 }
 
 function isValidVimeoId ( filenameWithoutExtension: string ) {
+    // Trim off any
+    const idSegment = removeFilenameOptions( filenameWithoutExtension )
+
     // Check if the first 8 characters of the filename
     // are digits. If so, assume it's a Vimeo ID
     // since it's not very likely a Youtube ID will start
     // with 8 digits(but not impossible).
-    const numericFirst8Chars = /^\d{8,}$/.test( filenameWithoutExtension.substring( 0, 8 ) )
+    const numericFirst8Chars = /^\d{8,}$/.test( idSegment.substring( 0, 8 ) )
 
     if ( numericFirst8Chars ) {
         return true
     }
 
     // Next we'll check if the first 3
-    const isNumericFilename = onlyDigits( filenameWithoutExtension.split( '_' )[ 0 ] )
+    const isNumericFilename = onlyDigits( idSegment )
     if ( isNumericFilename ) {
         return true
     }

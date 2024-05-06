@@ -139,22 +139,33 @@ const vimeoThumbnailSizes = {
 
 } as const satisfies ThumbnailSizes
 
-export const allSizes = {
+export const baseSizes = {
     ...youtubeThumbnailSizes,
     ...vimeoThumbnailSizes,
 } satisfies ThumbnailSizes
 
-const allSizeEntries = Object.entries( allSizes ) as Entries<AllSizes>
-
 type OnlyStrings<T> = T extends string ? T : never
 
-type AllSizes = typeof allSizes
-type AllSizeKey = keyof AllSizes
-type PathKey = OnlyStrings<AllSizes[AllSizeKey]['pathOptionName']>
-type SizeKey = AllSizeKey | PathKey
-type SizeOption = AllSizes[AllSizeKey]
+type BaseSizes = typeof baseSizes
+type BaseSizeKey = keyof BaseSizes
+type PathKey = OnlyStrings<BaseSizes[BaseSizeKey]['pathOptionName']>
+type SizeKey = BaseSizeKey | PathKey
+type SizeOption = BaseSizes[BaseSizeKey]
 
-function getSizeForPathKey ( key: PathKey ): AllSizeKey {
+const allSizeEntries = Object.entries( baseSizes ) as Entries<BaseSizes>
+
+const pathKeys = Object.values( baseSizes )
+    .filter( ( { pathOptionName } ) => typeof pathOptionName === 'string' )
+    .map( ( { pathOptionName } ) => pathOptionName ) as PathKey[]
+
+const baseKeys = Object.keys( baseSizes ) as BaseSizeKey[]
+
+export const sizeKeys = [
+    ...baseKeys,
+    ...pathKeys,
+]
+
+function getSizeForPathKey ( key: PathKey ): BaseSizeKey {
     for ( const [ sizeKey, { pathOptionName } ] of allSizeEntries ) {
         if ( pathOptionName === key ) {
             return sizeKey
@@ -164,17 +175,38 @@ function getSizeForPathKey ( key: PathKey ): AllSizeKey {
     throw new Error( `No size option found for path: ${ key }` )
 }
 
-function isPathKey ( key: AllSizeKey | PathKey ): key is PathKey {
-    return Object.prototype.hasOwnProperty.call( allSizes, key ) === false
+function isPathKey ( key: BaseSizeKey | PathKey ): key is PathKey {
+    return Object.prototype.hasOwnProperty.call( baseSizes, key ) === false
 }
 
-function getSizeForKey ( key: AllSizeKey | PathKey ): SizeOption {
+function getSizeForKey ( key: BaseSizeKey | PathKey ): SizeOption {
     const isAllKey = !isPathKey( key )
     if ( isAllKey ) {
-        return allSizes[ key ]
+        return baseSizes[ key ]
     }
 
-    return allSizes[ getSizeForPathKey( key ) ]
+    return baseSizes[ getSizeForPathKey( key ) ]
+}
+
+/**
+ * Remove any known _option segments from a given filename
+ * @param filename
+ * @returns Filename without options
+ */
+export function removeFilenameOptions ( filename: string ) {
+    for ( const sizeKey of sizeKeys ) {
+        // Skip if the key is not in the filename
+        const segment = `_${ sizeKey }`
+
+        if ( !filename.includes( segment ) ) {
+            continue
+        }
+
+        // Remove the size option from the filename
+        filename = filename.replace( segment, '' )
+    }
+
+    return filename
 }
 
 interface VimeoThumbnailEntry {
@@ -420,10 +452,10 @@ type SizeOptionWithKey = SizeOption & {
     key: SizeKey
 }
 
-function mapAllSizesToOptions ( allSizes: AllSizes ) {
+function mapBaseSizesToOptions ( baseSizes: BaseSizes ) {
     const sizeOptions = {} as Record<SizeKey, SizeOptionWithKey>
 
-    const sizeEntries = Object.entries( allSizes ) as Entries<AllSizes>
+    const sizeEntries = Object.entries( baseSizes ) as Entries<BaseSizes>
 
     for ( const [ key, sizeDetails ] of sizeEntries ) {
         // console.log('sizeDetails', key, sizeDetails)
@@ -447,6 +479,6 @@ function mapAllSizesToOptions ( allSizes: AllSizes ) {
     return sizeOptions
 }
 
-export const sizeOptions = mapAllSizesToOptions( allSizes )
+export const sizeOptions = mapBaseSizesToOptions( baseSizes )
 
 // console.log('sizeOptions', sizeOptions)

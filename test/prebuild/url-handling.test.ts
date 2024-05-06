@@ -59,6 +59,11 @@ const jpgPathExamples = [
         videoId: '8t6h3wid0Pg',
         provider: 'youtube',
     } ],
+    // YouTube ID with leading digits
+    [ '/9_C8_xmixrg.jpg', {
+        videoId: '9_C8_xmixrg',
+        provider: 'youtube',
+    } ],
 ] as const satisfies [string, Partial<VideoOptions>][]
 
 for ( const [ path, videoOptions ] of jpgPathExamples ) {

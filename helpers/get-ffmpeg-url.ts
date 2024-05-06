@@ -5,6 +5,7 @@ import axios from 'axios'
 import { z } from 'zod'
 
 import type { VideoInfoStrict } from '../src/types.js'
+import type { YouTubeDlpFormat, YouTubeDlpResponse } from './yt-dlp.js'
 
 const Env = z.object( {
     // URL that is https and does not end in a slash
@@ -25,18 +26,10 @@ const providerDefaultOptions = {
 
 const videoApiHost = Env.PRIVATE_VIDEO_API_HOST
 
-interface Format {
-    ext: string
-    protocol: string
-    url: string
-    width: number
-}
-
 interface FormatOptions {
     extension: string
     protocol?: string
-    targetFormat?: string
-    formats: Format[]
+    formats: YouTubeDlpFormat[]
 }
 
 function findFormat ( options: FormatOptions ) {
@@ -60,7 +53,7 @@ function findFormat ( options: FormatOptions ) {
             continue
         }
 
-        if ( format.width < smallestSize ) {
+        if ( format.width && format.width < smallestSize ) {
             smallestSize = format.width
             foundFormat = format
         }
@@ -129,27 +122,12 @@ export async function getFfmpegUrl ( options: GetFfmpegUrlOptions ) {
         },
     }
 
-    interface YouTubeDLResponse {
-        formats: Format[]
-    }
-
     // Get the video data
-    const { data: youtubeDlInfo } = await axios.get<YouTubeDLResponse>( ytdlUrl.href, requestOptions )
+    const { data: youtubeDlInfo } = await axios.get<YouTubeDlpResponse>( ytdlUrl.href, requestOptions )
         .catch( ( error ) => {
             console.warn( `Error fetching video ${ videoUrl }`, error )
             throw error
         } )
-
-    // const formats = youtubeDlInfo.formats.map( format => {
-    //   delete format.url
-    //   delete format.fragments
-    //   delete format.manifest_url
-    //   delete format.http_headers
-
-    //   return format
-    // })
-
-    // console.log('formats', formats)
 
     const foundFormat = findFormat( {
         extension,

@@ -97,7 +97,7 @@ function isValidVimeoId ( filenameWithoutExtension: string ) {
     // are digits. If so, assume it's a Vimeo ID
     // since it's not very likely a Youtube ID will start
     // with 8 digits(but not impossible).
-    const numericFirst8Chars = /^\d{8,}$/.test( idSegment.substring( 0, 8 ) )
+    const numericFirst8Chars = onlyDigits( idSegment.substring( 0, 8 ) )
 
     if ( numericFirst8Chars ) {
         return true

@@ -139,7 +139,8 @@ export default {
     <div class="input-container relative flex justify-center">
         <input
             ref="input"
-            v-model="videoReference"
+            :modelValue="videoReference"
+            @update:modelValue="videoReference = $event"
             class="border rounded-lg bg-transparent w-full max-w-xl text-2xl py-4 px-8"
             placeholder="Paste a video url or id..."
 

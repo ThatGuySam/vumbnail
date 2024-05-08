@@ -42,6 +42,12 @@ const jpgPathExamples = [
         filename: '579958628:c8b4fb043c.jpg',
         filenameWithoutExtension: '579958628:c8b4fb043c',
     } ],
+    [ '/679872191/fbf4791b8b.jpg', {
+        videoId: '679872191',
+        videoPassword: 'fbf4791b8b',
+        filename: '679872191:fbf4791b8b.jpg',
+        filenameWithoutExtension: '679872191:fbf4791b8b',
+    } ],
     // With Query String
     [ '/643816644.jpg?width=900&crop=1%3A1%2Csmart', { videoId: '643816644' } ],
     // With Period in Query String

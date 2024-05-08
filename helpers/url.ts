@@ -112,6 +112,28 @@ function isValidVimeoId ( filenameWithoutExtension: string ) {
     return false
 }
 
+interface VimeoPathParts {
+    videoId: VideoId
+    videoPassword: string | null
+}
+
+function parseVimeoPath ( vimeoPath: string ): VimeoPathParts {
+    // If it contains more than one slash, split it
+    if ( vimeoPath.includes( '/' ) ) {
+        const [ videoId, videoPassword ] = vimeoPath.split( '/' )
+        return {
+            videoId,
+            videoPassword,
+        }
+    }
+
+    const [ videoId, videoPassword = null ] = vimeoPath.split( ':' )
+    return {
+        videoId,
+        videoPassword,
+    }
+}
+
 export function getProviderAndIdFromFilename ( filenameWithoutExtension: string ) {
     // Assumptions
     // Youtube ID = 11 alphanumeric characters
@@ -119,7 +141,6 @@ export function getProviderAndIdFromFilename ( filenameWithoutExtension: string 
     // Vimeo ID = 8+ digits
 
     // Goal is to be 99.9% accurate
-
     const defaultDetails = {
         videoPassword: null,
     }
@@ -128,12 +149,10 @@ export function getProviderAndIdFromFilename ( filenameWithoutExtension: string 
         // May contain a password separated by a colon
         const [ vumbnailIdentifier ] = filenameWithoutExtension.split( '_' )
 
-        const [
+        const {
             videoId,
-            videoPassword = null,
-        ] = vumbnailIdentifier.split( ':' )
-
-        // console.log( 'vimeo', videoId, videoPassword )
+            videoPassword,
+        } = parseVimeoPath( vumbnailIdentifier )
 
         return {
             ...defaultDetails,
@@ -162,8 +181,20 @@ export function getProviderAndIdFromFilename ( filenameWithoutExtension: string 
     throw new Error( `Could not determine provider and video ID from filename: ${ filenameWithoutExtension }` )
 }
 
+function getProviderAndIdFromPath ( thumbnailPath: string ) {
+    const urlPath = parsePathPartsFromUrl( thumbnailPath )
+
+    const name = path.join( urlPath.dir, urlPath.name ).substring( 1 )
+
+    return getProviderAndIdFromFilename( name )
+}
+
+function getUrlPathname ( thumbnailPath: string ) {
+    return ( new URL( thumbnailPath, 'https://example.com' ) ).pathname
+}
+
 function parsePathPartsFromUrl ( thumbnailPath: string ) {
-    const urlPathname = ( new URL( thumbnailPath, 'https://example.com' ) ).pathname
+    const urlPathname = getUrlPathname( thumbnailPath )
 
     // Remove any query strings
     const urlPath = urlPathname.split( '?' )[ 0 ]
@@ -200,52 +231,66 @@ const pathOptionParsers = {
     },
 
     filename: ( thumbnailPath: string ) => {
-        const { base } = parsePathPartsFromUrl( thumbnailPath )
+        const urlPath = parsePathPartsFromUrl( thumbnailPath )
 
-        return base
+        if ( urlPath.dir !== urlPath.root ) {
+            const name = path.join( urlPath.dir, urlPath.name ).substring( 1 )
+
+            const {
+                videoPassword,
+            } = getProviderAndIdFromFilename( name )
+
+            const filename = [
+                urlPath.dir.substring( 1 ),
+                videoPassword,
+            ].join( ':' )
+
+            return `${ filename }${ urlPath.ext }`
+        }
+
+        return urlPath.base
     },
 
     filenameWithoutExtension: ( thumbnailPath: string ) => {
-        const { name } = parsePathPartsFromUrl( thumbnailPath )
+        const urlPath = parsePathPartsFromUrl( thumbnailPath )
 
-        return name
+        const name = path.join( urlPath.dir, urlPath.name ).substring( 1 )
+
+        const {
+            videoPassword,
+        } = getProviderAndIdFromFilename( name )
+
+        // If the name already contains the password, return it
+        if ( !videoPassword || name.includes( `:${ videoPassword }` ) ) {
+            return name
+        }
+
+        return [
+            urlPath.dir.substring( 1 ),
+            videoPassword,
+        ].join( ':' )
     },
 
     provider: ( thumbnailPath: string ) => {
         const {
-            name: filenameWithoutExtension,
-        } = parsePathPartsFromUrl( thumbnailPath )
-
-        // Handle provides
-        const {
             provider,
-        } = getProviderAndIdFromFilename( filenameWithoutExtension )
+        } = getProviderAndIdFromPath( thumbnailPath )
 
         return provider
     },
 
     videoId: ( thumbnailPath: string ) => {
         const {
-            name: filenameWithoutExtension,
-        } = parsePathPartsFromUrl( thumbnailPath )
-
-        // Handle video IDs
-        const {
             videoId,
-        } = getProviderAndIdFromFilename( filenameWithoutExtension )
+        } = getProviderAndIdFromPath( thumbnailPath )
 
         return videoId
     },
 
     videoPassword: ( thumbnailPath: string ) => {
         const {
-            name: filenameWithoutExtension,
-        } = path.parse( thumbnailPath )
-
-        // Handle video IDs
-        const {
             videoPassword,
-        } = getProviderAndIdFromFilename( filenameWithoutExtension )
+        } = getProviderAndIdFromPath( thumbnailPath )
 
         return videoPassword
     },
@@ -295,8 +340,8 @@ export function parseOptionsFromPath ( thumbnailPath: string ): Partial<VideoOpt
             optionsFromPath[ optionKey ] = optionValue
         }
         catch ( error ) {
-            // console.log(`Could not parse "${optionKey}" from path: ${thumbnailPath}`)
-            // console.log(error)
+            console.warn( `Could not parse "${ optionKey }" from path: ${ thumbnailPath }` )
+            console.warn( error )
         }
     }
 

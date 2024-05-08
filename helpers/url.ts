@@ -186,7 +186,11 @@ function getProviderAndIdFromPath ( thumbnailPath: string ) {
 
     const name = path.join( urlPath.dir, urlPath.name ).substring( 1 )
 
-    return getProviderAndIdFromFilename( name )
+    return {
+        ...getProviderAndIdFromFilename( name ),
+        urlPath,
+        name,
+    }
 }
 
 function getUrlPathname ( thumbnailPath: string ) {
@@ -231,15 +235,12 @@ const pathOptionParsers = {
     },
 
     filename: ( thumbnailPath: string ) => {
-        const urlPath = parsePathPartsFromUrl( thumbnailPath )
+        const {
+            urlPath,
+            videoPassword,
+        } = getProviderAndIdFromPath( thumbnailPath )
 
         if ( urlPath.dir !== urlPath.root ) {
-            const name = path.join( urlPath.dir, urlPath.name ).substring( 1 )
-
-            const {
-                videoPassword,
-            } = getProviderAndIdFromFilename( name )
-
             const filename = [
                 urlPath.dir.substring( 1 ),
                 videoPassword,
@@ -252,13 +253,11 @@ const pathOptionParsers = {
     },
 
     filenameWithoutExtension: ( thumbnailPath: string ) => {
-        const urlPath = parsePathPartsFromUrl( thumbnailPath )
-
-        const name = path.join( urlPath.dir, urlPath.name ).substring( 1 )
-
         const {
+            urlPath,
+            name,
             videoPassword,
-        } = getProviderAndIdFromFilename( name )
+        } = getProviderAndIdFromPath( thumbnailPath )
 
         // If the name already contains the password, return it
         if ( !videoPassword || name.includes( `:${ videoPassword }` ) ) {

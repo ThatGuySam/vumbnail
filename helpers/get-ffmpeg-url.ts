@@ -104,7 +104,7 @@ export async function getFfmpegUrl ( options: GetFfmpegUrlOptions ) {
         // Generic
         'worstvideo[ext=mp4]',
         'mp4',
-    ].join( '+' )
+    ].join( ',' )
 
     const ytdlUrl = new URL( `${ videoApiHost }/api/info` )
 

@@ -106,10 +106,11 @@ export async function getFfmpegUrl ( options: GetFfmpegUrlOptions ) {
         'mp4',
     ].join( ',' )
 
-    const ytdlUrl = new URL( `${ videoApiHost }/api/info` )
-
-    ytdlUrl.searchParams.set( 'query', videoUrl )
-    ytdlUrl.searchParams.set( 'format', formatOptions )
+    /**
+     * We'll attach the string with a template
+     * since the server can't read encoded URLs
+     */
+    const ytdlUrl = `${ videoApiHost }/api/info?query=${ videoUrl }&format=${ formatOptions }`
 
     // console.log('ytdlUrl', ytdlUrl)
 

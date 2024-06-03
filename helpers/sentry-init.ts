@@ -19,5 +19,5 @@ Sentry.init( {
     profilesSampleRate: 1.0,
     // Set sample rate for errors
     // https://docs.sentry.io/platforms/javascript/configuration/sampling/
-    sampleRate: 0.1,
+    sampleRate: 0.01,
 } )

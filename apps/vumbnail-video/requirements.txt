@@ -1,4 +1,4 @@
-yt-dlp==2024.04.09.dev0
+yt-dlp==2024.4.9
 fastapi==0.65.2
 pydantic==1.8.2
 starlette==0.14.2

@@ -2,6 +2,7 @@
     "name": "vumbnail",
     "type": "module",
     "version": "1.0.0",
+    "packageManager": "pnpm@10.23.0",
     "description": "",
     "author": "@ThatGuySam",
     "license": "ISC",

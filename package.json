@@ -15,8 +15,8 @@
     },
     "main": "subreddit.js",
     "engines": {
-        "pnpm": "8.*",
-        "node": "18.x"
+        "pnpm": "10.*",
+        "node": "20.x"
     },
     "scripts": {
         "test": "vitest",
@@ -98,6 +98,16 @@
         "overrides": {
             "@vercel/node>ts-node": "10.9.1",
             "@vercel/node>typescript": "^5.4.5"
-        }
+        },
+        "onlyBuiltDependencies": [
+            "@sentry/profiling-node",
+            "esbuild",
+            "ffmpeg-static",
+            "sharp",
+            "unrs-resolver"
+        ]
+    },
+    "volta": {
+        "node": "20.19.5"
     }
 }

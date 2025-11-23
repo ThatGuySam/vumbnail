@@ -6,8 +6,8 @@
     "license": "ISC",
     "keywords": [],
     "engines": {
-        "pnpm": "8.*",
-        "node": "18.x"
+        "pnpm": "10.*",
+        "node": "20.x"
     },
     "scripts": {
         "test": "echo \"Error: no test specified\" && exit 1"

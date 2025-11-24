@@ -1,0 +1,106 @@
+---
+import Layout from '../layouts/default.astro'
+
+const pageTitle = 'Pricing | Vumbnail'
+const pageDescription = 'Choose a plan for Vumbnail.'
+
+/**
+ * Shared Stripe embed configuration for the pricing page.
+ */
+const billingPortalUrl =
+        'https://billing.stripe.com/p/login/'
+        + '3cI00jc4mdAT6ry46ldMI00'
+const pricingTableId = 'prctbl_1SWkd9ESEEgqns63gi0Z4rjB'
+const publishableKey =
+        'pk_live_51KNPSeESEEgqns63mXv3DJOQkfO2Kg2a23'
+        + 'CHcFArjjhmE1f8q7nbJqoD0d4jhAGHs2FAgpoAehk'
+        + '4OvgHtQE7KERW003MDKqXfZ'
+
+// Fail fast if a required Stripe value is missing.
+if (!billingPortalUrl
+    || !pricingTableId
+    || !publishableKey) {
+    throw new Error(
+        'Stripe pricing configuration is missing.'
+    )
+}
+---
+<Layout
+    headTitle={pageTitle}
+    headDescription={pageDescription}
+>
+    <!-- Provide quick context for the pricing table. -->
+    <section class="pricing-hero">
+        <h1>Pricing</h1>
+        <p>Video thumbnails for modern web stacks.</p>
+        <p>
+            Metered by monthly thumbnail requests. A
+            small watermark appears past quota.
+        </p>
+        <a
+            class="portal-link"
+            href={billingPortalUrl}
+            target="_blank"
+            rel="noreferrer"
+        >
+            Open billing portal
+        </a>
+    </section>
+
+    <!-- Display the hosted Stripe pricing table. -->
+    <section class="pricing-widget">
+        <stripe-pricing-table
+            pricing-table-id={pricingTableId}
+            publishable-key={publishableKey}
+        >
+        </stripe-pricing-table>
+        <p class="widget-note">
+            Plans, copy, and pricing stay in sync with
+            your Stripe dashboard.
+        </p>
+    </section>
+</Layout>
+
+<!-- Load the script that powers the pricing table. -->
+<script
+    async
+    src='https://js.stripe.com/v3/pricing-table.js'
+></script>
+
+<style>
+    .pricing-hero {
+        margin: 2rem auto;
+        max-width: 40rem;
+        text-align: center;
+    }
+
+    .pricing-hero h1 {
+        font-size: 2rem;
+        margin-bottom: 0.5rem;
+    }
+
+    .pricing-hero p {
+        margin-bottom: 0.5rem;
+        color: var(--color-text-muted, #aaa);
+    }
+
+    .portal-link {
+        display: inline-flex;
+        padding: 0.5rem 1rem;
+        border: 1px solid currentColor;
+        border-radius: 999px;
+        font-weight: 600;
+    }
+
+    .pricing-widget {
+        margin: 0 auto 4rem auto;
+        max-width: 72rem;
+    }
+
+    .widget-note {
+        margin-top: 1rem;
+        text-align: center;
+        color: var(--color-text-muted, #aaa);
+    }
+</style>
+

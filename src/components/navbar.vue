@@ -16,6 +16,11 @@
                     <a class="text-blue-500 hover:text-blue-800" href="/embed-builder">Embed Builder</a>
                 </li>
 
+                <!-- Pricing -->
+                <li class="mr-6">
+                    <a class="text-blue-500 hover:text-blue-800" href="/pricing">Pricing</a>
+                </li>
+
                 <!--
                 <li class="mr-6">
                     <a class="text-blue-500 hover:text-blue-800" href="#medium-image">Medium Example</a>
